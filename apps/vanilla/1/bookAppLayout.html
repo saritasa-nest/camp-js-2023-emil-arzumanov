@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>BookApp</title>
-		<link rel="stylesheet" href="./bookAppStyle.css" />
-	</head>
-	<body>
-		<section class="header_section">
-			<header class="header_section__header">
-				<h1 class="header_section__h1">📚 Books app</h1>
-			</header>
-		</section>
-		<section class="main_catalog">
-			<section class="main_catalog__books">books</section>
-			<aside class="main_catalog__filter">
-				<h3>FILTERS</h3>
-				<label class="search_input">
-					<img src="./imgs/heroicons_magnifying-glass.svg" alt="heroicons_magnifying-glass" />
-					<input type="text" placeholder="e.g. “Refactoring”" />
-				</label>
-				<label class="container">
-					<input type="checkbox" />
-					<span class="checkmark"></span>
-					<span class="text">Show comics</span>
-				</label>
-			</aside>
-		</section>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookApp</title>
+    <link rel="stylesheet" href="./bookAppStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <section class="header_section">
+      <header class="header_section__header">
+        <h1 class="header_section__h1">📚 Books app</h1>
+      </header>
+    </section>
+    <section class="main_catalog">
+      <section class="main_catalog__books">books</section>
+      <aside class="main_catalog__filter">
+        <h3>FILTERS</h3>
+        <label class="search_input">
+          <img src="./imgs/heroicons_magnifying-glass.svg" alt="heroicons_magnifying-glass" />
+          <input type="text" placeholder="e.g. “Refactoring”" />
+        </label>
+        <section class="select_section">
+          <select>
+            <option value="0" selected disabled>Choose sort field</option>
+            <option value="1">Year</option>
+            <option value="2">Authors</option>
+            <option value="3">Rating</option>
+          </select>
+        </section>
+        <label class="container">
+          <input type="checkbox" />
+          <span class="checkmark"></span>
+          <span class="text">Show comics</span>
+        </label>
+      </aside>
+    </section>
+    <footer>
+      <section>
+        <h3>Books app</h3>
+        <span>2023</span>
+        <a href="https://github.com/saritasa-nest/camp-js-2023-emil-arzumanov.git">Github</a>
+      </section>
+    </footer>
+  </body>
 </html>

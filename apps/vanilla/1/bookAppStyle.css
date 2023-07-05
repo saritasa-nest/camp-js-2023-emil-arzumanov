@@ -1,149 +1,207 @@
 * {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	background: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  font-family: Impact, sans-serif;
+  font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #f15924;
+  --border: #00000026;
+  --text: #000;
+  --surface: #fff;
+  --select-border: #777;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+  --on-surface-dim: #00000080;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
-/* Header */
+/***** Header *****/
 
 .header_section {
-	max-width: 1200px;
-	width: 100%;
-	border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.15));
-	background: var(--surface, #fff);
+  max-width: 1200px;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .header_section__header {
-	display: flex;
-	height: 64px;
-	align-items: center;
-	align-self: stretch;
+  display: flex;
+  height: 64px;
+  align-items: center;
+  align-self: stretch;
 }
 
 .header_section__h1 {
-	color: #000;
-	font-size: 20px;
-	font-family: Inter;
-	font-style: normal;
-	font-weight: 700;
-	line-height: 24px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
 }
 
-/* Catalog */
+/***** Catalog *****/
 
 .main_catalog {
-	max-width: 1200px;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	gap: 24px;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
 }
 
 .main_catalog__books {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
 }
 
 .main_catalog__filter {
-	display: flex;
-	width: 276px;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 24px;
+  display: flex;
+  width: 276px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
 }
 
 .search_input {
-	display: flex;
-	width: 100%;
-	box-sizing: border-box;
-	height: 48px;
-	padding: 8px 16px;
-	align-items: center;
-	gap: 8px;
-	flex-shrink: 0;
-	border-radius: 16px;
-	background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  height: 48px;
+  padding: 8px 16px;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #0000000d;
+  color: var(--on-surface-dim);
 }
 
-/* Checkbox */
+/***** Catalog => Select *****/
+
+.select_section {
+  width: 100%;
+}
+
+/* A reset of styles, including removing the default dropdown arrow */
+.select_section select {
+  appearance: none;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  cursor: pointer;
+  height: 48px;
+  padding: 0 16px;
+  justify-content: space-between;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  color: var(--on-surface-dim);
+  display: grid;
+  background: transparent;
+  background-image: url("./imgs/heroicons_chevron-down.svg");
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 16px);
+  background-position-y: 12px;
+}
+
+.select_section select:selected {
+  color: var(--text);
+}
+
+/* For lower versions of IE */
+select::-ms-expand {
+  display: none;
+}
+
+/* For arrow */
+.select::after {
+  content: url("./imgs/heroicons_chevron-down.svg");
+  width: 24px;
+  height: 24px;
+  background-image: url("./imgs/heroicons_chevron-down.svg");
+}
+
+/***** Catalog => Checkbox *****/
 
 .container {
-	display: flex;
-	height: 32px;
-	align-items: center;
-	gap: 16px;
-	align-self: stretch;
+  display: flex;
+  height: 32px;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
 }
 
 .container .text {
-	color: #000;
+  color: var(--text);
 
-	/* body */
-	font-size: 20px;
-	font-family: Inter;
-	font-style: normal;
-	font-weight: 400;
-	line-height: 32px;
+  /* body */
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
 }
 
 /* Hides the browser's default checkbox */
 .container input {
-	position: absolute;
-	opacity: 0;
-	cursor: pointer;
-	height: 0;
-	width: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 /* Custom checkbox */
 .checkmark {
-	display: flex;
-	width: 20px;
-	height: 20px;
-	padding: 4px;
-	align-items: flex-start;
-	gap: 8px;
-	box-sizing: border-box;
-	border-radius: 4px;
-	border: 2px solid var(--border, rgba(0, 0, 0, 0.15));
+  display: flex;
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  align-items: flex-start;
+  gap: 8px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 2px solid var(--border);
 }
 
 /* When the checkbox is checked, adds an orange background */
 .container input:checked ~ .checkmark {
-	border-radius: 4px;
-	border: 2px solid var(--primary, #f15924);
+  border-radius: 4px;
+  border: 2px solid var(--primary);
 }
 
 /* Creates the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-	content: "";
-	display: none;
+.checkmark::after {
+  content: "";
+  display: none;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 2px;
+  background: var(--primary);
 }
 
 /* Shows the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-	display: block;
-}
-
-/* Styles the checkmark/indicator */
-.container .checkmark:after {
-	flex: 1 0 0;
-	align-self: stretch;
-	border-radius: 2px;
-	background: var(--primary, #f15924);
+.container input:checked ~ .checkmark::after {
+  display: block;
 }
