@@ -21,36 +21,32 @@
   --border: #00000026;
   --text: #000;
   --surface: #fff;
-  --select-border: #777;
-  --select-focus: blue;
-  --select-arrow: var(--select-border);
   --on-surface-dim: #00000080;
 }
 
-body {
+.main_section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 24px;
+  padding: 0 24px;
 }
 
 /***** Header *****/
 
-.header_section {
+.header {
   max-width: 1200px;
   width: 100%;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
-}
-
-.header_section__header {
   display: flex;
   height: 64px;
   align-items: center;
-  align-self: stretch;
+  align-self: center;
 }
 
-.header_section__h1 {
+.header__h1 {
   color: var(--text);
   font-size: 20px;
   font-weight: 700;
@@ -76,6 +72,8 @@ body {
   gap: 40px;
 }
 
+/***** Filter *****/
+
 .main_catalog__filter {
   display: flex;
   width: 276px;
@@ -98,7 +96,7 @@ body {
   color: var(--on-surface-dim);
 }
 
-/***** Catalog => Select *****/
+/***** Filter => Select *****/
 
 .select_section {
   width: 100%;
@@ -127,10 +125,6 @@ body {
   background-position-y: 12px;
 }
 
-.select_section select:selected {
-  color: var(--text);
-}
-
 /* For lower versions of IE */
 select::-ms-expand {
   display: none;
@@ -144,7 +138,7 @@ select::-ms-expand {
   background-image: url("./imgs/heroicons_chevron-down.svg");
 }
 
-/***** Catalog => Checkbox *****/
+/***** Filter => Checkbox *****/
 
 .container {
   display: flex;
@@ -204,4 +198,57 @@ select::-ms-expand {
 /* Shows the checkmark when checked */
 .container input:checked ~ .checkmark::after {
   display: block;
+}
+
+/***** Footer *****/
+.footer {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  padding: 24px 0;
+  height: 128px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer__data_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.footer__data {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer__data h3 {
+  color: var(--text);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.footer__data span {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.footer__github {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+}
+
+.footer__to_top_link {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
 }
