@@ -60,13 +60,26 @@ body {
 
 /***** Catalog *****/
 
+@media screen and (max-width: 786px) {
+  .main_catalog {
+    flex-direction: column-reverse;
+    justify-content: center;
+    gap: 24px;
+  }
+}
+
+@media screen and (min-width: 786px) {
+  .main_catalog {
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+  }
+}
+
 .main_catalog {
   max-width: 1200px;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 24px;
   height: calc(100% - 192px);
   overflow: auto;
 
