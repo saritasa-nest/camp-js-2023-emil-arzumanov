@@ -191,6 +191,7 @@ body::-webkit-scrollbar {
 }
 
 .search_input {
+  width: 100%;
   display: flex;
   box-sizing: border-box;
   height: 48px;
@@ -203,21 +204,25 @@ body::-webkit-scrollbar {
   color: var(--on-surface-dim);
 }
 
-@media screen and (min-width: 788px) {
+@media screen and (max-width: 789px) and (min-width: 426px) {
   .search_input {
-    width: 100%;
+    width: 250px;
   }
 }
 
-@media screen and (max-width: 425px) {
-  .search_input {
-    width: 100%;
-  }
+.search_input input {
+  width: 100%;
 }
 
 /***** Filter => Select *****/
 .select_section {
   width: 100%;
+}
+
+@media screen and (max-width: 787px) and (min-width: 426px) {
+  .select_section {
+    width: 250px;
+  }
 }
 
 /* A reset of styles, including removing the default dropdown arrow */
