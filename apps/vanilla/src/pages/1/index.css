@@ -22,7 +22,7 @@
   --text: #000;
   --surface: #fff;
   --on-surface-dim: #00000080;
-  --input-background: red; /*#0000000d;*/
+  --input-background: #0000000d;
 }
 
 body {
@@ -120,15 +120,15 @@ body::-webkit-scrollbar {
   margin-bottom: 24px;
 }
 
-@media screen and (max-width: 787px) and (min-width: 426px) {
+@media screen and (max-width: 787px) and (min-width: 427px) {
   .books_one_category__header {
-    top: 102px;
+    top: 84px;
   }
 }
 
 @media screen and (max-width: 426px) {
   .books_one_category__header {
-    top: 230px;
+    top: 212px;
   }
 }
 
@@ -149,7 +149,19 @@ body::-webkit-scrollbar {
   overflow: hidden;
   border: 1px solid inherit;
   height: 250.8px;
-  background-color: red;
+  width: 167.2px;
+}
+
+@media screen and (max-width: 787px) and (min-width: 427px) {
+  .book__image_wrapper {
+    width: 167.2px;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .book__image_wrapper {
+    width: 167.2px;
+  }
 }
 
 /***** Filter *****/
@@ -185,6 +197,7 @@ body::-webkit-scrollbar {
   .main_catalog__filter {
     position: sticky;
     top: 0;
+    gap: 6px;
   }
 }
 
@@ -242,6 +255,7 @@ body::-webkit-scrollbar {
 @media screen and (max-width: 787px) and (min-width: 426px) {
   .select_section {
     width: 250px;
+    min-width: 220px;
   }
 }
 
