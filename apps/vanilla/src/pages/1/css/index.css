@@ -51,7 +51,7 @@ body::-webkit-scrollbar {
   margin-bottom: 24px;
 }
 
-@media screen and (max-width: 787px) {
+@media screen and (max-width: 880px) {
   .main_catalog {
     flex-direction: column-reverse;
     justify-content: center;
@@ -62,7 +62,7 @@ body::-webkit-scrollbar {
   }
 }
 
-@media screen and (min-width: 788px) {
+@media screen and (min-width: 881px) {
   .main_catalog__books {
     margin-top: 24px;
   }
@@ -78,14 +78,14 @@ body::-webkit-scrollbar {
   align-items: flex-start;
 }
 
-@media screen and (max-width: 787px) {
+@media screen and (max-width: 880px) {
   .main_catalog__books {
     margin-top: 24px;
     margin-right: 0;
   }
 }
 
-@media screen and (min-width: 788px) {
+@media screen and (min-width: 881px) {
   .main_catalog__books {
     margin-top: 0;
     margin-right: 24px;
@@ -113,15 +113,15 @@ body::-webkit-scrollbar {
   margin-bottom: 24px;
 }
 
-@media screen and (max-width: 787px) and (min-width: 427px) {
+@media screen and (max-width: 880px) and (min-width: 596px) {
   .books_one_category__header {
     top: 82px;
   }
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 595px) {
   .books_one_category__header {
-    top: 212px;
+    top: 210px;
   }
 }
 
@@ -148,13 +148,13 @@ body::-webkit-scrollbar {
   width: 100%;
 }
 
-@media screen and (max-width: 787px) and (min-width: 427px) {
+@media screen and (max-width: 880px) and (min-width: 596px) {
   .books_one_category__book {
     max-width: 172px;
   }
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 595px) {
   .books_one_category__book {
     max-width: 148px;
   }
@@ -166,7 +166,7 @@ body::-webkit-scrollbar {
   width: 100%;
 }
 
-@media screen and (min-width: 788px) {
+@media screen and (min-width: 881px) {
   .main_catalog__filter_wrapper {
     max-width: 276px;
   }
@@ -185,7 +185,7 @@ body::-webkit-scrollbar {
   margin-bottom: 24px;
 }
 
-@media screen and (max-width: 787px) {
+@media screen and (max-width: 880px) {
   .main_catalog__filter_wrapper {
     position: sticky;
     top: 0;
@@ -210,7 +210,7 @@ body::-webkit-scrollbar {
   align-items: flex-start;
 }
 
-@media screen and (min-width: 788px) {
+@media screen and (min-width: 881px) {
   .search_input {
     margin-bottom: 24px;
   }
@@ -220,7 +220,7 @@ body::-webkit-scrollbar {
   }
 }
 
-@media screen and (max-width: 787px) and (min-width: 426px) {
+@media screen and (max-width: 880px) and (min-width: 596px) {
   .main_catalog__filter_inputs {
     width: 100%;
     display: grid;
@@ -229,7 +229,7 @@ body::-webkit-scrollbar {
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 595px) {
   .main_catalog__filter_inputs {
     width: 100%;
   }
@@ -271,7 +271,7 @@ body::-webkit-scrollbar {
   align-items: center;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 595px) {
   .footer {
     flex-wrap: wrap;
   }

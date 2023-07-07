@@ -5,6 +5,7 @@
   --surface-color: #fff;
   --input-text-color: #00000080;
   --input-background-color: #0000000d;
+  --desktop-min-page-size: 881px;
   --tablet-max-page-size: 880px;
   --tablet-min-page-size: 596px;
   --mobile-max-page-size: 595px;

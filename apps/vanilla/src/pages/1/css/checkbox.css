@@ -7,7 +7,7 @@
   align-self: stretch;
 }
 
-@media screen and (min-width: 426px) and (max-width: 788px) {
+@media screen and (min-width: 596px) and (max-width: 881px) {
   .container {
     align-self: center;
   }

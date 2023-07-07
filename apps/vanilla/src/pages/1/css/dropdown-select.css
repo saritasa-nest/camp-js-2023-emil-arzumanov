@@ -20,7 +20,7 @@
   color: var(--input-text-color);
   display: grid;
   background: var(--input-background-color);
-  background-image: url("./imgs/heroicons_chevron-down.svg");
+  background-image: url("../imgs/heroicons_chevron-down.svg");
   background-repeat: no-repeat;
   background-position-x: calc(100% - 16px);
   background-position-y: 12px;
@@ -33,8 +33,8 @@ select::-ms-expand {
 
 /* For arrow */
 .select::after {
-  content: url("./imgs/heroicons_chevron-down.svg");
+  content: url("../imgs/heroicons_chevron-down.svg");
   width: 24px;
   height: 24px;
-  background-image: url("./imgs/heroicons_chevron-down.svg");
+  background-image: url("../imgs/heroicons_chevron-down.svg");
 }
