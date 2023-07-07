@@ -34,7 +34,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
   padding: 0 24px;
 }
 
@@ -58,6 +57,7 @@ body::-webkit-scrollbar {
   min-height: 64px;
   align-items: center;
   align-self: center;
+  margin-bottom: 24px;
 }
 
 .header__h1 {
@@ -69,28 +69,30 @@ body::-webkit-scrollbar {
 
 /***** Catalog *****/
 
-@media screen and (max-width: 787px) {
-  .main_catalog {
-    flex-direction: column-reverse;
-    justify-content: center;
-    gap: 24px;
-  }
-}
-
-@media screen and (min-width: 788px) {
-  .main_catalog {
-    flex-direction: row;
-    justify-content: center;
-    gap: 24px;
-  }
-}
-
 .main_catalog {
   max-width: 1200px;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   position: relative;
+  margin-bottom: 24px;
+}
+
+@media screen and (max-width: 787px) {
+  .main_catalog {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .main_catalog__books {
+    margin-top: 24px;
+  }
+}
+
+@media screen and (min-width: 788px) {
+  .main_catalog__books {
+    margin-top: 24px;
+  }
 }
 
 /***** Books *****/
@@ -101,13 +103,29 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+}
+
+@media screen and (max-width: 787px) {
+  .main_catalog__books {
+    margin-top: 24px;
+  }
+}
+
+@media screen and (min-width: 788px) {
+  .main_catalog__books {
+    margin-top: 24px;
+  }
 }
 
 .books_one_category {
   width: 100%;
   position: relative;
   z-index: 1;
+  margin-bottom: 40px;
+}
+
+.books_one_category:last-child {
+  margin-bottom: 0;
 }
 
 .books_one_category__header {
@@ -122,7 +140,7 @@ body::-webkit-scrollbar {
 
 @media screen and (max-width: 787px) and (min-width: 427px) {
   .books_one_category__header {
-    top: 84px;
+    top: 82px;
   }
 }
 
@@ -136,8 +154,8 @@ body::-webkit-scrollbar {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
   justify-content: flex-start;
+  gap: 16px;
 }
 
 .books_one_category__book {
@@ -148,19 +166,26 @@ body::-webkit-scrollbar {
   border-radius: 24px;
   overflow: hidden;
   border: 1px solid inherit;
-  height: 250.8px;
   width: 167.2px;
 }
 
 @media screen and (max-width: 787px) and (min-width: 427px) {
+  .books_one_category__book {
+    width: 172.5px;
+  }
+
   .book__image_wrapper {
-    width: 167.2px;
+    width: 172.5px;
   }
 }
 
 @media screen and (max-width: 426px) {
+  .books_one_category__book {
+    width: 148px;
+  }
+
   .book__image_wrapper {
-    width: 167.2px;
+    width: 148px;
   }
 }
 
@@ -182,8 +207,11 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 24px;
   padding-bottom: 10px;
+}
+
+.main_catalog__filter h3 {
+  margin-bottom: 24px;
 }
 
 @media screen and (max-width: 787px) {
@@ -197,7 +225,10 @@ body::-webkit-scrollbar {
   .main_catalog__filter {
     position: sticky;
     top: 0;
-    gap: 6px;
+  }
+
+  .main_catalog__filter h3 {
+    margin-bottom: 6px;
   }
 }
 
@@ -206,20 +237,37 @@ body::-webkit-scrollbar {
   width: 276px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 24px;
+}
+
+@media screen and (min-width: 788px) {
+  .search_input {
+    margin-bottom: 24px;
+  }
+
+  .select_section {
+    margin-bottom: 24px;
+  }
 }
 
 @media screen and (max-width: 787px) and (min-width: 426px) {
   .main_catalog__filter_inputs {
     width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 
 @media screen and (max-width: 425px) {
   .main_catalog__filter_inputs {
     width: 100%;
+  }
+
+  .search_input {
+    margin-bottom: 24px;
+  }
+
+  .select_section {
+    margin-bottom: 24px;
   }
 }
 
@@ -230,33 +278,20 @@ body::-webkit-scrollbar {
   height: 48px;
   padding: 8px 16px;
   align-items: center;
-  gap: 8px;
   flex-shrink: 0;
   border-radius: 16px;
   background: var(--input-background);
   color: var(--on-surface-dim);
 }
 
-@media screen and (max-width: 789px) and (min-width: 426px) {
-  .search_input {
-    width: 250px;
-  }
-}
-
 .search_input input {
   width: 100%;
+  margin-left: 8px;
 }
 
 /***** Filter => Select *****/
 .select_section {
   width: 100%;
-}
-
-@media screen and (max-width: 787px) and (min-width: 426px) {
-  .select_section {
-    width: 250px;
-    min-width: 220px;
-  }
 }
 
 /* A reset of styles, including removing the default dropdown arrow */
@@ -301,12 +336,12 @@ select::-ms-expand {
   display: flex;
   height: 32px;
   align-items: center;
-  gap: 16px;
   align-self: stretch;
 }
 
 .container .text {
   color: var(--text);
+  margin-left: 16px;
 
   /* body */
   font-size: 20px;
@@ -330,7 +365,6 @@ select::-ms-expand {
   height: 20px;
   padding: 4px;
   align-items: flex-start;
-  gap: 8px;
   box-sizing: border-box;
   border-radius: 4px;
   border: 2px solid var(--border);
@@ -363,21 +397,37 @@ select::-ms-expand {
   width: 100%;
   display: flex;
   padding: 24px 0;
-  height: 128px;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+}
+
+@media screen and (max-width: 425px) {
+  .footer {
+    flex-wrap: wrap;
+  }
+
+  .footer__data_wrapper {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+
+  .footer__to_top_link {
+    width: 100%;
+    text-align: right;
+  }
 }
 
 .footer__data_wrapper {
   display: flex;
   align-items: center;
-  gap: 32px;
+  justify-content: space-between;
 }
 
 .footer__data {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  margin-right: 24px;
 }
 
 .footer__data h3 {
@@ -385,6 +435,7 @@ select::-ms-expand {
   font-style: normal;
   font-weight: 700;
   line-height: 24px;
+  margin-right: 8px;
 }
 
 .footer__data span {
