@@ -165,8 +165,13 @@ body::-webkit-scrollbar {
 .book__image_wrapper {
   border-radius: 24px;
   overflow: hidden;
-  border: 1px solid inherit;
   width: 167.2px;
+  margin-bottom: 4px;
+}
+
+.book__image_wrapper img {
+  outline: 1px solid #0000001a;
+  width: 100%;
 }
 
 @media screen and (max-width: 787px) and (min-width: 427px) {
