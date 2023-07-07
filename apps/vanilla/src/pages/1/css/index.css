@@ -33,7 +33,7 @@ body::-webkit-scrollbar {
   margin-bottom: 24px;
 }
 
-.header__h1 {
+.header__heading {
   color: var(--text-color);
   font-size: 1.25rem;
   font-weight: 700;
