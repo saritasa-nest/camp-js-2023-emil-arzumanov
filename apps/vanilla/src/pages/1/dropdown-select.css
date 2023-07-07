@@ -1,0 +1,41 @@
+/***** Select *****/
+.select_section {
+  width: 100%;
+}
+
+/* A reset of styles, including removing the default dropdown arrow */
+.select_section select {
+  appearance: none;
+  margin: 0;
+  width: 100%;
+  padding-right: 40px;
+  font-family: inherit;
+  cursor: pointer;
+  height: 48px;
+  padding: 0 40px 0 0;
+  justify-content: space-between;
+  border-radius: 16px;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 32px;
+  color: var(--input-text-color);
+  display: grid;
+  background: var(--input-background-color);
+  background-image: url("./imgs/heroicons_chevron-down.svg");
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 16px);
+  background-position-y: 12px;
+}
+
+/* For lower versions of IE */
+select::-ms-expand {
+  display: none;
+}
+
+/* For arrow */
+.select::after {
+  content: url("./imgs/heroicons_chevron-down.svg");
+  width: 24px;
+  height: 24px;
+  background-image: url("./imgs/heroicons_chevron-down.svg");
+}

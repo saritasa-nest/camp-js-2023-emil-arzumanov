@@ -1,0 +1,12 @@
+:root {
+  --primary-color: #f15924;
+  --border-color: #00000026;
+  --text-color: #000;
+  --surface-color: #fff;
+  --input-text-color: #00000080;
+  --input-background-color: #0000000d;
+  --mobile-page-size: 426px;
+  --pre-mobile-page-size: 427px;
+  --tablet-page-size: 786px;
+  --pre-tablet-page-size: 787px;
+}
