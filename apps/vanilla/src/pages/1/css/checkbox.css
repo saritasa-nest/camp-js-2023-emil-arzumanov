@@ -18,7 +18,7 @@
   margin-left: 16px;
 
   /* body */
-  font-size: 1.25rem;
+  font-size: var(--font-size-m);
   font-weight: 400;
   line-height: 32px;
 }
@@ -27,7 +27,6 @@
 .filter__checkbox-container input {
   position: absolute;
   opacity: 0;
-  cursor: pointer;
   height: 0;
   width: 0;
 }
