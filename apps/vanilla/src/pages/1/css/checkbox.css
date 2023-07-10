@@ -1,6 +1,6 @@
 /***** Filter => Checkbox *****/
 
-.container {
+.filter__checkbox-container {
   display: flex;
   height: 32px;
   align-items: center;
@@ -8,12 +8,12 @@
 }
 
 @media screen and (min-width: 596px) and (max-width: 881px) {
-  .container {
+  .filter__checkbox-container {
     align-self: center;
   }
 }
 
-.container .text {
+.filter__checkbox-container .filter__checkbox-container__text {
   color: var(--text-color);
   margin-left: 16px;
 
@@ -24,7 +24,7 @@
 }
 
 /* Hides the browser's default checkbox */
-.container input {
+.filter__checkbox-container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -33,7 +33,7 @@
 }
 
 /* Custom checkbox */
-.checkmark {
+.filter__checkbox-container__checkmark {
   display: flex;
   width: 20px;
   height: 20px;
@@ -45,13 +45,13 @@
 }
 
 /* When the checkbox is checked, adds an orange background */
-.container input:checked ~ .checkmark {
+.filter__checkbox-container input:checked ~ .filter__checkbox-container__checkmark {
   border-radius: 4px;
   border: 2px solid var(--primary-color);
 }
 
 /* Creates the checkmark/indicator (hidden when not checked) */
-.checkmark::after {
+.filter__checkbox-container__checkmark::after {
   content: "";
   display: none;
   flex: 1 0 0;
@@ -61,6 +61,6 @@
 }
 
 /* Shows the checkmark when checked */
-.container input:checked ~ .checkmark::after {
+.filter__checkbox-container input:checked ~ .filter__checkbox-container__checkmark::after {
   display: block;
 }

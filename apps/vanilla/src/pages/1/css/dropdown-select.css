@@ -1,10 +1,10 @@
 /***** Select *****/
-.select_section {
+.filter__select-wrapper {
   width: 100%;
 }
 
 /* A reset of styles, including removing the default dropdown arrow */
-.select_section select {
+.filter__select-wrapper select {
   appearance: none;
   margin: 0;
   width: 100%;
@@ -29,12 +29,4 @@
 /* For lower versions of IE */
 select::-ms-expand {
   display: none;
-}
-
-/* For arrow */
-.select::after {
-  content: url("../imgs/heroicons_chevron-down.svg");
-  width: 24px;
-  height: 24px;
-  background-image: url("../imgs/heroicons_chevron-down.svg");
 }
