@@ -121,19 +121,23 @@ class Player extends Publisher<IPlayerData> implements Subscriber<IThrowData> {
 class ResultDisplay implements Subscriber<IPlayerData> {
 	private app = document.getElementById('game');
 
+	private player = document.createElement('div');
+
 	public createPlayerUI(playerIndex: number): void {
-		const player = document.createElement('div');
-		if (this.app !== null && player !== null) {
-			player.setAttribute('id', String(playerIndex));
-			player.innerText = `player${playerIndex}: `;
-			this.app.append(player);
+		if (this.app !== null && this.player !== null) {
+			this.player.setAttribute('id', String(playerIndex));
+			this.player.innerText = `player${playerIndex}: `;
+			this.app.append(this.player);
 		}
 	}
 
 	public update(playerData: IPlayerData): void {
-		const player = document.getElementById(String(playerData.playerIndex));
-		if (player) {
-			player.innerText += String(playerData.result);
+		const currentPlayer = document.getElementById(String(playerData.playerIndex));
+		if (currentPlayer) {
+			currentPlayer.innerText += String(playerData.result);
+			if (playerData.winStatus) {
+				currentPlayer.className = 'winner';
+			}
 		}
 	}
 }
