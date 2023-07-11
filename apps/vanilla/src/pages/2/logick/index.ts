@@ -40,7 +40,6 @@ export class TurnGenerator extends Publisher<number> {
 	public constructor() {
 		super();
 		this.subscribe(new DiceGenerator(this.playersCount));
-		new UICreator().createAllPlayersUI(this.playersCount);
 	}
 
 	public nextTurn(): void {
@@ -55,7 +54,12 @@ export class TurnGenerator extends Publisher<number> {
 	}
 }
 
-class DiceGenerator extends Publisher<object> implements Subscriber<number> {
+interface IThrowData {
+	diceResults: number;
+	currentPlayerIndex: number;
+}
+
+class DiceGenerator extends Publisher<IThrowData> implements Subscriber<number> {
 	public constructor(playersCount: number) {
 		super();
 		for (let i = 0; i < playersCount; i++) {
@@ -63,8 +67,8 @@ class DiceGenerator extends Publisher<object> implements Subscriber<number> {
 		}
 	}
 
-	public update(): void {
-		this.notify({ diceResults: this.throwDice(), currentPlayerIndex: this.currentPlayerIndex });
+	public update(currentPlayerIndex: number): void {
+		this.notify({ diceResults: this.throwDice(), currentPlayerIndex });
 	}
 
 	private throwDice(): number {
@@ -74,8 +78,14 @@ class DiceGenerator extends Publisher<object> implements Subscriber<number> {
 	}
 }
 
-class Player extends Publisher<number> implements Subscriber<number> {
-	private readonly results: number[] = [];
+interface IPlayerData {
+	result: number;
+	playerIndex: number;
+	winStatus: boolean;
+}
+
+class Player extends Publisher<IPlayerData> implements Subscriber<IThrowData> {
+	private results: number[] = [];
 
 	private playerIndex = 0;
 
@@ -84,12 +94,16 @@ class Player extends Publisher<number> implements Subscriber<number> {
 	public constructor(playerIndex: number) {
 		super();
 		this.playerIndex = playerIndex;
+		this.subscribe(new ResultDisplay());
+		new ResultDisplay().createPlayerUI(playerIndex);
 	}
 
-	public update(diceResults: number): void {
-		this.results.push(diceResults);
-		this.winStatus = this.checkIfWon();
-		new UICreator().addResultToPlayerInput(diceResults, this.playerIndex);
+	public update(throwData: IThrowData): void {
+		if (throwData.currentPlayerIndex === this.playerIndex) {
+			this.results.push(throwData.diceResults);
+			this.winStatus = this.checkIfWon();
+			this.notify({ result: throwData.diceResults, playerIndex: this.playerIndex, winStatus: this.winStatus });
+		}
 	}
 
 	private checkIfWon(): boolean {
@@ -104,24 +118,22 @@ class Player extends Publisher<number> implements Subscriber<number> {
 	}
 }
 
-class UICreator {
+class ResultDisplay implements Subscriber<IPlayerData> {
 	private app = document.getElementById('game');
 
-	public createAllPlayersUI(playersCount: number): void {
-		for (let i = 0; i < playersCount; i++) {
-			const player = document.createElement('div');
-			if (this.app !== null && player !== null) {
-				player.setAttribute('id', String(i));
-				player.innerText = '0';
-				this.app.append(player);
-			}
+	public createPlayerUI(playerIndex: number): void {
+		const player = document.createElement('div');
+		if (this.app !== null && player !== null) {
+			player.setAttribute('id', String(playerIndex));
+			player.innerText = `player${playerIndex}: `;
+			this.app.append(player);
 		}
 	}
 
-	public addResultToPlayerInput(throwResult: number, playerIndex: number): void {
-		const player = document.getElementById(String(playerIndex));
+	public update(playerData: IPlayerData): void {
+		const player = document.getElementById(String(playerData.playerIndex));
 		if (player) {
-			player.innerText += String(throwResult);
+			player.innerText += String(playerData.result);
 		}
 	}
 }
