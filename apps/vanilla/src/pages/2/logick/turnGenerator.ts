@@ -1,8 +1,9 @@
 import { Publisher } from './publisher';
 
 /**
- * Turn Generator emulates one turn. It is Publisher,
- * his subscriber is Dice Generator from 'diceGenerator.ts'.
+ * Turn Generator emulates one turn.
+ * Turn Generator is Publisher, his subscriber is
+ * Dice Generator from './diceGenerator.ts'.
  */
 export class TurnGenerator extends Publisher<number> {
 	/**
@@ -20,6 +21,7 @@ export class TurnGenerator extends Publisher<number> {
 	/**
 	 * Initiates one turn and notifies subscribers which player made turn
 	 * by sending currentPlayerIndex to subscriber.
+	 * Turns go in circles from first Player to last.
 	 */
 	public nextTurn(): void {
 		if (this.currentPlayerIndex === this.playersCount) {

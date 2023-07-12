@@ -53,7 +53,7 @@ export class ResultDisplay implements Subscriber<IPlayer> {
 		if (currentPlayer !== null && this.allPlayerResults !== null) {
 			playerResultP.innerHTML = String(playerData.result);
 			currentPlayer.getElementsByTagName('div')[0].append(playerResultP);
-			currentPlayer.getElementsByTagName('span')[0].innerHTML = String(playerData.resultSum);
+			currentPlayer.getElementsByTagName('span')[0].innerHTML = String(playerData.score);
 			if (playerData.winStatus) {
 				currentPlayer.className += ' winner';
 			}

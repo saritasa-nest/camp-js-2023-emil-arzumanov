@@ -5,7 +5,7 @@ export interface Subscriber<T> {
 }
 
 export interface IThrow {
-	diceResults: number;
+	diceRollResult: number;
 	currentPlayerIndex: number;
 }
 
@@ -13,5 +13,5 @@ export interface IPlayer {
 	result: number;
 	playerIndex: number;
 	winStatus: boolean;
-	resultSum: number;
+	score: number;
 }
