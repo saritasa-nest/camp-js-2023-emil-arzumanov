@@ -1,3 +1,43 @@
+.gameWrapper {
+  width: 400px;
+}
+
+.gameWrapper h1 {
+  color: #e9967a;
+  margin: 0;
+}
+
+.gameWrapper a {
+  text-decoration: none;
+  color: #f9731d;
+}
+
+.game {
+  margin: 20px 0;
+}
+
+.game .scoreWrapper {
+  height: 90px;
+}
+
+.game div {
+  margin: 10px 0;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.game h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.game div p {
+  display: inline-block;
+  font-weight: bold;
+  margin: 0;
+  padding: 0 5px;
+}
+
 .winner {
-  background-color: gold;
+  background-color: #fcc;
 }

@@ -85,10 +85,13 @@ interface IPlayerData {
 	result: number;
 	playerIndex: number;
 	winStatus: boolean;
+	resultSum: number;
 }
 
 class Player extends Publisher<IPlayerData> implements Subscriber<IThrowData> {
 	private results: number[] = [];
+
+	private playerResultsSum = 0;
 
 	private playerIndex = 0;
 
@@ -104,20 +107,26 @@ class Player extends Publisher<IPlayerData> implements Subscriber<IThrowData> {
 	public update(throwData: IThrowData): void {
 		if (throwData.currentPlayerIndex === this.playerIndex) {
 			this.results.push(throwData.diceResults);
-			this.winStatus = this.checkIfWon();
-			this.notify({ result: throwData.diceResults, playerIndex: this.playerIndex, winStatus: this.winStatus });
+			this.winStatus = this.checkIfWon(throwData.diceResults);
+			this.notify({
+				result: throwData.diceResults,
+				playerIndex: this.playerIndex,
+				winStatus: this.winStatus,
+				resultSum: this.playerResultsSum,
+			});
 		}
 	}
 
-	private checkIfWon(): boolean {
-		let resultSum = 0;
-		for (let i = 0; i < this.results.length; i++) {
-			resultSum += this.results[i];
-		}
-		if (resultSum >= 21) {
+	private checkIfWon(diceResults: number): boolean {
+		this.calculatePlayerResults(diceResults);
+		if (this.playerResultsSum >= 21) {
 			return true;
 		}
 		return false;
+	}
+
+	private calculatePlayerResults(diceResults: number): void {
+		this.playerResultsSum += diceResults;
 	}
 }
 
@@ -126,22 +135,52 @@ class ResultDisplay implements Subscriber<IPlayerData> {
 
 	private player = document.createElement('div');
 
+	private playerH4 = document.createElement('h4');
+
+	private playerSpan = document.createElement('span');
+
+	private playerResultsDiv = document.createElement('div');
+
+	private allPlayerResults = document.getElementById('allThrows');
+
+	private diceCap = document.getElementById('diceCap');
+
+	/*
+	 *createPlayerUI method creates this layout and appends it in tag with id='game'
+	 *<div id={playerData.playerIndex}>
+	 *	<h4>Player1 - <span>{playerData.resultSum}</span></h4>
+	 *	<div>
+	 *		<p>{playerData.result}</p>
+	 *	</div>
+	 *</div>
+	 */
 	public createPlayerUI(playerIndex: number): void {
 		if (this.app !== null && this.player !== null) {
 			this.player.setAttribute('id', String(playerIndex));
-			this.player.innerText = `player${playerIndex}: `;
+			this.player.setAttribute('class', 'scoreWrapper');
+			this.playerH4.innerHTML = `Player${playerIndex} - `;
+			this.playerH4.append(this.playerSpan);
+			this.player.append(this.playerH4);
+			this.player.append(this.playerResultsDiv);
 			this.app.append(this.player);
 		}
 	}
 
 	public update(playerData: IPlayerData): void {
 		const currentPlayer = document.getElementById(String(playerData.playerIndex));
-		const allPlayerResults = document.getElementById('allThrows');
-		if (currentPlayer && allPlayerResults) {
-			currentPlayer.innerText += String(playerData.result);
-			allPlayerResults.innerText += String(playerData.result);
+		const playerResultP = document.createElement('p');
+		const allPlayersResultP = document.createElement('p');
+		if (currentPlayer !== null && this.allPlayerResults !== null && this.diceCap !== null && playerResultP !== null) {
+			playerResultP.innerHTML = String(playerData.result);
+			currentPlayer.getElementsByTagName('div')[0].append(playerResultP);
+			currentPlayer.getElementsByTagName('span')[0].innerHTML = String(playerData.resultSum);
+			allPlayersResultP.innerHTML = String(playerData.result);
+			this.diceCap.getElementsByTagName('div')[0].append(allPlayersResultP);
+			this.diceCap.getElementsByTagName('span')[0].innerHTML = String(
+				Number(this.diceCap.getElementsByTagName('span')[0].innerHTML) + playerData.resultSum
+			);
 			if (playerData.winStatus) {
-				currentPlayer.className = 'winner';
+				currentPlayer.className += ' winner';
 			}
 		}
 	}
