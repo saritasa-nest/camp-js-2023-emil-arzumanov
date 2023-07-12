@@ -1,4 +1,4 @@
-import { IThrow, IPlayer, Subscriber } from './types';
+import { Throw, PlayerInterface, Subscriber } from './types';
 import { Publisher } from './publisher';
 
 /**
@@ -6,7 +6,7 @@ import { Publisher } from './publisher';
  * Player is subscriber of Dice Generator from './diceGenerator.ts'.
  * Player is also Publisher, his subscriber is Result Display from './resultDisplay.ts'.
  */
-export class Player extends Publisher<IPlayer> implements Subscriber<IThrow> {
+export class Player extends Publisher<PlayerInterface> implements Subscriber<Throw> {
 	/**
 	 * @param score Array of dice roll results.
 	 */
@@ -40,7 +40,7 @@ export class Player extends Publisher<IPlayer> implements Subscriber<IThrow> {
 	 * @param diceRollResult Result of dice roll made in current turn.
 	 * @param currentPlayerIndex Index of player that made turn.
 	 */
-	public update(throwData: IThrow): void {
+	public update(throwData: Throw): void {
 		if (throwData.currentPlayerIndex === this.playerIndex) {
 			this.calculatePlayerScore(throwData.diceRollResult);
 			this.diceRollResults.push(throwData.diceRollResult);
@@ -61,8 +61,9 @@ export class Player extends Publisher<IPlayer> implements Subscriber<IThrow> {
 	private checkIfWon(): void {
 		if (this.score >= 21) {
 			this.winStatus = true;
+		} else {
+			this.winStatus = false;
 		}
-		this.winStatus = false;
 	}
 
 	/**

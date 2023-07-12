@@ -1,4 +1,4 @@
-import { IThrow, Subscriber } from './types';
+import { Throw, Subscriber } from './types';
 import { Publisher } from './publisher';
 
 /**
@@ -6,7 +6,7 @@ import { Publisher } from './publisher';
  * Dice Generator is also subscriber of Turn Generator from './turnGenerator.ts'.
  * Dice Generator is also Publisher, his subscribers are instances of Player from './player.ts'.
  */
-export class DiceGenerator extends Publisher<IThrow> implements Subscriber<number> {
+export class DiceGenerator extends Publisher<Throw> implements Subscriber<number> {
 	/**
 	 * @param diceRollResult The result that rolled out when the dice was thrown.
 	 */
