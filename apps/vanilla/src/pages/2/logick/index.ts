@@ -176,9 +176,8 @@ class ResultDisplay implements Subscriber<IPlayerData> {
 			currentPlayer.getElementsByTagName('span')[0].innerHTML = String(playerData.resultSum);
 			allPlayersResultP.innerHTML = String(playerData.result);
 			this.diceCap.getElementsByTagName('div')[0].append(allPlayersResultP);
-			this.diceCap.getElementsByTagName('span')[0].innerHTML = String(
-				Number(this.diceCap.getElementsByTagName('span')[0].innerHTML) + playerData.resultSum
-			);
+			const diceCapSpan = this.diceCap.getElementsByTagName('span')[0];
+			diceCapSpan.innerHTML = String(Number(diceCapSpan.innerText) + playerData.result);
 			if (playerData.winStatus) {
 				currentPlayer.className += ' winner';
 			}
