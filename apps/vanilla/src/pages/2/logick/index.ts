@@ -60,6 +60,8 @@ interface IThrowData {
 }
 
 class DiceGenerator extends Publisher<IThrowData> implements Subscriber<number> {
+	private diceResult = 0;
+
 	public constructor(playersCount: number) {
 		super();
 		for (let i = 0; i < playersCount; i++) {
@@ -68,13 +70,14 @@ class DiceGenerator extends Publisher<IThrowData> implements Subscriber<number> 
 	}
 
 	public update(currentPlayerIndex: number): void {
-		this.notify({ diceResults: this.throwDice(), currentPlayerIndex });
+		this.throwDiceAndSaveResults();
+		this.notify({ diceResults: this.diceResult, currentPlayerIndex });
 	}
 
-	private throwDice(): number {
+	private throwDiceAndSaveResults(): void {
 		const max = 6;
 		const min = 1;
-		return Math.round(Math.random() * (max - min) + min);
+		this.diceResult = Math.floor(Math.random() * (max + 1 - min) + min);
 	}
 }
 
@@ -133,8 +136,10 @@ class ResultDisplay implements Subscriber<IPlayerData> {
 
 	public update(playerData: IPlayerData): void {
 		const currentPlayer = document.getElementById(String(playerData.playerIndex));
-		if (currentPlayer) {
+		const allPlayerResults = document.getElementById('allThrows');
+		if (currentPlayer && allPlayerResults) {
 			currentPlayer.innerText += String(playerData.result);
+			allPlayerResults.innerText += String(playerData.result);
 			if (playerData.winStatus) {
 				currentPlayer.className = 'winner';
 			}
