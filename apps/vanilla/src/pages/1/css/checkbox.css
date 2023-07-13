@@ -5,12 +5,7 @@
 }
 
 .filter__checkbox__text {
-  color: var(--text-color);
   margin-left: 16px;
-
-  /* body */
-  font-size: var(--font-size-m);
-  line-height: 32px;
 }
 
 /* Hides the browser's default checkbox */

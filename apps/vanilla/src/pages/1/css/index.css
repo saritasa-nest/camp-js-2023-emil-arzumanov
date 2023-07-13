@@ -27,13 +27,6 @@ body {
   display: flex;
 }
 
-.header__heading {
-  color: var(--text-color);
-  font-size: var(--font-size-m);
-  font-weight: 700;
-  line-height: 24px;
-}
-
 /***** Catalog *****/
 
 .app-wrapper__main-catalog {
@@ -220,7 +213,6 @@ body {
   flex-shrink: 0;
   border-radius: 16px;
   background: var(--input-background-color);
-  color: var(--input-text-color);
 }
 
 @media screen and (min-width: 881px) {
@@ -287,36 +279,14 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-right: 24px;
-}
-
-.footer__app-info h3 {
-  color: var(--text-color);
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px;
-  margin-right: 8px;
-}
-
-.footer__app-info span {
-  color: var(--text-color);
-  font-size: var(--font-size-m);
-  font-weight: 400;
-  line-height: 32px;
+  gap: 8px;
 }
 
 .footer__github {
-  color: var(--text-color);
-  font-size: var(--font-size-m);
-  font-weight: 400;
-  line-height: normal;
   text-decoration-line: underline;
 }
 
 .footer__link-top {
-  color: var(--text-color);
-  font-size: var(--font-size-m);
-  font-weight: 400;
-  line-height: normal;
   text-decoration: none;
 }
 

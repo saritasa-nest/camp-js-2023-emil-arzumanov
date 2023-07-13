@@ -1,0 +1,38 @@
+.text-app-name {
+  font-weight: var(--font-weight-h);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-s);
+}
+
+.text-book {
+  font-weight: var(--font-weight-ml);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
+}
+
+.text {
+  color: var(--text-color);
+  font-weight: var(--font-weight-l);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-m);
+}
+
+.text-inputs {
+  color: var(--input-text-color);
+  font-weight: var(--font-weight-l);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-l);
+}
+
+.text-checkbox {
+  font-weight: var(--font-weight-l);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-l);
+}
+
+.text-headers {
+  font-weight: var(--font-weight-m);
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-s);
+  text-transform: uppercase;
+}

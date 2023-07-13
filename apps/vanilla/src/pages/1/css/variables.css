@@ -10,5 +10,14 @@
   --tablet-max-page-size: 880px;
   --tablet-min-page-size: 596px;
   --mobile-max-page-size: 595px;
-  --font-size-m: 1.25rem;
+  --font-weight-l: 400;
+  --font-weight-ml: 500;
+  --font-weight-m: 600;
+  --font-weight-h: 700;
+  --font-size-s: 1rem;
+  --font-size-m: 1.125rem;
+  --font-size-l: 1.25rem;
+  --line-height-s: 24px;
+  --line-height-m: 24.2px;
+  --line-height-l: 32px;
 }

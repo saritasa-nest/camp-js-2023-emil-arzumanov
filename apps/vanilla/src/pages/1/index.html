@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="./css/index.css" />
 		<link rel="stylesheet" href="./css/dropdown-select.css" />
 		<link rel="stylesheet" href="./css/checkbox.css" />
+		<link rel="stylesheet" href="./css/typography.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
@@ -16,13 +17,13 @@
 	<body>
 		<div class="app-wrapper">
 			<header class="app-wrapper__header header">
-				<h1 class="header__heading">📚 Books app</h1>
+				<h1 class="text-app-name">📚 Books app</h1>
 			</header>
 			<main class="app-wrapper__main-catalog">
 				<div class="main-catalog__books">
 					<section class="books__category">
 						<header class="category__header">
-							<h3>2020 YEAR</h3>
+							<h3 class="text-headers">2020 YEAR</h3>
 						</header>
 						<div class="category__body">
 							<section class="category__book">
@@ -33,7 +34,7 @@
 										<img src="./imgs/mobile/image3.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Refactoring UI</p>
+								<p class="text-book">Refactoring UI</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -43,7 +44,7 @@
 										<img src="./imgs/mobile/image1.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Master the Skill of Debugging CSS</p>
+								<p class="text-book">Master the Skill of Debugging CSS</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -53,13 +54,13 @@
 										<img src="./imgs/mobile/image1.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Blue Period</p>
+								<p class="text-book">Blue Period</p>
 							</section>
 						</div>
 					</section>
 					<section class="books__category">
 						<header class="category__header">
-							<h3>1980 YEAR</h3>
+							<h3 class="text-headers">1980 YEAR</h3>
 						</header>
 						<div class="category__body">
 							<section class="category__book">
@@ -70,7 +71,7 @@
 										<img src="./imgs/mobile/image10.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Yokohama Kaidashi Kikou</p>
+								<p class="text-book">Yokohama Kaidashi Kikou</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -80,7 +81,7 @@
 										<img src="./imgs/mobile/image4.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Learning JavaScript Design Patterns</p>
+								<p class="text-book">Learning JavaScript Design Patterns</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -90,7 +91,7 @@
 										<img src="./imgs/mobile/image11.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Yotsuba to!</p>
+								<p class="text-book">Yotsuba to!</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -100,7 +101,7 @@
 										<img src="./imgs/mobile/image5.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Domain-Driven Design</p>
+								<p class="text-book">Domain-Driven Design</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -110,7 +111,7 @@
 										<img src="./imgs/mobile/image6.png" alt="Book image" />
 									</picture>
 								</div>
-								<p>Implementing Domain-Driven Design</p>
+								<p class="text_book">Implementing Domain-Driven Design</p>
 							</section>
 							<section class="category__book">
 								<div class="category__image-wrapper">
@@ -127,14 +128,14 @@
 				</div>
 				<section class="main-catalog__filter-wrapper">
 					<aside class="filter-wrapper__filter">
-						<h3>FILTERS</h3>
+						<h3 class="text-headers">FILTERS</h3>
 						<div class="filter__filter-inputs">
 							<label class="filter__search-input">
 								<img src="./imgs/heroicons_magnifying-glass (optimized).svg" alt="heroicons_magnifying-glass" />
-								<input type="text" placeholder="e.g. “Refactoring”" />
+								<input class="text-inputs" type="text" placeholder="e.g. “Refactoring”" />
 							</label>
 							<div class="filter__select-wrapper">
-								<select class="filter__select">
+								<select class="filter__select text-inputs">
 									<option value="0" selected disabled>Choose sort field</option>
 									<option value="1">Year</option>
 									<option value="2">Authors</option>
@@ -144,7 +145,7 @@
 							<label class="filter__checkbox">
 								<input class="filter__checkbox__input" type="checkbox" />
 								<span class="filter__checkbox__checkmark"></span>
-								<span class="filter__checkbox__text">Show comics</span>
+								<span class="filter__checkbox__text text-checkbox">Show comics</span>
 							</label>
 						</div>
 					</aside>
@@ -153,12 +154,12 @@
 			<footer class="app-wrapper__footer footer">
 				<section class="footer__app-info-wrapper">
 					<section class="footer__app-info">
-						<h3>Books app</h3>
-						<span>&copy; 2023</span>
+						<h3 class="text-app-name">Books app</h3>
+						<span class="text">&copy; 2023</span>
 					</section>
-					<a class="footer__github" target="_blank" href="#">Github</a>
+					<a class="footer__github text" target="_blank" href="#">Github</a>
 				</section>
-				<a class="footer__link-top" href="#"> Go to top ↑ </a>
+				<a class="footer__link-top text" href="#"> Go to top ↑ </a>
 			</footer>
 		</div>
 	</body>
