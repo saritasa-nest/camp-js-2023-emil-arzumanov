@@ -3,24 +3,24 @@
   width: 100%;
 }
 
-/* A reset of styles, including removing the default dropdown arrow */
-.filter__select-wrapper select {
+/* Styles select and removes default dropdown arrow */
+.filter__select {
   appearance: none;
   margin: 0;
   width: 100%;
   font-family: inherit;
   cursor: pointer;
   height: 48px;
-  padding: 0 40px 0 0;
+  padding: 0 40px 0 10px;
+  font-weight: 400;
+  line-height: 32px;
   justify-content: space-between;
   border-radius: 16px;
   font-size: var(--font-size-m);
-  font-weight: 400;
-  line-height: 32px;
   color: var(--input-text-color);
   display: grid;
   background: var(--input-background-color);
-  background-image: url("../imgs/heroicons_chevron-down.svg");
+  background-image: url("../imgs/heroicons_chevron-down\ \(optimized\).svg");
   background-repeat: no-repeat;
   background-position-x: calc(100% - 16px);
   background-position-y: 12px;

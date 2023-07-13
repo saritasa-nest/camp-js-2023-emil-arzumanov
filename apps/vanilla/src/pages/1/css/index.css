@@ -2,7 +2,7 @@ body {
   height: 100vh;
 }
 
-.main-section {
+.app-wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@ body::-webkit-scrollbar {
 
 /***** Header *****/
 
-.main-section__header {
+.app-wrapper__header {
   max-width: 1200px;
   width: 100%;
   min-height: 64px;
@@ -45,7 +45,7 @@ body::-webkit-scrollbar {
 
 /***** Catalog *****/
 
-.main-section__main-catalog {
+.app-wrapper__main-catalog {
   max-width: 1200px;
   width: 100%;
   display: flex;
@@ -55,7 +55,7 @@ body::-webkit-scrollbar {
 }
 
 @media screen and (max-width: 880px) {
-  .main-section__main-catalog {
+  .app-wrapper__main-catalog {
     flex-direction: column-reverse;
     justify-content: center;
   }
@@ -102,7 +102,6 @@ body::-webkit-scrollbar {
   width: 100%;
   position: sticky;
   top: 0;
-  z-index: 2;
   margin-bottom: 24px;
 }
 
@@ -114,7 +113,7 @@ body::-webkit-scrollbar {
 
 @media screen and (max-width: 595px) {
   .books-category__header {
-    top: 210px;
+    top: 209px;
   }
 }
 
@@ -181,14 +180,16 @@ body::-webkit-scrollbar {
 @media screen and (max-width: 880px) {
   .main-catalog__filter-wrapper {
     position: sticky;
-    top: 0;
-    z-index: 3;
+    top: -1px;
+    padding-top: 1px;
+    z-index: 2;
     background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .filter-wrapper__filter {
     position: sticky;
-    top: 0;
+    top: -1px;
   }
 
   .filter-wrapper__filter h3 {
@@ -255,7 +256,7 @@ body::-webkit-scrollbar {
 }
 
 /***** Footer *****/
-.main-section__footer {
+.app-wrapper__footer {
   max-width: 1200px;
   width: 100%;
 }
