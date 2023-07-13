@@ -97,12 +97,12 @@ body::-webkit-scrollbar {
 }
 
 .books-category__header {
-  height: 24px;
   background-color: var(--surface-color);
   width: 100%;
   position: sticky;
   top: 0;
   margin-bottom: 24px;
+  padding: 16px 0;
 }
 
 @media screen and (min-width: 596px) and (max-width: 880px) {
@@ -204,36 +204,19 @@ body::-webkit-scrollbar {
   align-items: flex-start;
 }
 
-@media screen and (min-width: 881px) {
-  .filter__search-input {
-    margin-bottom: 24px;
-  }
-
-  .filter__select-wrapper {
-    margin-bottom: 24px;
-  }
-}
-
 @media screen and (min-width: 596px) and (max-width: 880px) {
   .filter__filter-inputs {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 16px;
+    align-items: center;
   }
 }
 
 @media screen and (max-width: 595px) {
   .filter__filter-inputs {
     width: 100%;
-  }
-
-  .filter__search-input {
-    margin-bottom: 24px;
-  }
-
-  .filter__select-wrapper {
-    margin-bottom: 24px;
   }
 }
 
@@ -250,6 +233,26 @@ body::-webkit-scrollbar {
   color: var(--input-text-color);
 }
 
+@media screen and (min-width: 881px) {
+  .filter__search-input {
+    margin-bottom: 24px;
+  }
+
+  .filter__select-wrapper {
+    margin-bottom: 24px;
+  }
+}
+
+@media screen and (max-width: 595px) {
+  .filter__search-input {
+    margin-bottom: 24px;
+  }
+
+  .filter__select-wrapper {
+    margin-bottom: 24px;
+  }
+}
+
 .filter__search-input input {
   width: 100%;
   margin-left: 8px;
@@ -263,14 +266,16 @@ body::-webkit-scrollbar {
 
 .footer {
   display: flex;
-  padding: 24px 0;
   justify-content: space-between;
   align-items: center;
+  padding-top: 24px;
+  padding-bottom: 72px;
 }
 
 @media screen and (max-width: 595px) {
   .footer {
     flex-wrap: wrap;
+    padding-bottom: 0;
   }
 }
 
