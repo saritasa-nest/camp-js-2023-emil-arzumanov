@@ -41,10 +41,10 @@ export class ResultDisplay implements Subscriber<PlayerInterface> {
 	/**
 	 * @param playerData Object that contains data of player that needs to be displayed.
 	 * Object 'playerData' contains: .
-	 * @param result Result of dice roll made by player.
-	 * @param playerIndex Index of player ( 'id' of players layout).
-	 * @param winStatus Tells if player won ( 'true' if won ).
-	 * @param score Score of player. Sum of all of his dice rolls throughout the game.
+	 * Field result Result of dice roll made by player.
+	 * Field playerIndex Index of player ( 'id' of players layout).
+	 * Field winStatus Tells if player won ( 'true' if won ).
+	 * Field score Score of player. Sum of all of his dice rolls throughout the game.
 	 */
 	public update(playerData: PlayerInterface): void {
 		this.updateCurrentPlayer(playerData);

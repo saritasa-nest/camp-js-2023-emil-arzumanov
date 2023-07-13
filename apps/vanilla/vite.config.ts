@@ -23,7 +23,6 @@ export default defineConfig({
 				resolve(root, 'index.html'),
 				resolve(root, 'example', 'index.html'),
 				resolve(root, 'example', 'nested', 'index.html'),
-				resolve(root, '1', 'index.html'),
 				resolve(root, '2', 'index.html'),
 			],
 		},

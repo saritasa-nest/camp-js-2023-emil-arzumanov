@@ -7,19 +7,13 @@ import { Publisher } from './publisher';
  * Player is also Publisher, his subscriber is Result Display from './resultDisplay.ts'.
  */
 export class Player extends Publisher<PlayerInterface> implements Subscriber<Throw> {
-	/**
-	 * @param score Array of dice roll results.
-	 */
+	/** Array of dice roll results. */
 	private diceRollResults: number[] = [];
 
-	/**
-	 * @param score Score of player. Sum of all dice rolls made by player.
-	 */
+	/** Score of player. Sum of all dice rolls made by player. */
 	private score = 0;
 
-	/**
-	 * @param winStatus Shows if player won. If 'true' - player won.
-	 */
+	/** Shows if player won. If 'true' - player won. */
 	private winStatus = false;
 
 	/**
@@ -36,9 +30,9 @@ export class Player extends Publisher<PlayerInterface> implements Subscriber<Thr
 	 * Adds result of dice roll to array of dice roll results.
 	 * Checks if player won.
 	 * Notifies subscriber and send him: dice roll result, index, win status and score. Of this player.
-	 * @param throwData Object that contains two params 'diceRollResult' and 'currentPlayerIndex'.
-	 * @param diceRollResult Result of dice roll made in current turn.
-	 * @param currentPlayerIndex Index of player that made turn.
+	 * @param throwData Object that contains two field 'diceRollResult' and 'currentPlayerIndex'.
+	 * Field diceRollResult Result of dice roll made in current turn.
+	 * Field currentPlayerIndex Index of player that made turn.
 	 */
 	public update(throwData: Throw): void {
 		if (throwData.currentPlayerIndex === this.playerIndex) {

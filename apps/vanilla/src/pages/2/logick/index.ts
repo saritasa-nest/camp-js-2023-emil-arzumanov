@@ -6,10 +6,10 @@ import { ResultDisplay } from './resultDisplay';
 /** Game is class that collects all game components. */
 class Game {
 	/** Turn Generator. */
-	private turnGenerator: TurnGenerator;
+	private readonly turnGenerator: TurnGenerator;
 
 	/* Dice Generator */
-	private diceGenerator: DiceGenerator;
+	private readonly diceGenerator: DiceGenerator;
 
 	public constructor() {
 		this.turnGenerator = new TurnGenerator();

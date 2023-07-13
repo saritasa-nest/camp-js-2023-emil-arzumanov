@@ -7,9 +7,7 @@ import { Publisher } from './publisher';
  * Dice Generator is also Publisher, his subscribers are instances of Player from './player.ts'.
  */
 export class DiceGenerator extends Publisher<Throw> implements Subscriber<number> {
-	/**
-	 * @param diceRollResult The result that rolled out when the dice was thrown.
-	 */
+	/** The result that rolled out when the dice was thrown. */
 	private diceRollResult = 0;
 
 	public constructor() {
@@ -20,7 +18,7 @@ export class DiceGenerator extends Publisher<Throw> implements Subscriber<number
 	 * @param currentPlayerIndex Index of player that throws dice in this turn.
 	 */
 	public update(currentPlayerIndex: number): void {
-		this.throwDiceAndSaveResults();
+		this.throwDiceAndSaveResults(1, 6);
 
 		/**
 		 * Notifies subscribers which Player is making a move and
@@ -32,10 +30,10 @@ export class DiceGenerator extends Publisher<Throw> implements Subscriber<number
 	/**
 	 * Generates random number from min to max,
 	 * including both min and max, and saves result in diceRollResult.
+	 * @param min Minimal number that could be generated.
+	 * @param max Maximal number that could be generated.
 	 */
-	private throwDiceAndSaveResults(): void {
-		const max = 6;
-		const min = 1;
+	private throwDiceAndSaveResults(min: number, max: number): void {
 		this.diceRollResult = Math.floor(Math.random() * (max + 1 - min) + min);
 	}
 }

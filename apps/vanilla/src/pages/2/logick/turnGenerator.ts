@@ -6,9 +6,7 @@ import { Publisher } from './publisher';
  * Dice Generator from './diceGenerator.ts'.
  */
 export class TurnGenerator extends Publisher<number> {
-	/**
-	 * @param currentPlayerIndex Player that will make turn.
-	 */
+	/** Player that will make turn. */
 	private currentPlayerIndex = 0;
 
 	/**
