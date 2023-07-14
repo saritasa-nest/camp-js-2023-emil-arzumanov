@@ -6,7 +6,6 @@
 /* Styles select and removes default dropdown arrow */
 .filter__select {
   appearance: none;
-  margin: 0;
   width: 100%;
   font-family: inherit;
   cursor: pointer;
