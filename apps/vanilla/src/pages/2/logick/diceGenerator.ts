@@ -10,10 +10,6 @@ export class DiceGenerator extends Publisher<Throw> implements Subscriber<number
 	/** The result that rolled out when the dice was thrown. */
 	private diceRollResult = 0;
 
-	public constructor() {
-		super();
-	}
-
 	/**
 	 * @param currentPlayerIndex Index of player that throws dice in this turn.
 	 */

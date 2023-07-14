@@ -7,8 +7,6 @@ export class Publisher<T> {
 	/** Array of subscribers, each element is update method of subscriber. */
 	private readonly subscribers: readonly Subscriber<T>[] = [];
 
-	public constructor() {}
-
 	/**
 	 * Adds subscriber to array of subscribers, if subscriber is not already in array.
 	 * @param subscriber Subscriber, update method of class that is subscribed to this publisher.
