@@ -1,0 +1,262 @@
+body {
+  height: 100vh;
+}
+
+.app-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+}
+
+/***** Header *****/
+
+.app-wrapper__header {
+  max-width: 1200px;
+  width: 100%;
+  min-height: 64px;
+}
+
+.header {
+  align-items: center;
+  align-self: center;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--surface-color);
+  display: flex;
+}
+
+/***** Catalog *****/
+
+.app-wrapper__main-catalog {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 24px;
+}
+
+@media screen and (max-width: 880px) {
+  .app-wrapper__main-catalog {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+}
+
+/***** Books *****/
+
+.main-catalog__books {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.books__category {
+  width: 100%;
+  position: relative;
+}
+
+.category__header {
+  background-color: var(--surface-color);
+  width: 100%;
+  position: sticky;
+  top: 0;
+  padding: 16px 0;
+}
+
+@media screen and (596px <= width <= 880px) {
+  .category__header {
+    top: 107px;
+  }
+}
+
+@media screen and (max-width: 595px) {
+  .category__header {
+    top: 235px;
+  }
+}
+
+.category__body {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.category__book {
+  max-width: 167px;
+}
+
+.category__book p {
+  padding-top: 5px;
+  max-height: 53px;
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* start showing ellipsis when 2nd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
+
+.category__image-wrapper {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.category__image-wrapper img {
+  outline: 1px solid var(--book-img-outline-color);
+  width: 100%;
+}
+
+@media screen and (596px <= width <= 880px) {
+  .category__book {
+    max-width: 172px;
+  }
+}
+
+@media screen and (max-width: 595px) {
+  .category__book {
+    max-width: 148px;
+  }
+}
+
+/***** Filter *****/
+
+.main-catalog__filter-wrapper {
+  width: 100%;
+}
+
+@media screen and (min-width: 881px) {
+  .main-catalog__filter-wrapper {
+    max-width: 276px;
+  }
+}
+
+.filter-wrapper__filter {
+  position: fixed;
+  top: 104px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 24px;
+  gap: 24px;
+}
+
+@media screen and (max-width: 880px) {
+  .main-catalog__filter-wrapper {
+    position: sticky;
+    top: -1px;
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .filter-wrapper__filter {
+    position: sticky;
+    padding-top: 5px;
+    gap: 6px;
+  }
+}
+
+.filter__filter-inputs {
+  display: flex;
+  width: 276px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+@media screen and (596px <= width <= 880px) {
+  .filter__filter-inputs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 16px;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 595px) {
+  .filter__filter-inputs {
+    width: 100%;
+  }
+}
+
+.filter__search-input {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  height: 48px;
+  padding: 8px 16px;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: var(--input-background-color);
+}
+
+.filter__search-input input {
+  width: 100%;
+  padding-left: 8px;
+}
+
+/***** Footer *****/
+.app-wrapper__footer {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  padding-bottom: 72px;
+}
+
+@media screen and (max-width: 595px) {
+  .footer {
+    flex-wrap: wrap;
+    padding-bottom: 0;
+  }
+}
+
+.footer__app-info-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+@media screen and (max-width: 595px) {
+  .footer__app-info-wrapper {
+    width: 100%;
+    padding-bottom: 40px;
+  }
+}
+
+.footer__app-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.footer__github {
+  text-decoration-line: underline;
+}
+
+.footer__link-top {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 595px) {
+  .footer__link-top {
+    width: 100%;
+    text-align: right;
+  }
+}
