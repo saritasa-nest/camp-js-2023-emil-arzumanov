@@ -14,7 +14,8 @@ export class DiceGenerator extends Publisher<Throw> implements Subscriber<number
 	 * @param currentPlayerIndex Index of player that throws dice in this turn.
 	 */
 	public update(currentPlayerIndex: number): void {
-		this.throwDiceAndSaveResults(1, 6);
+		/** Saves dice roll result in diceRollResult. */
+		this.diceRollResult = this.throwDice(1, 6);
 
 		/**
 		 * Notifies subscribers which Player is making a move and
@@ -25,11 +26,11 @@ export class DiceGenerator extends Publisher<Throw> implements Subscriber<number
 
 	/**
 	 * Generates random number from min to max,
-	 * including both min and max, and saves result in diceRollResult.
+	 * including both min and max.
 	 * @param min Minimal number that could be generated.
 	 * @param max Maximal number that could be generated.
 	 */
-	private throwDiceAndSaveResults(min: number, max: number): void {
-		this.diceRollResult = Math.floor(Math.random() * (max + 1 - min) + min);
+	private throwDice(min: number, max: number): number {
+		return Math.floor(Math.random() * (max + 1 - min) + min);
 	}
 }

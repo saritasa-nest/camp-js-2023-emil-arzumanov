@@ -5,7 +5,7 @@ import { Subscriber } from './types';
  */
 export class Publisher<T> {
 	/** Array of subscribers, each element is update method of subscriber. */
-	private readonly subscribers: readonly Subscriber<T>[] = [];
+	private readonly subscribers: Subscriber<T>[] = [];
 
 	/**
 	 * Adds subscriber to array of subscribers, if subscriber is not already in array.
@@ -13,7 +13,7 @@ export class Publisher<T> {
 	 */
 	public subscribe(subscriber: Subscriber<T>): void {
 		const subscriberIndex = this.getSubscriberIndex(subscriber);
-		if (subscriberIndex === -1 && Array.isArray(this.subscribers)) {
+		if (subscriberIndex === -1) {
 			this.subscribers.push(subscriber);
 		}
 	}
@@ -24,7 +24,7 @@ export class Publisher<T> {
 	 */
 	public unsubscribe(subscriber: Subscriber<T>): void {
 		const subscriberIndex = this.getSubscriberIndex(subscriber);
-		if (subscriberIndex !== -1 && Array.isArray(this.subscribers)) {
+		if (subscriberIndex !== -1) {
 			this.subscribers.splice(subscriberIndex, 1);
 		}
 	}

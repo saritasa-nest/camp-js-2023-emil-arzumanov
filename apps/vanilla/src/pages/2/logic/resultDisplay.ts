@@ -6,13 +6,13 @@ import { PlayerInterface, Subscriber } from './types';
  */
 export class ResultDisplay implements Subscriber<PlayerInterface> {
 	/** Link to tag with id='game'. */
-	private app = document.getElementById('game');
+	private readonly app = document.getElementById('game');
 
 	/** Link to tag that displays all results of dice rolls made by player. */
-	private allPlayerResults = document.getElementById('allThrows');
+	private readonly allPlayerResults = document.getElementById('allThrows');
 
 	/** Link to tag that displays all results of dice rolls made by all players. */
-	private diceCap = document.getElementById('diceCap');
+	private readonly diceCap = document.getElementById('diceCap');
 
 	/**
 	 * Creates this layout and appends it in tag with id='game'. This layout represents a Player.
@@ -57,7 +57,7 @@ export class ResultDisplay implements Subscriber<PlayerInterface> {
 	 *	 <h4>Player1 - <span></span></h4>
 	 *	 <div></div> (this is inner 'div')
 	 * </div>.
-	 * InnerHTML of 'span' tag that contains score of player.
+	 * Code below updates innerHTML of 'span' tag that contains score of player.
 	 * Appends 'p' in inner 'div'. Each 'p' tag represents each dice roll result of player.
 	 * Adds class 'winner' to wrapper 'div' if winStatus='true', which means that player won.
 	 * @param playerData Object that contains data of player that needs to be displayed.

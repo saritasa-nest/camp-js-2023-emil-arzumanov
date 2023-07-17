@@ -8,7 +8,7 @@ import { Publisher } from './publisher';
  */
 export class Player extends Publisher<PlayerInterface> implements Subscriber<Throw> {
 	/** Array of dice roll results. */
-	private diceRollResults: number[] = [];
+	private readonly diceRollResults: number[] = [];
 
 	/** Score of player. Sum of all dice rolls made by player. */
 	private score = 0;
@@ -36,9 +36,12 @@ export class Player extends Publisher<PlayerInterface> implements Subscriber<Thr
 	 */
 	public update(throwData: Throw): void {
 		if (throwData.currentPlayerIndex === this.playerIndex) {
-			this.calculatePlayerScore(throwData.diceRollResult);
+			this.score += throwData.diceRollResult;
+
 			this.diceRollResults.push(throwData.diceRollResult);
-			this.checkIfWon();
+
+			this.winStatus = this.checkIfWon();
+
 			this.notify({
 				result: throwData.diceRollResult,
 				playerIndex: this.playerIndex,
@@ -49,22 +52,13 @@ export class Player extends Publisher<PlayerInterface> implements Subscriber<Thr
 	}
 
 	/**
-	 * Sets winStatus on 'true' if score of this Player is higher than 21.
+	 * Returns 'true' if score of this Player is higher than 21.
 	 * Which means that player won.
 	 */
-	private checkIfWon(): void {
+	private checkIfWon(): boolean {
 		if (this.score >= 21) {
-			this.winStatus = true;
-		} else {
-			this.winStatus = false;
+			return true;
 		}
-	}
-
-	/**
-	 * Adds result of dice to roll to score of player.
-	 * @param diceRollResult Result of dice roll made in current turn.
-	 */
-	private calculatePlayerScore(diceRollResult: number): void {
-		this.score += diceRollResult;
+		return false;
 	}
 }
