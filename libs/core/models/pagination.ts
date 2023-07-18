@@ -1,16 +1,16 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { Immerable, OmitImmerable } from './immerable';
 
-export class Pagination<T> extends Immerable {
+export class Pagination<MODEL> extends Immerable {
 	public readonly count: number;
 
 	public readonly next: string;
 
 	public readonly previous: string;
 
-	public readonly results: readonly T[];
+	public readonly results: readonly MODEL[];
 
-	public constructor(data: PaginationConstructorData) {
+	public constructor(data: PaginationConstructorData<MODEL>) {
 		super();
 		this.count = data.count;
 		this.next = data.next;
@@ -19,4 +19,4 @@ export class Pagination<T> extends Immerable {
 	}
 }
 
-type PaginationConstructorData = OmitImmerable<Pagination<T>>;
+type PaginationConstructorData<MODEL> = OmitImmerable<Pagination<MODEL>>;
