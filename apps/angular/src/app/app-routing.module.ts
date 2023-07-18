@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { TableComponent } from './features/anime/table/table.component';
+
+const routes: Routes = [
+	{ path: '', redirectTo: '/table', pathMatch: 'full' },
+	{ path: 'table', component: TableComponent },
+];
 
 /** App routing module. */
 @NgModule({
