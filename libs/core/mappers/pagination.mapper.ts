@@ -1,18 +1,19 @@
 /* eslint-disable lines-around-comment */
-import { AnimeDto } from '../dtos/anime.dto';
 import { PaginationDto } from '../dtos/pagination.dto';
 import { Pagination } from '../models/pagination';
-
-import { Anime } from './../models/anime';
 
 export namespace PaginationMapper {
 	/**
 	 * Maps dto to model.
 	 * @param dto Anime dto.
+		* @param mapper Mapper for.
 	 */
-	export function fromDto(dto: PaginationDto<AnimeDto>): Anime {
-		return new Pagination<Anime>({
-			count = dto.count;
+	export function fromDto<DTO, MODEL>(dto: PaginationDto<DTO>, mapper: (dto: DTO) => MODEL): Pagination<MODEL> {
+		return new Pagination<MODEL>({
+			count: dto.count,
+			next: dto.next,
+			previous: dto.previous,
+			results: dto.results.map(mapper),
 		});
 	}
 }

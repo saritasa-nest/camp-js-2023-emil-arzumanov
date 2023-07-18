@@ -9,7 +9,7 @@ import { Anime } from '@js-camp/core/models/anime';
 	styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-	public animeList: Anime[] = [];
+	public animeList: readonly Anime[] = [];
 
 	public constructor(private animeService: AnimeService) {}
 
@@ -18,6 +18,7 @@ export class TableComponent implements OnInit {
 	}
 
 	private getAnimeList(): void {
-		this.animeService.getAnimeList().subscribe((x) => console.log(x));
+		// eslint-disable-next-line no-return-assign
+		this.animeService.getAnimeList().subscribe(data => this.animeList = data.results);
 	}
 }
