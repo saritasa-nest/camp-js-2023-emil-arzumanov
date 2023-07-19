@@ -9,7 +9,6 @@ import { Anime } from '@js-camp/core/models/anime';
 	styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-
 	/** Columns of table to display. */
 	public displayedColumns: string[] = ['image', 'titleEng', 'titleJpn', 'airedStart', 'type', 'status'];
 
