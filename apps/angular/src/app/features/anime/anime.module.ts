@@ -5,9 +5,10 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { HttpClientModule } from '@angular/common/http';
 
 import { TableComponent } from './table/table.component';
+import { AnimeComponent } from './anime.component';
 
 @NgModule({
-	declarations: [TableComponent],
+	declarations: [TableComponent, AnimeComponent],
 	imports: [CommonModule, HttpClientModule],
 	providers: [AnimeService],
 })
