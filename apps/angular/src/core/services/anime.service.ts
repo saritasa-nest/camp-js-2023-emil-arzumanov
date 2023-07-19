@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Anime } from '@js-camp/core/models/anime';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -13,26 +13,16 @@ import { Pagination } from '@js-camp/core/models/pagination';
 @Injectable({
 	providedIn: 'root',
 })
-
 export class AnimeService {
 	/** URL for Anime API requests. */
 	private animeURL = 'https://api.camp-js.saritasa.rocks/api/v1/anime/anime/';
-
-	/** Http Options for request. */
-	private httpOptions = {
-		/** Headers for request. */
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			'Api-Key': '9c9da0d3-c65c-402b-8df6-4a04ad9fa847',
-		}),
-	};
 
 	public constructor(private http: HttpClient) {}
 
 	/** Sends get request to API, maps received data and saves it. */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.http
-			.get<PaginationDto<AnimeDto>>(this.animeURL, this.httpOptions)
+			.get<PaginationDto<AnimeDto>>(this.animeURL)
 			.pipe(
 				map(
 					(elem: PaginationDto<AnimeDto>): Pagination<Anime> =>
