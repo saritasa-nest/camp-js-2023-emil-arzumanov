@@ -26,12 +26,14 @@ export class AnimeService {
 
 	constructor(private http: HttpClient) {}
 
-	/** GET heroes from the server. */
 	getAnimeList(): Observable<Pagination<Anime>> {
-		return this.http.get<PaginationDto<AnimeDto>>(this.animeURL, this.httpOptions).pipe(
-			map((elem: PaginationDto<AnimeDto>): Pagination<Anime> =>
-				PaginationMapper.fromDto<AnimeDto, Anime>(elem, result =>
-					AnimeMapper.fromDto(result))),
-		);
+		return this.http
+			.get<PaginationDto<AnimeDto>>(this.animeURL, this.httpOptions)
+			.pipe(
+				map(
+					(elem: PaginationDto<AnimeDto>): Pagination<Anime> =>
+						PaginationMapper.fromDto<AnimeDto, Anime>(elem, (result) => AnimeMapper.fromDto(result))
+				)
+			);
 	}
 }
