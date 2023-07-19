@@ -9,7 +9,15 @@ import { Anime } from '@js-camp/core/models/anime';
 	styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
+	public displayedColumns: string[] = ['image', 'titleEng', 'titleJpn', 'airedStart', 'type', 'status'];
+
 	public animeList: readonly Anime[] = [];
+
+	public resultsLength = 0;
+
+	public isLoadingResults = true;
+
+	public isRateLimitReached = false;
 
 	public constructor(private animeService: AnimeService) {}
 
@@ -21,5 +29,6 @@ export class TableComponent implements OnInit {
 		this.animeService.getAnimeList().subscribe((data): void => {
 			this.animeList = data.results;
 		});
+		this.isLoadingResults = false;
 	}
 }

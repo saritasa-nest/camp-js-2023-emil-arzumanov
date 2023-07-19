@@ -6,7 +6,7 @@ import { Immerable, OmitImmerable } from './immerable';
 export class Anime extends Immerable {
 	public readonly id: number;
 
-	public readonly created: string;
+	public readonly created: Date;
 
 	public readonly modified: string;
 
