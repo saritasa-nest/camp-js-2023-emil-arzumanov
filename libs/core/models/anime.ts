@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import { AiredDate } from './airedDate';
 import { Immerable, OmitImmerable } from './immerable';
 
