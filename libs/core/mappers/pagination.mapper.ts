@@ -1,12 +1,12 @@
-/* eslint-disable lines-around-comment */
 import { PaginationDto } from '../dtos/pagination.dto';
 import { Pagination } from '../models/pagination';
 
 export namespace PaginationMapper {
+
 	/**
-	 * Maps dto to model.
-	 * @param dto Anime dto.
-		* @param mapper Mapper for.
+	 * Maps PaginationDto<DTO> dto to Pagination<MODEL> model.
+	 * @param dto PaginationDto<DTO>.
+	 * @param mapper Mapper to Map "results" elements from DTO to MODEL.
 	 */
 	export function fromDto<DTO, MODEL>(dto: PaginationDto<DTO>, mapper: (dto: DTO) => MODEL): Pagination<MODEL> {
 		return new Pagination<MODEL>({
