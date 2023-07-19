@@ -1,6 +1,4 @@
 import { map } from 'rxjs/operators';
-/* eslint-disable jsdoc/require-jsdoc */
-/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
