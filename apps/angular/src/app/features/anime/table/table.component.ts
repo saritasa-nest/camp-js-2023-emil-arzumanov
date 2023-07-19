@@ -18,7 +18,8 @@ export class TableComponent implements OnInit {
 	}
 
 	private getAnimeList(): void {
-		// eslint-disable-next-line no-return-assign
-		this.animeService.getAnimeList().subscribe(data => this.animeList = data.results);
+		this.animeService.getAnimeList().subscribe((data): void => {
+			this.animeList = data.results;
+		});
 	}
 }
