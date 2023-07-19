@@ -12,7 +12,7 @@ export namespace AnimeMapper {
 	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
-			created: dto.created,
+			created: new Date(dto.created),
 			modified: dto.modified,
 			titleEng: dto.title_eng,
 			titleJpn: dto.title_jpn,
