@@ -4,13 +4,14 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { AnimeInterceptor } from '@js-camp/angular/core/interceptors/anime.interceptor';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { TableComponent } from './table/table.component';
 
 /** Anime module. */
 @NgModule({
 	declarations: [TableComponent],
-	imports: [CommonModule, HttpClientModule, MatTableModule, DatePipe],
+	imports: [CommonModule, HttpClientModule, MatTableModule, DatePipe, MatPaginatorModule],
 	providers: [AnimeService, { provide: HTTP_INTERCEPTORS, useClass: AnimeInterceptor, multi: true }],
 })
 export class AnimeModule {}
