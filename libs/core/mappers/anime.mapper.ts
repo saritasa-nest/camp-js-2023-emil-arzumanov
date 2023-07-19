@@ -1,13 +1,13 @@
-/* eslint-disable lines-around-comment */
 import { AnimeDto } from '../dtos/anime.dto';
 
 import { Anime } from './../models/anime';
 import { AiredDateMapper } from './airedDate.mapper';
 
 export namespace AnimeMapper {
+
 	/**
-	 * Maps dto to model.
-	 * @param dto Anime dto.
+	 * Maps AnimeDto dto to Anime model.
+	 * @param dto Anime.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
