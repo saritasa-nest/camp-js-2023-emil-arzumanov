@@ -14,19 +14,21 @@ import { Pagination } from '@js-camp/core/models/pagination';
 	providedIn: 'root',
 })
 export class AnimeService {
-	private offset = '25';
-
-	private limit = '25';
-
 	/** URL for Anime API requests. */
-	private animeURL = 'https://api.camp-js.saritasa.rocks/api/v1/anime/anime/';
+	private readonly animeURL = 'https://api.camp-js.saritasa.rocks/api/v1/anime/anime/';
 
-	public constructor(private http: HttpClient) {}
+	public constructor(
+		private http: HttpClient,
+	) {}
 
-	/** Sends get request to API, maps received data and saves it. */
-	public getAnimeList(): Observable<Pagination<Anime>> {
+	/**
+	 * Sends get request to API, maps received data and saves it.
+	 * @param offset The starting point within the collection of resource results.
+	 * @param limit Maximum of results to return.
+	 */
+	public getAnimeList(offset = '25', limit = '25'): Observable<Pagination<Anime>> {
 		return this.http
-			.get<PaginationDto<AnimeDto>>(this.animeURL, { params: { limit: this.limit, offset: this.offset } })
+			.get<PaginationDto<AnimeDto>>(this.animeURL, { params: { limit, offset } })
 			.pipe(
 				map(
 					(elem: PaginationDto<AnimeDto>): Pagination<Anime> =>
