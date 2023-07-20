@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '@js-camp/angular/environments/environment';
 
 /** Interceptor for AnimeService. */
 @Injectable()
@@ -17,7 +18,7 @@ export class ApiKeyInterceptor<T> implements HttpInterceptor {
 		 */
 		const modifiedReq = req.clone({
 			setHeaders: {
-				'Api-Key': '9c9da0d3-c65c-402b-8df6-4a04ad9fa847',
+				'Api-Key': environment.apiKey,
 			},
 		});
 

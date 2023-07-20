@@ -1,7 +1,7 @@
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Pagination class. */
-export class Pagination<MODEL> extends Immerable {
+export class Pagination<TModel> extends Immerable {
 	/** Amount of anime in DB. */
 	public readonly count: number;
 
@@ -12,9 +12,9 @@ export class Pagination<MODEL> extends Immerable {
 	public readonly previous: string;
 
 	/** Array of Anime on current page. */
-	public readonly results: readonly MODEL[];
+	public readonly results: readonly TModel[];
 
-	public constructor(data: PaginationConstructorData<MODEL>) {
+	public constructor(data: PaginationConstructorData<TModel>) {
 		super();
 		this.count = data.count;
 		this.next = data.next;
@@ -23,4 +23,4 @@ export class Pagination<MODEL> extends Immerable {
 	}
 }
 
-type PaginationConstructorData<MODEL> = OmitImmerable<Pagination<MODEL>>;
+type PaginationConstructorData<TModel> = OmitImmerable<Pagination<TModel>>;

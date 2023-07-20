@@ -1,4 +1,4 @@
-.error-wrapper {
+.error {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -6,7 +6,7 @@
   justify-content: center;
 }
 
-.error {
+.error__wrapper {
   text-align: center;
 }
 
