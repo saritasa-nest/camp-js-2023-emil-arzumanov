@@ -1,6 +1,6 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Object of dates when this anime was aired.*/
+/** Object of dates. When was aired (first and last time). */
 export class AiredDate extends Immerable {
 	/** Date when anime was first aired. */
 	public readonly start: Date;

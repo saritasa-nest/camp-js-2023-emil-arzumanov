@@ -1,4 +1,4 @@
-/** Object of dates when this anime was aired.*/
+/** Object of dates. When was aired (first and last time). */
 export interface AiredDateDto {
 
 	/** Date when anime was first aired. */

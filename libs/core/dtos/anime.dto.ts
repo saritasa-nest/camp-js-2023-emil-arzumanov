@@ -3,36 +3,55 @@ import { AiredDateDto } from './airedDate.dto';
 /** Represents one anime. Dto of received data. */
 export interface AnimeDto {
 
-	/** Id of this anime. */
+	/** Id. */
 	readonly id: number;
 
-	/** Date when this anime was created in DB. */
+	/** Date of creation in DB. */
 	readonly created: string;
 
-	/** Date when this anime was updated in DB. */
+	/** Date of last updated in DB. */
 	readonly modified: string;
 
-	/** Title of this anime on english. */
+	/** Title on english. */
 	readonly title_eng: string;
 
-	/** Title of this anime on japanese. */
+	/** Title on japanese. */
 	readonly title_jpn: string;
 
-	/** Link on image of this anime. */
+	/** Link on image. */
 	readonly image: string;
 
-	/** Object of dates when this anime was aired. When it started and ended. */
+	/** Object of dates. When was aired (first and last time). */
 	readonly aired: AiredDateDto;
 
-	/** Type of this anime. */
-	readonly type: string;
+	/** Type. */
+	readonly type: AnimeTypesDto;
 
-	/** Status of this anime. Is it aired, finished, or net aired yet. */
-	readonly status: string;
+	/** Status. Is it aired, finished, or net aired yet. */
+	readonly status: AnimeStatusesDto;
 
-	/** Score of this anime. It's rating. */
+	/** Score. It's rating. */
 	readonly score: number | null;
 
-	/** User score of this anime . It's user rating. */
+	/** User score . It's user rating. */
 	readonly user_score: number | null;
+}
+
+/** All types. */
+export enum AnimeTypesDto {
+	TV = 'TV',
+	OVA = 'OVA',
+	MOVIE = 'MOVIE',
+	SPECIAL = 'SPECIAL',
+	ONA = 'ONA',
+	MUSIC = 'MUSIC',
+	UNKNOWN = 'UNKNOWN',
+}
+
+/** All statuses. */
+export enum AnimeStatusesDto {
+	AIRING = 'AIRING',
+	FINISHED = 'FINISHED',
+	NOT_YET_AIRED = 'NOT_YET_AIRED',
+	UNKNOWN = 'UNKNOWN',
 }

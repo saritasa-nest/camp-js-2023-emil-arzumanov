@@ -1,5 +1,5 @@
 /** Pagination meta info. */
-export interface PaginationDto<DTO> {
+export interface PaginationDto<TDto> {
 
 	/** Total count of items. */
 	readonly count: number;
@@ -11,5 +11,5 @@ export interface PaginationDto<DTO> {
 	readonly previous: string;
 
 	/** Array of items requested. */
-	readonly results: readonly DTO[];
+	readonly results: readonly TDto[];
 }
