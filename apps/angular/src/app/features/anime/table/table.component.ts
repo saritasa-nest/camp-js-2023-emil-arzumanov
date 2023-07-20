@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
+import { Pagination } from '@js-camp/core/models/pagination';
+import { Observable } from 'rxjs';
 
 /** Table of anime. */
 @Component({
@@ -8,24 +10,26 @@ import { Anime } from '@js-camp/core/models/anime';
 	templateUrl: './table.component.html',
 	styleUrls: ['./table.component.css'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
 	/** Columns of table to display. */
-	public displayedColumns: string[] = ['image', 'titleEng', 'titleJpn', 'airedStart', 'type', 'status'];
+	protected readonly displayedColumns: readonly string[] = [
+		'image',
+		'titleEng',
+		'titleJpn',
+		'airedStart',
+		'type',
+		'status',
+	];
 
 	/** List of anime. */
-	public animeList: readonly Anime[] = [];
+	protected animeList$: Observable<Pagination<Anime>>;
 
-	public constructor(private animeService: AnimeService) {}
-
-	/** A function that is triggered when a component is initialized. */
-	public ngOnInit(): void {
-		this.getAnimeList();
+	public constructor(private animeService: AnimeService) {
+		this.animeList$ = this.getAnimeList();
 	}
 
-	/** Uses request from service and subscribes function that saves data. */
-	private getAnimeList(): void {
-		this.animeService.getAnimeList().subscribe((data): void => {
-			this.animeList = data.results;
-		});
+	/** Uses request from service. */
+	private getAnimeList(): Observable<Pagination<Anime>> {
+		return this.animeService.getAnimeList();
 	}
 }

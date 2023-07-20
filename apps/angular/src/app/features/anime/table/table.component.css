@@ -1,14 +1,16 @@
-.image-wrapper {
+.poster-column__header {
   width: 150px;
-  height: 150px;
-  position: relative;
 }
 
-.image-wrapper img {
-  max-width: 150px;
-  max-height: 150px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.poster-column__poster-row {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-column__poster {
+  max-width: 100%;
+  max-height: 100%;
 }
