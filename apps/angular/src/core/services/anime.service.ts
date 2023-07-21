@@ -9,22 +9,21 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
 
-import { UrlConfigService } from './url-config.service';
+import { AppUrlsConfig } from './url-config.service';
 
 /** Service for requests to Anime API. */
 @Injectable({
 	providedIn: 'root',
 })
 export class AnimeService {
-	/** URL to get list of all anime. */
-	private readonly animeListUrl: URL;
 
 	public constructor(
-		urlService: UrlConfigService,
+		private readonly appUrlsConfig: AppUrlsConfig,
 		private http: HttpClient,
-	) {
-		this.animeListUrl = urlService.animeListUrl;
-	}
+	) {}
+
+	/** URL to get list of all anime. */
+	private readonly animeListUrl = this.appUrlsConfig.toApi('anime/', 'anime/');
 
 	/**
 	 * Sends get request to API, maps received data and saves it.
@@ -33,7 +32,7 @@ export class AnimeService {
 	 */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.http
-			.get<PaginationDto<AnimeDto>>(this.animeListUrl.toString())
+			.get<PaginationDto<AnimeDto>>(this.animeListUrl)
 			.pipe(
 				map(elem =>
 					PaginationMapper.fromDto(elem, result =>
