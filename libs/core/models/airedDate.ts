@@ -6,7 +6,7 @@ export class AiredDate extends Immerable {
 	public readonly start: Date;
 
 	/** Date when anime was aired last time. */
-	public readonly end: Date;
+	public readonly end: Date | null;
 
 	public constructor(data: AiredDateConstructorData) {
 		super();

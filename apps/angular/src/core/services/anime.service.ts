@@ -19,11 +19,11 @@ export class AnimeService {
 
 	public constructor(
 		private readonly appUrlsConfig: AppUrlsConfig,
-		private http: HttpClient,
+		private readonly http: HttpClient,
 	) {}
 
 	/** URL to get list of all anime. */
-	private readonly animeListUrl = this.appUrlsConfig.toApi('anime/', 'anime/');
+	private readonly animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
 	/**
 	 * Sends get request to API, maps received data and saves it.

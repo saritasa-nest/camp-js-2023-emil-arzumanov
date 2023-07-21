@@ -2,6 +2,7 @@ import { Immerable, OmitImmerable } from './immerable';
 
 /** Pagination class. */
 export class Pagination<TModel> extends Immerable {
+
 	/** Amount of anime in DB. */
 	public readonly count: number;
 

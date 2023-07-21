@@ -15,7 +15,8 @@ export class AppUrlsConfig {
 		* @param args Array of strings that will be added to URL.
 		*/
 	public toApi(...args: readonly string[]): string {
-		const path = args.join('');
-		return new URL(path, this.baseUrl).toString();
+		const path = args.join('/');
+		const concatenatedUrl = new URL(path, this.baseUrl).toString();
+		return `${concatenatedUrl}/`;
 	}
 }

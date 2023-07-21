@@ -22,7 +22,7 @@ export class TableComponent {
 	];
 
 	/** List of anime. */
-	protected animeList$: Observable<Pagination<Anime>>;
+	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	public constructor(private animeService: AnimeService) {
 		this.animeList$ = this.getAnimeList();
