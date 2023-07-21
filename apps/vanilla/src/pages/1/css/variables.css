@@ -20,4 +20,6 @@
   --line-height-s: 24px;
   --line-height-m: 24.2px;
   --line-height-l: 32px;
+  --position-top-indent: 64px;
+  --max-app-width: 1200px;
 }
