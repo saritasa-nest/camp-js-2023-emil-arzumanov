@@ -10,7 +10,7 @@ export namespace AiredDateMapper {
 	export function fromDto(dto: AiredDateDto): AiredDate {
 		return new AiredDate({
 			start: new Date(dto.start),
-			end: new Date(dto.end),
+			end: dto.end ? new Date(dto.end) : null,
 		});
 	}
 }

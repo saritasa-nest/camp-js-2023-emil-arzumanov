@@ -12,10 +12,6 @@ export class ApiKeyInterceptor<T> implements HttpInterceptor {
 	 * @param next Next handler.
 	 */
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-		/**
-		 * Clones the request and replace the original headers with
-		 * cloned headers, updated with the authorization.
-		 */
 		const modifiedReq = req.clone({
 			setHeaders: {
 				'Api-Key': environment.apiKey,

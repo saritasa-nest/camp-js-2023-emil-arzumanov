@@ -5,5 +5,5 @@ export interface AiredDateDto {
 	readonly start: string;
 
 	/** Date when anime was aired last time. */
-	readonly end: string;
+	readonly end: string | null;
 }
