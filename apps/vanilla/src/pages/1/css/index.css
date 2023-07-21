@@ -16,6 +16,9 @@ body {
   max-width: 1200px;
   width: 100%;
   min-height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .header {
@@ -64,19 +67,19 @@ body {
   background-color: var(--surface-color);
   width: 100%;
   position: sticky;
-  top: 0;
+  top: 64px;
   padding: 16px 0;
 }
 
 @media screen and (596px <= width <= 880px) {
   .category__header {
-    top: 107px;
+    top: 171px;
   }
 }
 
 @media screen and (max-width: 595px) {
   .category__header {
-    top: 235px;
+    top: 299px;
   }
 }
 
@@ -134,19 +137,20 @@ body {
 }
 
 .filter-wrapper__filter {
-  position: fixed;
-  top: 104px;
+  position: sticky;
+  top: 64px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding-bottom: 24px;
+  padding-top: 16px;
   gap: 24px;
 }
 
 @media screen and (max-width: 880px) {
   .main-catalog__filter-wrapper {
     position: sticky;
-    top: -1px;
+    top: 64px;
     background-color: var(--surface-color);
     border-bottom: 1px solid var(--border-color);
   }
@@ -205,12 +209,6 @@ body {
 }
 
 /* stylelint-disable-next-line selector-no-vendor-prefix */
-.filter__search-input input:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: var(--input-text-color);
-}
-
-/* stylelint-disable-next-line selector-no-vendor-prefix */
 .filter__search-input input::-ms-input-placeholder {
   /* Microsoft Edge */
   color: var(--input-text-color);
@@ -220,6 +218,7 @@ body {
 .app-wrapper__footer {
   max-width: 1200px;
   width: 100%;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer {
