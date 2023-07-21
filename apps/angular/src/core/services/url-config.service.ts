@@ -5,13 +5,17 @@ import { environment } from '@js-camp/angular/environments/environment';
 @Injectable({
 	providedIn: 'root',
 })
-export class UrlConfigService {
+export class AppUrlsConfig {
 
 	/** Api Url. */
-	public readonly apiUrl = environment.apiUrl;
+	public readonly baseUrl = environment.apiUrl;
 
-	/** URL to get list of all anime. */
-	public readonly animeListUrl = new URL('anime/anime/', this.apiUrl);
-
-	public constructor() { }
+	/**
+		* Creates API url based on arguments.
+		* @param args Array of strings that will be added to URL.
+		*/
+	public toApi(...args: readonly string[]): string {
+		const path = args.join('');
+		return new URL(path, this.baseUrl).toString();
+	}
 }
