@@ -6,11 +6,11 @@ export class Anime extends Immerable {
 	/** Id. Model of received data. */
 	public readonly id: number;
 
-	/** Date of creation in DB. */
+	/** Creation date. */
 	public readonly created: Date;
 
-	/** Date of last updated in DB. */
-	public readonly modified: string;
+	/** Modification date. */
+	public readonly modified: Date;
 
 	/** Title on english. */
 	public readonly titleEng: string;
@@ -19,16 +19,16 @@ export class Anime extends Immerable {
 	public readonly titleJpn: string;
 
 	/** Link on image. */
-	public readonly image: string;
+	public readonly imageUrl: string;
 
 	/** Object of dates. When was aired (first and last time). */
 	public readonly aired: AiredDate;
 
 	/** Type. */
-	public readonly type: AnimeTypes;
+	public readonly type: AnimeType;
 
-	/** Status. Is it aired, finished, or net aired yet. */
-	public readonly status: AnimeStatuses;
+	/** Status. */
+	public readonly status: AnimeStatus;
 
 	/** Score. It's rating. */
 	public readonly score: number | null;
@@ -43,7 +43,7 @@ export class Anime extends Immerable {
 		this.modified = data.modified;
 		this.titleEng = data.titleEng;
 		this.titleJpn = data.titleJpn;
-		this.image = data.image;
+		this.imageUrl = data.imageUrl;
 		this.aired = data.aired;
 		this.type = data.type;
 		this.status = data.status;
@@ -53,7 +53,7 @@ export class Anime extends Immerable {
 }
 
 /** All types. */
-export enum AnimeTypes {
+export enum AnimeType {
 	TV = 'TV',
 	OVA = 'OVA',
 	Movie = 'Movie',
@@ -64,7 +64,7 @@ export enum AnimeTypes {
 }
 
 /** All statuses. */
-export enum AnimeStatuses {
+export enum AnimeStatus {
 	Airing = 'Airing',
 	Finished = 'Finished',
 	NotYetAired = 'Not Yet Aired',

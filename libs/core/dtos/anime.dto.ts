@@ -6,10 +6,16 @@ export interface AnimeDto {
 	/** Id. */
 	readonly id: number;
 
-	/** Date of creation in DB. */
+	/**
+		* Creation date.
+		* @example 2023-07-14T08:26:42.842112Z
+		*/
 	readonly created: string;
 
-	/** Date of last updated in DB. */
+	/**
+		* Modification date.
+		* @example 2023-07-14T08:26:42.842112Z
+		*/
 	readonly modified: string;
 
 	/** Title on english. */
@@ -25,10 +31,10 @@ export interface AnimeDto {
 	readonly aired: AiredDateDto;
 
 	/** Type. */
-	readonly type: AnimeTypesDto;
+	readonly type: AnimeTypeDto;
 
-	/** Status. Is it aired, finished, or net aired yet. */
-	readonly status: AnimeStatusesDto;
+	/** Status. */
+	readonly status: AnimeStatusDto;
 
 	/** Score. It's rating. */
 	readonly score: number | null;
@@ -38,7 +44,7 @@ export interface AnimeDto {
 }
 
 /** All types. */
-export enum AnimeTypesDto {
+export enum AnimeTypeDto {
 	TV = 'TV',
 	OVA = 'OVA',
 	MOVIE = 'MOVIE',
@@ -49,7 +55,7 @@ export enum AnimeTypesDto {
 }
 
 /** All statuses. */
-export enum AnimeStatusesDto {
+export enum AnimeStatusDto {
 	AIRING = 'AIRING',
 	FINISHED = 'FINISHED',
 	NOT_YET_AIRED = 'NOT_YET_AIRED',

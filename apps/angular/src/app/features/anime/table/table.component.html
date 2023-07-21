@@ -9,10 +9,10 @@
 		aria-describedby="anime list"
 	>
 		<!-- Image Column -->
-		<ng-container matColumnDef="image">
+		<ng-container matColumnDef="poster">
 			<th class="poster-column__header" mat-header-cell *matHeaderCellDef>Image</th>
 			<td class="poster-column__poster-row" mat-cell *matCellDef="let row">
-				<img class="poster-column__poster" [src]="row.image" alt="Poster" />
+				<img class="poster-column__poster" [src]="row.imageUrl" alt="Poster" />
 			</td>
 		</ng-container>
 
