@@ -21,6 +21,14 @@
   background-position-y: 12px;
 }
 
+.filter__select option {
+  color: var(--text-color);
+}
+
+.filter__select:invalid {
+  color: var(--input-text-color);
+}
+
 /* For lower versions of IE */
 select::-ms-expand {
   display: none;

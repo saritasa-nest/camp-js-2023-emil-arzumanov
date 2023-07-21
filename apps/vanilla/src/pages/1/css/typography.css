@@ -18,7 +18,7 @@
 }
 
 .text-inputs {
-  color: var(--input-text-color);
+  color: var(--text-color);
   font-weight: var(--font-weight-l);
   font-size: var(--font-size-l);
   line-height: var(--line-height-l);
@@ -35,4 +35,5 @@
   font-size: var(--font-size-m);
   line-height: var(--line-height-s);
   text-transform: uppercase;
+  text-indent: 0%;
 }

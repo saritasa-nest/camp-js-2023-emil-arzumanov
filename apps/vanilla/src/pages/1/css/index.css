@@ -3,7 +3,6 @@ body {
 }
 
 .app-wrapper {
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,9 +13,12 @@ body {
 /***** Header *****/
 
 .app-wrapper__header {
-  max-width: 1200px;
+  max-width: var(--max-app-width);
   width: 100%;
   min-height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .header {
@@ -30,7 +32,7 @@ body {
 /***** Catalog *****/
 
 .app-wrapper__main-catalog {
-  max-width: 1200px;
+  max-width: var(--max-app-width);
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -65,19 +67,19 @@ body {
   background-color: var(--surface-color);
   width: 100%;
   position: sticky;
-  top: 0;
+  top: var(--position-top-indent);
   padding: 16px 0;
 }
 
 @media screen and (596px <= width <= 880px) {
   .category__header {
-    top: 107px;
+    top: 171px;
   }
 }
 
 @media screen and (max-width: 595px) {
   .category__header {
-    top: 235px;
+    top: 299px;
   }
 }
 
@@ -104,14 +106,10 @@ body {
   white-space: pre-wrap; /* let the text wrap preserving spaces */
 }
 
-.category__image-wrapper {
-  border-radius: 24px;
-  overflow: hidden;
-}
-
 .category__image-wrapper img {
-  outline: 1px solid var(--book-img-outline-color);
+  border: 1px solid var(--book-img-outline-color);
   width: 100%;
+  border-radius: 24px;
 }
 
 @media screen and (596px <= width <= 880px) {
@@ -139,19 +137,20 @@ body {
 }
 
 .filter-wrapper__filter {
-  position: fixed;
-  top: 104px;
+  position: sticky;
+  top: var(--position-top-indent);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding-bottom: 24px;
+  padding-top: 16px;
   gap: 24px;
 }
 
 @media screen and (max-width: 880px) {
   .main-catalog__filter-wrapper {
     position: sticky;
-    top: -1px;
+    top: var(--position-top-indent);
     background-color: var(--surface-color);
     border-bottom: 1px solid var(--border-color);
   }
@@ -187,7 +186,7 @@ body {
   }
 }
 
-.filter__search-input {
+.filter__search-label {
   width: 100%;
   display: flex;
   box-sizing: border-box;
@@ -199,15 +198,27 @@ body {
   background: var(--input-background-color);
 }
 
-.filter__search-input input {
+.filter__search-label__input {
   width: 100%;
   padding-left: 8px;
 }
 
+.filter__search-label__input::placeholder {
+  color: var(--input-text-color);
+  opacity: 1; /* Firefox */
+}
+
+/* stylelint-disable-next-line selector-no-vendor-prefix */
+.filter__search-label__input::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--input-text-color);
+}
+
 /***** Footer *****/
 .app-wrapper__footer {
-  max-width: 1200px;
+  max-width: var(--max-app-width);
   width: 100%;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer {

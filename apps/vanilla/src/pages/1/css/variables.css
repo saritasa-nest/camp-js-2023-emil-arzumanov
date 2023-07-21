@@ -3,8 +3,8 @@
   --border-color: #00000026;
   --text-color: #000;
   --surface-color: #fff;
-  --input-text-color: #00000080;
-  --input-background-color: #0000000d;
+  --input-text-color: hsl(0deg 0% 0% / 50%);
+  --input-background-color: #f2f2f2;
   --book-img-outline-color: #0000001a;
   --desktop-min-page-size: 881px;
   --tablet-max-page-size: 880px;
@@ -20,4 +20,6 @@
   --line-height-s: 24px;
   --line-height-m: 24.2px;
   --line-height-l: 32px;
+  --position-top-indent: 64px;
+  --max-app-width: 1200px;
 }
