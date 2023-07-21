@@ -25,11 +25,7 @@ export class AnimeService {
 	/** URL to get list of all anime. */
 	private readonly animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
-	/**
-	 * Sends get request to API, maps received data and saves it.
-	 * @param offset The starting point within the collection of resource results.
-	 * @param limit Maximum of results to return.
-	 */
+	/** Sends get request to API, maps received data. */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.http
 			.get<PaginationDto<AnimeDto>>(this.animeListUrl)
