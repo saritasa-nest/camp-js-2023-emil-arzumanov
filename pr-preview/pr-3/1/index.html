@@ -13,7 +13,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="/camp-js-2023-emil-arzumanov/pr-preview/pr-3/assets/index-0d3b840b.css">
+		<link rel="stylesheet" href="/camp-js-2023-emil-arzumanov/pr-preview/pr-3/assets/index-6d5bde6f.css">
 	</head>
 	<body>
 		<div class="app-wrapper">
@@ -131,16 +131,16 @@
 					<aside class="filter-wrapper__filter">
 						<h3 class="text-headers">FILTERS</h3>
 						<div class="filter__filter-inputs">
-							<label class="filter__search-input">
+							<label class="filter__search-label">
 								<img src="/camp-js-2023-emil-arzumanov/pr-preview/pr-3/assets/heroicons_magnifying-glass (optimized)-6c12180c.svg" alt="heroicons_magnifying-glass" />
-								<input class="text-inputs" type="text" placeholder="e.g. “Refactoring”" />
+								<input class="filter__search-label__input text-inputs" type="text" placeholder="e.g. “Refactoring”" />
 							</label>
 							<div class="filter__select-wrapper">
-								<select class="filter__select text-inputs">
-									<option value="0" selected disabled>Choose sort field</option>
-									<option value="1">Year</option>
-									<option value="2">Authors</option>
-									<option value="3">Rating</option>
+								<select class="filter__select text-inputs" required>
+									<option value="" disabled selected hidden>Choose sort field</option>
+									<option value="Year">Year</option>
+									<option value="Authors">Authors</option>
+									<option value="Rating">Rating</option>
 								</select>
 							</div>
 							<label class="filter__checkbox">
