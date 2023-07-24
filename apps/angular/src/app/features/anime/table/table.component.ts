@@ -41,7 +41,8 @@ export class TableComponent {
 	];
 
 	public constructor() {
-		this.setQueryParams(this.paginationParams);
+		this.paginationParams.pageIndex = this.route.snapshot.queryParams['pageIndex'];
+		this.paginationParams.pageSize = this.route.snapshot.queryParams['pageSize'];
 		this.route.queryParams.subscribe(params => {
 			this.pagination$.next(new PaginationParams({
 				pageIndex: params['pageIndex'],
