@@ -1,10 +1,11 @@
-import { NumberInput } from '@angular/cdk/coercion';
 import { Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
 
 /** Table of anime. */
 @Component({
@@ -15,11 +16,19 @@ import { Observable } from 'rxjs';
 export class TableComponent {
 	private readonly animeService = inject(AnimeService);
 
-	/** Amount of anime. */
-	protected readonly resultsLength: NumberInput = 100;
+	/** Pagination parameters. */
+	protected readonly paginationParams: PaginationParams = {
+		pageSize: 25,
+		pageIndex: 0,
+	};
 
-	/** Size of page. */
-	protected readonly pageSize: NumberInput = 25;
+	/** Page size options. */
+	protected readonly pageSizeOptions = [25, 50, 75, 100];
+
+	/** Pagination. */
+	// protected readonly pagination$: BehaviorSubject<PaginationParams>;
+
+	private readonly router = inject(Router);
 
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -31,12 +40,16 @@ export class TableComponent {
 		'status',
 	];
 
+	public constructor() {
+		this.setQueryParams(this.paginationParams);
+	}
+
 	/** List of anime. */
 	protected readonly animeList$ = this.getAnimeList();
 
 	/** Uses request from service. */
 	private getAnimeList(): Observable<Pagination<Anime>> {
-		return this.animeService.getAnimeList();
+		return this.animeService.getAnimeList(this.paginationParams);
 	}
 
 	/**
@@ -44,6 +57,12 @@ export class TableComponent {
 	 * @param event Event.
 	 */
 	protected pageChangeHandler(event: PageEvent): void {
-		console.log(event);
+		this.paginationParams.pageSize = event.pageSize;
+		this.paginationParams.pageIndex = event.pageIndex;
+		this.setQueryParams(this.paginationParams);
+	}
+
+	private setQueryParams(params: PaginationParams): void {
+		this.router.navigate([], { queryParams: { ...params } });
 	}
 }

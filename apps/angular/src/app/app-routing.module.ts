@@ -8,8 +8,8 @@ import { PageNotFoundComponent } from '../shared/components/page-not-found/page-
 import { TableComponent } from './features/anime/table/table.component';
 
 const routes: Routes = [
-	{ path: 'anime/table', component: TableComponent },
-	{ path: '', redirectTo: 'anime/table', pathMatch: 'full' },
+	{ path: 'anime', component: TableComponent },
+	{ path: '', redirectTo: 'anime', pathMatch: 'full' },
 	{ path: '**', component: PageNotFoundComponent },
 ];
 
