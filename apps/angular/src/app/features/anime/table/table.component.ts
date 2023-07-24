@@ -1,5 +1,6 @@
 import { NumberInput } from '@angular/cdk/coercion';
 import { Component, inject } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
@@ -36,5 +37,13 @@ export class TableComponent {
 	/** Uses request from service. */
 	private getAnimeList(): Observable<Pagination<Anime>> {
 		return this.animeService.getAnimeList();
+	}
+
+	/**
+	 * Handler for pagination event.
+	 * @param event Event.
+	 */
+	protected pageChangeHandler(event: PageEvent): void {
+		console.log(event);
 	}
 }
