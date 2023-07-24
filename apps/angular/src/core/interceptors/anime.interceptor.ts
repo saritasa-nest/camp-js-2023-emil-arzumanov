@@ -3,14 +3,11 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs';
 import { environment } from '@js-camp/angular/environments/environment';
 
-/** Interceptor for AnimeService. */
+/** Api key interceptor. Intercepts request and adds Api-Key to headers. */
 @Injectable()
 export class ApiKeyInterceptor<T> implements HttpInterceptor {
-	/**
-	 * Intercepts request and adds headers.
-	 * @param req Request that we are intercepting.
-	 * @param next Next handler.
-	 */
+
+	/** @inheritdoc */
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		const modifiedReq = req.clone({
 			setHeaders: {
