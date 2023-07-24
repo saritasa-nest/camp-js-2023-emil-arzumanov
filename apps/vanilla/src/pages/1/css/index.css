@@ -205,7 +205,7 @@ body {
 
 .filter__search-label__input::placeholder {
   color: var(--input-text-color);
-  opacity: 1; /* Firefox */
+  opacity: 1; /* Firefox adds its own opacity to input, thus changing the color of input. */
 }
 
 /* stylelint-disable-next-line selector-no-vendor-prefix */
