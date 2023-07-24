@@ -1,17 +1,31 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 import { TableComponent } from './table/table.component';
 
 /** Anime module. */
 @NgModule({
 	declarations: [TableComponent],
-	imports: [CommonModule, HttpClientModule, MatTableModule, MatPaginatorModule, RouterModule],
+	imports: [
+		CommonModule,
+		HttpClientModule,
+		MatTableModule,
+		MatPaginatorModule,
+		RouterModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		FormsModule,
+		ReactiveFormsModule,
+		NgFor,
+	],
 	providers: [AnimeService],
 })
 export class AnimeModule {}
