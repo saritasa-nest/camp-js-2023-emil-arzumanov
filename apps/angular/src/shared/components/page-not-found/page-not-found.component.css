@@ -1,0 +1,26 @@
+.error {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error__wrapper {
+  text-align: center;
+}
+
+.error__heading {
+  font-weight: 700;
+  font-size: 100px;
+  display: block;
+  padding-bottom: 30px;
+}
+
+.error__link {
+  text-decoration: none;
+}
+
+.error__link:hover {
+  font-weight: 600;
+  cursor: default;
+}
