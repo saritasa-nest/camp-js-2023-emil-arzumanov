@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, debounceTime, switchMap, tap } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { Anime, AnimeType } from '@js-camp/core/models/anime';
+import { Anime } from '@js-camp/core/models/anime';
 import { FormControl } from '@angular/forms';
 
 const DEBOUNCE = 200;
@@ -19,18 +19,18 @@ const DEBOUNCE = 200;
 export class TableComponent {
 	/** Pagination parameters. */
 	protected readonly paginationParams: PaginationParams = {
-		pageSize: 25,
+		pageSize: 5,
 		pageIndex: 0,
 	};
 
 	/** Page size options. */
-	protected readonly pageSizeOptions = [25, 50, 75, 100];
+	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
 
 	/** Form. */
 	protected readonly filterForm = new FormControl('');
 
 	/** List.  */
-	protected readonly filters: AnimeType = AnimeType;
+	protected readonly filters = ['TV', 'OVA', 'Movie', 'Special', 'ONA', 'Music', 'Unknown'];
 
 	private readonly router = inject(Router);
 
