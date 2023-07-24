@@ -1,10 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Anime } from '@js-camp/core/models/anime';
-import { Pagination } from '@js-camp/core/models/pagination';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, switchMap } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 
 /** Table of anime. */
@@ -14,8 +12,6 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 	styleUrls: ['./table.component.css'],
 })
 export class TableComponent {
-	private readonly animeService = inject(AnimeService);
-
 	/** Pagination parameters. */
 	protected readonly paginationParams: PaginationParams = {
 		pageSize: 25,
@@ -25,10 +21,14 @@ export class TableComponent {
 	/** Page size options. */
 	protected readonly pageSizeOptions = [25, 50, 75, 100];
 
-	/** Pagination. */
-	// protected readonly pagination$: BehaviorSubject<PaginationParams>;
-
 	private readonly router = inject(Router);
+
+	private readonly route = inject(ActivatedRoute);
+
+	private readonly animeService = inject(AnimeService);
+
+	/** Pagination. */
+	protected pagination$ = new BehaviorSubject(this.paginationParams);
 
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -42,15 +42,16 @@ export class TableComponent {
 
 	public constructor() {
 		this.setQueryParams(this.paginationParams);
+		this.route.queryParams.subscribe(params => {
+			this.pagination$.next(new PaginationParams({
+				pageIndex: params['pageIndex'],
+				pageSize: params['pageSize'],
+			}));
+		});
 	}
 
 	/** List of anime. */
-	protected readonly animeList$ = this.getAnimeList();
-
-	/** Uses request from service. */
-	private getAnimeList(): Observable<Pagination<Anime>> {
-		return this.animeService.getAnimeList(this.paginationParams);
-	}
+	protected readonly animeList$ = this.pagination$.pipe(switchMap(param => this.animeService.getAnimeList(param)));
 
 	/**
 	 * Handler for pagination event.
