@@ -96,7 +96,7 @@ export class TableComponent {
 	 * @param event Event.
 	 */
 	protected sortHandler(event: Sort): void {
-		this.sortingParams.activeField = event.active;
+		this.sortingParams.activeField = event.active as ActiveField;
 		this.sortingParams.direction = event.direction !== '' ? event.direction as Direction : Direction.none;
 		this.sorting$.next(this.sortingParams);
 	}

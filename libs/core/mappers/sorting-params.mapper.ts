@@ -1,5 +1,5 @@
-import { SortingParamsDto } from '../dtos/sorting-params.dto';
-import { SortingParams } from '../models/sorting-params';
+import { ActiveFieldDto, SortingParamsDto } from '../dtos/sorting-params.dto';
+import { ActiveField, SortingParams } from '../models/sorting-params';
 
 export namespace SortingParamsMapper {
 
@@ -9,8 +9,17 @@ export namespace SortingParamsMapper {
 	 */
 	export function toDto(model: SortingParams): SortingParamsDto {
 		const direction = model.direction === 'asc' ? '' : '-';
+		const sortParamsDto = SORT_PARAMS_TO_DTO[model.activeField];
 		return ({
-			ordering: direction + model.activeField,
+			ordering: direction + sortParamsDto,
 		});
 	}
 }
+
+/** Anime type transformation object in dto. */
+const SORT_PARAMS_TO_DTO = {
+	[ActiveField.airedStart]: ActiveFieldDto.airedStart,
+	[ActiveField.titleEnglish]: ActiveFieldDto.titleEnglish,
+	[ActiveField.status]: ActiveFieldDto.status,
+	[ActiveField.none]: ActiveFieldDto.none,
+};

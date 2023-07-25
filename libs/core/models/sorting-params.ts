@@ -1,7 +1,7 @@
 /** Sorting model. */
 export class SortingParams {
 	/** Page size. */
-	public activeField: string;
+	public activeField: ActiveField;
 
 	/** Page index. */
 	public direction: Direction;
@@ -14,7 +14,7 @@ export class SortingParams {
 
 /** All possible activeField values. */
 export enum ActiveField {
-	titleEnglish = 'titleEnglish',
+	titleEnglish = 'titleEng',
 	airedStart = 'airedStart',
 	status = 'status',
 	none = '',
