@@ -21,14 +21,14 @@ const DEBOUNCE = 200;
 export class TableComponent {
 	/** Pagination parameters. */
 	protected readonly paginationParams: PaginationParams = {
-		pageSize: 5,
+		pageSize: 25,
 		pageIndex: 0,
 	};
 
 	/** Sorting params. */
 	protected readonly sortingParams: SortingParams = {
 		activeField: ActiveField.none,
-		direction: Direction.descending,
+		direction: Direction.none,
 	};
 
 	/** Page size options. */
@@ -68,6 +68,8 @@ export class TableComponent {
 	public constructor() {
 		this.paginationParams.pageIndex = this.route.snapshot.queryParams['pageIndex'];
 		this.paginationParams.pageSize = this.route.snapshot.queryParams['pageSize'];
+		this.sortingParams.activeField = this.route.snapshot.queryParams['activeField'];
+		this.sortingParams.direction = this.route.snapshot.queryParams['direction'];
 
 		this.pagination$ = new BehaviorSubject(this.paginationParams);
 		this.sorting$ = new BehaviorSubject(this.sortingParams);
@@ -100,6 +102,12 @@ export class TableComponent {
 	}
 
 	private setQueryParams(params: [PaginationParams, SortingParams]): void {
-		this.router.navigate([], { queryParams: { ...params } });
+		const queryParams = {
+			pageSize: params[0].pageSize,
+			pageIndex: params[0].pageIndex,
+			activeField: params[1].activeField,
+			direction: params[1].direction,
+		};
+		this.router.navigate([], { queryParams: { ...queryParams } });
 	}
 }
