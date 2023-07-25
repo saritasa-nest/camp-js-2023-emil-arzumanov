@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, combineLatest, debounceTime, switchMap, ta
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime } from '@js-camp/core/models/anime';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { ActiveField, Direction, SortingParams } from '@js-camp/core/models/sorting-params';
 
@@ -31,11 +31,14 @@ export class TableComponent {
 		direction: Direction.none,
 	};
 
+	/** Form group with filter and search. */
+	protected readonly filterAndSearchForm = this.fb.group({
+		search: '',
+		type: [],
+	});
+
 	/** Page size options. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
-
-	/** Form. */
-	protected readonly filterForm = new FormControl('');
 
 	/** List.  */
 	protected readonly filters = ['TV', 'OVA', 'Movie', 'Special', 'ONA', 'Music', 'Unknown'];
@@ -55,6 +58,9 @@ export class TableComponent {
 	/** Sorting. */
 	protected readonly sorting$: BehaviorSubject<SortingParams>;
 
+	/** Searching. */
+	protected readonly search$: BehaviorSubject<FormControl<string | null>>;
+
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
 		'poster',
@@ -65,7 +71,7 @@ export class TableComponent {
 		'status',
 	];
 
-	public constructor() {
+	public constructor(private fb: FormBuilder) {
 		this.paginationParams.pageIndex = this.route.snapshot.queryParams['pageIndex'];
 		this.paginationParams.pageSize = this.route.snapshot.queryParams['pageSize'];
 		this.sortingParams.activeField = this.route.snapshot.queryParams['activeField'];
@@ -73,8 +79,13 @@ export class TableComponent {
 
 		this.pagination$ = new BehaviorSubject(this.paginationParams);
 		this.sorting$ = new BehaviorSubject(this.sortingParams);
+		this.search$ = new BehaviorSubject(this.filterAndSearchForm.controls.search);
 
-		this.animeList$ = combineLatest([this.pagination$, this.sorting$]).pipe(
+		this.animeList$ = combineLatest([
+			this.pagination$,
+			this.sorting$,
+			this.search$,
+		]).pipe(
 			debounceTime(DEBOUNCE),
 			tap(params => this.setQueryParams(params)),
 			switchMap(param => this.animeService.getAnimeList(param)),
@@ -97,16 +108,26 @@ export class TableComponent {
 	 */
 	protected sortHandler(event: Sort): void {
 		this.sortingParams.activeField = event.active as ActiveField;
-		this.sortingParams.direction = event.direction !== '' ? event.direction as Direction : Direction.none;
+		this.sortingParams.direction = event.direction as Direction;
 		this.sorting$.next(this.sortingParams);
 	}
 
-	private setQueryParams(params: [PaginationParams, SortingParams]): void {
+	/** Submit. */
+	protected onSubmit(): void {
+		this.paginationParams.pageIndex = 0;
+		this.paginationParams.pageSize = 25;
+		this.pagination$.next(this.paginationParams);
+
+		this.search$.next(this.filterAndSearchForm.controls.search);
+	}
+
+	private setQueryParams(params: [PaginationParams, SortingParams, FormControl<string | null>]): void {
 		const queryParams = {
 			pageSize: params[0].pageSize,
 			pageIndex: params[0].pageIndex,
 			activeField: params[1].activeField,
 			direction: params[1].direction,
+			search: params[2].value,
 		};
 		this.router.navigate([], { queryParams: { ...queryParams } });
 	}

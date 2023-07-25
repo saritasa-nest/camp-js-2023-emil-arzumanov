@@ -12,6 +12,7 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { PaginationParamsMapper } from '@js-camp/core/mappers/pagination-params.mapper';
 import { SortingParams } from '@js-camp/core/models/sorting-params';
 import { SortingParamsMapper } from '@js-camp/core/mappers/sorting-params.mapper';
+import { FormControl } from '@angular/forms';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -28,12 +29,13 @@ export class AnimeService {
 	/** Sends get request to API and maps receives data.
 	 * @param params Request parameters.
 	 */
-	public getAnimeList(params: [PaginationParams, SortingParams]): Observable<Pagination<Anime>> {
+	public getAnimeList(params: [PaginationParams, SortingParams, FormControl<string | null>]): Observable<Pagination<Anime>> {
 		return this.http
 			.get<PaginationDto<AnimeDto>>(this.animeListUrl, {
 			params: {
 				...PaginationParamsMapper.toDto(params[0]),
 				...SortingParamsMapper.toDto(params[1]),
+				search: params[2].value ? params[2].value : '',
 			},
 		})
 			.pipe(map(elem => PaginationMapper.fromDto(elem, result => AnimeMapper.fromDto(result))));

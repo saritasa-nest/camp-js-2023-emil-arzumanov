@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { TableComponent } from './table/table.component';
 
@@ -27,6 +29,9 @@ import { TableComponent } from './table/table.component';
 		ReactiveFormsModule,
 		NgFor,
 		MatSortModule,
+		ReactiveFormsModule,
+		MatInputModule,
+		MatButtonModule,
 	],
 	providers: [AnimeService],
 })
