@@ -2,11 +2,13 @@ import { Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, debounceTime, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, debounceTime, switchMap, tap } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime } from '@js-camp/core/models/anime';
 import { FormControl } from '@angular/forms';
+import { Sort } from '@angular/material/sort';
+import { ActiveField, Direction, SortingParams } from '@js-camp/core/models/sorting-params';
 
 const DEBOUNCE = 200;
 
@@ -21,6 +23,12 @@ export class TableComponent {
 	protected readonly paginationParams: PaginationParams = {
 		pageSize: 5,
 		pageIndex: 0,
+	};
+
+	/** Sorting params. */
+	protected readonly sortingParams: SortingParams = {
+		activeField: ActiveField.none,
+		direction: Direction.descending,
 	};
 
 	/** Page size options. */
@@ -44,6 +52,9 @@ export class TableComponent {
 	/** Pagination. */
 	protected readonly pagination$: BehaviorSubject<PaginationParams>;
 
+	/** Sorting. */
+	protected readonly sorting$: BehaviorSubject<SortingParams>;
+
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
 		'poster',
@@ -59,8 +70,9 @@ export class TableComponent {
 		this.paginationParams.pageSize = this.route.snapshot.queryParams['pageSize'];
 
 		this.pagination$ = new BehaviorSubject(this.paginationParams);
+		this.sorting$ = new BehaviorSubject(this.sortingParams);
 
-		this.animeList$ = this.pagination$.pipe(
+		this.animeList$ = combineLatest([this.pagination$, this.sorting$]).pipe(
 			debounceTime(DEBOUNCE),
 			tap(params => this.setQueryParams(params)),
 			switchMap(param => this.animeService.getAnimeList(param)),
@@ -77,7 +89,17 @@ export class TableComponent {
 		this.pagination$.next(this.paginationParams);
 	}
 
-	private setQueryParams(params: PaginationParams): void {
+	/**
+	 * Handler for sorting event.
+	 * @param event Event.
+	 */
+	protected sortHandler(event: Sort): void {
+		this.sortingParams.activeField = event.active;
+		this.sortingParams.direction = event.direction !== '' ? event.direction as Direction : Direction.none;
+		this.sorting$.next(this.sortingParams);
+	}
+
+	private setQueryParams(params: [PaginationParams, SortingParams]): void {
 		this.router.navigate([], { queryParams: { ...params } });
 	}
 }

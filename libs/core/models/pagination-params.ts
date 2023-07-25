@@ -1,4 +1,4 @@
-/** Pagination class. */
+/** Pagination model. */
 export class PaginationParams {
 	/** Page size. */
 	public pageSize: number;

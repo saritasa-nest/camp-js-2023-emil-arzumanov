@@ -1,4 +1,4 @@
-/** Pagination meta info. */
+/** Pagination params dto. */
 export interface PaginationParamsDto {
 
 	/** Offset. */

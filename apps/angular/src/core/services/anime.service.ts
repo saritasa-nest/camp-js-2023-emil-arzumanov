@@ -10,6 +10,8 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { PaginationParamsMapper } from '@js-camp/core/mappers/pagination-params.mapper';
+import { SortingParams } from '@js-camp/core/models/sorting-params';
+import { SortingParamsMapper } from '@js-camp/core/mappers/sorting-params.mapper';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -18,25 +20,22 @@ import { AppUrlsConfig } from './url-config.service';
 	providedIn: 'root',
 })
 export class AnimeService {
-
-	public constructor(
-		private readonly appUrlsConfig: AppUrlsConfig,
-		private readonly http: HttpClient,
-	) {}
+	public constructor(private readonly appUrlsConfig: AppUrlsConfig, private readonly http: HttpClient) {}
 
 	/** URL to get list of all anime. */
 	private readonly animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
 	/** Sends get request to API and maps receives data.
-		* @param params Request parameters.
+	 * @param params Request parameters.
 	 */
-	public getAnimeList(params: PaginationParams): Observable<Pagination<Anime>> {
+	public getAnimeList(params: [PaginationParams, SortingParams]): Observable<Pagination<Anime>> {
 		return this.http
-			.get<PaginationDto<AnimeDto>>(this.animeListUrl, { params: { ...PaginationParamsMapper.toDto(params) } })
-			.pipe(
-				map(elem =>
-					PaginationMapper.fromDto(elem, result =>
-						AnimeMapper.fromDto(result))),
-			);
+			.get<PaginationDto<AnimeDto>>(this.animeListUrl, {
+			params: {
+				...PaginationParamsMapper.toDto(params[0]),
+				...SortingParamsMapper.toDto(params[1]),
+			},
+		})
+			.pipe(map(elem => PaginationMapper.fromDto(elem, result => AnimeMapper.fromDto(result))));
 	}
 }

@@ -9,9 +9,9 @@
 		mat-table
 		[dataSource]="animeList.results"
 		matSort
-		matSortActive="created"
-		matSortDisableClear
-		matSortDirection="desc"
+		[matSortActive]="sortingParams.activeField"
+		[matSortDirection]="sortingParams.direction"
+		(matSortChange)="sortHandler($event)"
 		aria-describedby="anime list"
 	>
 		<ng-container matColumnDef="poster">
