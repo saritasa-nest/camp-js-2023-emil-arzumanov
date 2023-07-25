@@ -29,13 +29,19 @@ export class AnimeService {
 	/** Sends get request to API and maps receives data.
 	 * @param params Request parameters.
 	 */
-	public getAnimeList(params: [PaginationParams, SortingParams, FormControl<string | null>]): Observable<Pagination<Anime>> {
+	public getAnimeList(params: [
+		PaginationParams,
+		SortingParams,
+		FormControl<string | null>,
+		FormControl<string | null>,
+	]): Observable<Pagination<Anime>> {
 		return this.http
 			.get<PaginationDto<AnimeDto>>(this.animeListUrl, {
 			params: {
 				...PaginationParamsMapper.toDto(params[0]),
 				...SortingParamsMapper.toDto(params[1]),
 				search: params[2].value ? params[2].value : '',
+				type: params[3].value ? params[3].value : '',
 			},
 		})
 			.pipe(map(elem => PaginationMapper.fromDto(elem, result => AnimeMapper.fromDto(result))));

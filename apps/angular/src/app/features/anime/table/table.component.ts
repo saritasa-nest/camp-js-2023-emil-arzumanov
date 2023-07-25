@@ -34,7 +34,7 @@ export class TableComponent {
 	/** Form group with filter and search. */
 	protected readonly filterAndSearchForm = this.fb.group({
 		search: '',
-		type: [],
+		type: '',
 	});
 
 	/** Page size options. */
@@ -61,6 +61,9 @@ export class TableComponent {
 	/** Searching. */
 	protected readonly search$: BehaviorSubject<FormControl<string | null>>;
 
+	/** Type filter. */
+	protected readonly typeFilter$: BehaviorSubject<FormControl<string | null>>;
+
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
 		'poster',
@@ -76,15 +79,19 @@ export class TableComponent {
 		this.paginationParams.pageSize = this.route.snapshot.queryParams['pageSize'];
 		this.sortingParams.activeField = this.route.snapshot.queryParams['activeField'];
 		this.sortingParams.direction = this.route.snapshot.queryParams['direction'];
+		this.filterAndSearchForm.controls.search.setValue(this.route.snapshot.queryParams['search']);
+		this.filterAndSearchForm.controls.type.setValue(this.route.snapshot.queryParams['type']);
 
 		this.pagination$ = new BehaviorSubject(this.paginationParams);
 		this.sorting$ = new BehaviorSubject(this.sortingParams);
 		this.search$ = new BehaviorSubject(this.filterAndSearchForm.controls.search);
+		this.typeFilter$ = new BehaviorSubject(this.filterAndSearchForm.controls.type);
 
 		this.animeList$ = combineLatest([
 			this.pagination$,
 			this.sorting$,
 			this.search$,
+			this.typeFilter$,
 		]).pipe(
 			debounceTime(DEBOUNCE),
 			tap(params => this.setQueryParams(params)),
@@ -119,15 +126,17 @@ export class TableComponent {
 		this.pagination$.next(this.paginationParams);
 
 		this.search$.next(this.filterAndSearchForm.controls.search);
+		this.typeFilter$.next(this.filterAndSearchForm.controls.type);
 	}
 
-	private setQueryParams(params: [PaginationParams, SortingParams, FormControl<string | null>]): void {
+	private setQueryParams(params: [PaginationParams, SortingParams, FormControl<string | null>, FormControl<string | null>]): void {
 		const queryParams = {
 			pageSize: params[0].pageSize,
 			pageIndex: params[0].pageIndex,
 			activeField: params[1].activeField,
 			direction: params[1].direction,
 			search: params[2].value,
+			type: params[3].value,
 		};
 		this.router.navigate([], { queryParams: { ...queryParams } });
 	}
