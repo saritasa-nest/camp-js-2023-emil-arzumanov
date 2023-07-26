@@ -1,4 +1,4 @@
-import { AiredDateDto } from './airedDate.dto';
+import { AiredDateDto } from './aired-date.dto';
 
 /** Represents one anime. Dto of received data. */
 export interface AnimeDto {

@@ -1,15 +1,11 @@
 /** Sorting model. */
-export class SortingParams {
-	/** Page size. */
-	public activeField: ActiveField;
+export interface SortingParams {
 
-	/** Page index. */
-	public direction: Direction;
+	/** Active sort field. */
+	activeField: ActiveField;
 
-	public constructor(data: InitSortingParams) {
-		this.activeField = data.activeField;
-		this.direction = data.direction;
-	}
+	/** Sort direction. */
+	direction: Direction;
 }
 
 /** All possible activeField values. */
@@ -26,5 +22,3 @@ export enum Direction {
 	descending = 'desc',
 	none = '',
 }
-
-type InitSortingParams = SortingParams;

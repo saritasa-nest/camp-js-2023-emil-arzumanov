@@ -1,17 +1,11 @@
 import { AnimeType } from './anime';
 
 /** Anime filter. */
-export class FilterParams {
+export interface FilterParams {
+
 	/** Search. */
-	public readonly search: string | null;
+	search: string | null;
 
 	/** Type array. */
-	public readonly type: AnimeType[] | null;
-
-	public constructor(data: AnimeFilterParams) {
-		this.search = data.search;
-		this.type = data.type;
-	}
+	type: AnimeType[] | null;
 }
-
-type AnimeFilterParams = FilterParams;

@@ -1,7 +1,7 @@
 import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
 import { Anime, AnimeStatus, AnimeType } from '../models/anime';
 
-import { AiredDateMapper } from './airedDate.mapper';
+import { AiredDateMapper } from './aired-date.mapper';
 
 export namespace AnimeMapper {
 

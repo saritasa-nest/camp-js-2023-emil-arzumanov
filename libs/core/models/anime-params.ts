@@ -3,21 +3,14 @@ import { PaginationParams } from './pagination-params';
 import { FilterParams } from './filter-params';
 
 /** AnimeParams model. */
-export class AnimeParams {
+export interface AnimeParams {
+
 	/** Pagination query params. */
-	public pagination: PaginationParams;
+	pagination: PaginationParams;
 
 	/** Sorting query params. */
-	public sorting: SortingParams;
+	sorting: SortingParams;
 
 	/** FIlter query params. */
-	public filter: FilterParams;
-
-	public constructor(data: InitAnimeParams) {
-		this.pagination = data.pagination;
-		this.sorting = data.sorting;
-		this.filter = data.filter;
-	}
+	filter: FilterParams;
 }
-
-type InitAnimeParams = AnimeParams;

@@ -5,7 +5,7 @@ export namespace FilterParamsMapper {
 
 	/**
 	 * Maps model to dto.
-	 * @param model SortingParams model.
+	 * @param model Filtering params model.
 	 */
 	export function toDto(model: FilterParams): FilterParamsDto {
 		const dtoType = model.type ? model.type.map(elem => elem.toUpperCase()).join(',') : '';

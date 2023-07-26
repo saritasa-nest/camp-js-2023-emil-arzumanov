@@ -5,7 +5,7 @@ export namespace PaginationParamsMapper {
 
 	/**
 	 * Maps model to dto.
-	 * @param model PaginationParams model.
+	 * @param model Pagination parameters model.
 	 */
 	export function toDto(model: PaginationParams): PaginationParamsDto {
 		return ({

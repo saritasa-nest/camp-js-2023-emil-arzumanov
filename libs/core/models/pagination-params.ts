@@ -1,15 +1,9 @@
 /** Pagination model. */
-export class PaginationParams {
+export interface PaginationParams {
+
 	/** Page size. */
-	public pageSize: number;
+	pageSize: number;
 
 	/** Page index. */
-	public pageIndex: number;
-
-	public constructor(data: InitPaginationParams) {
-		this.pageSize = data.pageSize;
-		this.pageIndex = data.pageIndex;
-	}
+	pageIndex: number;
 }
-
-type InitPaginationParams = PaginationParams;

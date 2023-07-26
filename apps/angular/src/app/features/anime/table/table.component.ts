@@ -40,7 +40,7 @@ export class TableComponent {
 	/** Page size options. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
 
-	/** List.  */
+	/** Type filter options.  */
 	protected readonly filters = ['TV', 'OVA', 'Movie', 'Special', 'ONA', 'Music', 'Unknown'];
 
 	private readonly router = inject(Router);
@@ -92,6 +92,10 @@ export class TableComponent {
 		);
 	}
 
+	/**
+		* Makes snapshot of query params.
+		* Saves the value of the parameters if the parameters exist.
+	 */
 	private makeSnapshots(): void {
 		const snapshot = this.route.snapshot.queryParams;
 
@@ -134,7 +138,7 @@ export class TableComponent {
 		this.sorting$.next(this.sortingParams);
 	}
 
-	/** Submit. */
+	/** Filter form submit. */
 	protected onSubmit(): void {
 		this.paginationParams.pageIndex = 0;
 
@@ -144,6 +148,9 @@ export class TableComponent {
 		});
 	}
 
+	/** Sets query parameters in URL.
+		* @param params Query parameters that will be added to URL.
+	 */
 	private setQueryParams(params: AnimeParams): void {
 		const queryParams = {
 			pageSize: params.pagination.pageSize,

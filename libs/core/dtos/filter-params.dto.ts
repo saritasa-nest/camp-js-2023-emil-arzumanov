@@ -4,6 +4,6 @@ export interface FilterParamsDto {
 	/** Search. */
 	readonly search: string;
 
-	/** Type array. */
+	/** Type filter. */
 	readonly type__in: string;
 }

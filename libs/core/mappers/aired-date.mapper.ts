@@ -1,5 +1,5 @@
-import { AiredDateDto } from '../dtos/airedDate.dto';
-import { AiredDate } from '../models/airedDate';
+import { AiredDateDto } from '../dtos/aired-date.dto';
+import { AiredDate } from '../models/aired-date';
 
 export namespace AiredDateMapper {
 
