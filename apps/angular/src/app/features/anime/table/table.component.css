@@ -1,3 +1,7 @@
+.filter-form {
+  display: grid;
+}
+
 .poster-column__header {
   width: 150px;
 }

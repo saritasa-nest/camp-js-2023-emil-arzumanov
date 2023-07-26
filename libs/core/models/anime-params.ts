@@ -1,17 +1,22 @@
 import { SortingParams } from './sorting-params';
 import { PaginationParams } from './pagination-params';
+import { FilterParams } from './filter-params';
 
 /** AnimeParams model. */
 export class AnimeParams {
 	/** Pagination query params. */
-	public paginationParams: PaginationParams;
+	public pagination: PaginationParams;
 
 	/** Sorting query params. */
-	public sortingParams: SortingParams;
+	public sorting: SortingParams;
+
+	/** FIlter query params. */
+	public filter: FilterParams;
 
 	public constructor(data: InitAnimeParams) {
-		this.sortingParams = data.sortingParams;
-		this.paginationParams = data.paginationParams;
+		this.pagination = data.pagination;
+		this.sorting = data.sorting;
+		this.filter = data.filter;
 	}
 }
 

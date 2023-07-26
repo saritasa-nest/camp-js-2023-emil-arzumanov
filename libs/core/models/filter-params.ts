@@ -3,10 +3,10 @@ import { AnimeType } from './anime';
 /** Anime filter. */
 export class FilterParams {
 	/** Search. */
-	public readonly search: string;
+	public readonly search: string | null;
 
 	/** Type array. */
-	public readonly type: AnimeType[];
+	public readonly type: AnimeType[] | null;
 
 	public constructor(data: AnimeFilterParams) {
 		this.search = data.search;
