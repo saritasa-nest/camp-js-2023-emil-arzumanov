@@ -30,7 +30,7 @@ export class TableComponent {
 	};
 
 	/** Form group with filter and search. */
-	protected readonly filterAndSearchForm = this.fb.group({
+	protected readonly filterForm = this.fb.group({
 		search: '',
 		type: new FormControl<AnimeType[]>([], { nonNullable: false }),
 	});
@@ -86,17 +86,17 @@ export class TableComponent {
 		}
 
 		if (snapshot['type']) {
-			this.filterAndSearchForm.controls.type.setValue(snapshot['type'].split(','));
+			this.filterForm.controls.type.setValue(snapshot['type'].split(','));
 		}
 
 		if (snapshot['search']) {
-			this.filterAndSearchForm.controls.search.setValue(snapshot['search']);
+			this.filterForm.controls.search.setValue(snapshot['search']);
 		}
 
 		this.pagination$ = new BehaviorSubject(this.paginationParams);
 		this.sorting$ = new BehaviorSubject(this.sortingParams);
-		this.search$ = new BehaviorSubject(this.filterAndSearchForm.controls.search);
-		this.typeFilter$ = new BehaviorSubject(this.filterAndSearchForm.controls.type);
+		this.search$ = new BehaviorSubject(this.filterForm.controls.search);
+		this.typeFilter$ = new BehaviorSubject(this.filterForm.controls.type);
 
 		this.animeList$ = combineLatest([
 			this.pagination$,
@@ -135,8 +135,8 @@ export class TableComponent {
 		this.paginationParams.pageSize = 25;
 		this.pagination$.next(this.paginationParams);
 
-		this.search$.next(this.filterAndSearchForm.controls.search);
-		this.typeFilter$.next(this.filterAndSearchForm.controls.type);
+		this.search$.next(this.filterForm.controls.search);
+		this.typeFilter$.next(this.filterForm.controls.type);
 	}
 
 	private setQueryParams(params: [PaginationParams, SortingParams, FormControl<string | null>, FormControl<AnimeType[] | null>]): void {
