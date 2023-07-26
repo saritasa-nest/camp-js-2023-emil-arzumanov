@@ -2,15 +2,13 @@ import { Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, debounceTime, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, switchMap, tap } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { ActiveField, Direction, SortingParams } from '@js-camp/core/models/sorting-params';
-
-const DEBOUNCE = 200;
 
 /** Table of anime. */
 @Component({
@@ -34,11 +32,11 @@ export class TableComponent {
 	/** Form group with filter and search. */
 	protected readonly filterAndSearchForm = this.fb.group({
 		search: '',
-		type: '',
+		type: new FormControl<AnimeType[]>([], { nonNullable: false }),
 	});
 
 	/** Page size options. */
-	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
+	protected readonly pageSizeOptions = [25, 50, 75, 100];
 
 	/** List.  */
 	protected readonly filters = ['TV', 'OVA', 'Movie', 'Special', 'ONA', 'Music', 'Unknown'];
@@ -62,7 +60,7 @@ export class TableComponent {
 	protected readonly search$: BehaviorSubject<FormControl<string | null>>;
 
 	/** Type filter. */
-	protected readonly typeFilter$: BehaviorSubject<FormControl<string | null>>;
+	protected readonly typeFilter$: BehaviorSubject<FormControl<AnimeType[] | null>>;
 
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -75,12 +73,25 @@ export class TableComponent {
 	];
 
 	public constructor(private fb: FormBuilder) {
-		this.paginationParams.pageIndex = this.route.snapshot.queryParams['pageIndex'];
-		this.paginationParams.pageSize = this.route.snapshot.queryParams['pageSize'];
-		this.sortingParams.activeField = this.route.snapshot.queryParams['activeField'];
-		this.sortingParams.direction = this.route.snapshot.queryParams['direction'];
-		this.filterAndSearchForm.controls.search.setValue(this.route.snapshot.queryParams['search']);
-		this.filterAndSearchForm.controls.type.setValue(this.route.snapshot.queryParams['type']);
+		const snapshot = this.route.snapshot.queryParams;
+
+		if (snapshot['pageIndex'] && snapshot['pageSize']) {
+			this.paginationParams.pageIndex = snapshot['pageIndex'];
+			this.paginationParams.pageSize = snapshot['pageSize'];
+		}
+
+		if (snapshot['activeField'] && snapshot['direction']) {
+			this.sortingParams.activeField = snapshot['activeField'];
+			this.sortingParams.direction = snapshot['direction'];
+		}
+
+		if (snapshot['type']) {
+			this.filterAndSearchForm.controls.type.setValue(snapshot['type'].split(','));
+		}
+
+		if (snapshot['search']) {
+			this.filterAndSearchForm.controls.search.setValue(snapshot['search']);
+		}
 
 		this.pagination$ = new BehaviorSubject(this.paginationParams);
 		this.sorting$ = new BehaviorSubject(this.sortingParams);
@@ -93,7 +104,6 @@ export class TableComponent {
 			this.search$,
 			this.typeFilter$,
 		]).pipe(
-			debounceTime(DEBOUNCE),
 			tap(params => this.setQueryParams(params)),
 			switchMap(param => this.animeService.getAnimeList(param)),
 		);
@@ -129,14 +139,14 @@ export class TableComponent {
 		this.typeFilter$.next(this.filterAndSearchForm.controls.type);
 	}
 
-	private setQueryParams(params: [PaginationParams, SortingParams, FormControl<string | null>, FormControl<string | null>]): void {
+	private setQueryParams(params: [PaginationParams, SortingParams, FormControl<string | null>, FormControl<AnimeType[] | null>]): void {
 		const queryParams = {
 			pageSize: params[0].pageSize,
 			pageIndex: params[0].pageIndex,
 			activeField: params[1].activeField,
 			direction: params[1].direction,
 			search: params[2].value,
-			type: params[3].value,
+			type: params[3].value ? params[3].value.join(',') : '',
 		};
 		this.router.navigate([], { queryParams: { ...queryParams } });
 	}

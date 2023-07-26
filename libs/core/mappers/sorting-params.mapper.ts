@@ -8,7 +8,7 @@ export namespace SortingParamsMapper {
 	 * @param model SortingParams model.
 	 */
 	export function toDto(model: SortingParams): SortingParamsDto {
-		const direction = model.direction === 'asc' ? '' : '-';
+		const direction = model.direction === 'desc' ? '-' : '';
 		const sortParamsDto = SORT_PARAMS_TO_DTO[model.activeField];
 		return ({
 			ordering: direction + sortParamsDto,

@@ -1,7 +1,7 @@
 <form [formGroup]="filterAndSearchForm" (ngSubmit)="onSubmit()">
 	<mat-form-field>
 		<mat-label>Type</mat-label>
-		<mat-select [formControl]="filterAndSearchForm.controls.type">
+		<mat-select [formControl]="filterAndSearchForm.controls.type" multiple>
 			<mat-option *ngFor="let filter of filters" [value]="filter">{{filter}}</mat-option>
 		</mat-select>
 	</mat-form-field>
