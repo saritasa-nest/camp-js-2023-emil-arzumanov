@@ -7,8 +7,8 @@ export interface SortingParamsDto {
 
 /** All possible activeField dto values. */
 export enum ActiveFieldDto {
-	titleEnglish = 'title_eng',
-	airedStart = 'aired__startswith',
-	status = 'status',
-	none = '',
+	TitleEnglish = 'title_eng',
+	AiredStart = 'aired__startswith',
+	Status = 'status',
+	None = '',
 }

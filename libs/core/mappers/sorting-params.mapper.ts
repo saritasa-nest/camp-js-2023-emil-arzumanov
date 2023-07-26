@@ -18,8 +18,8 @@ export namespace SortingParamsMapper {
 
 /** Anime type transformation object in dto. */
 const SORT_PARAMS_TO_DTO = {
-	[ActiveField.airedStart]: ActiveFieldDto.airedStart,
-	[ActiveField.titleEnglish]: ActiveFieldDto.titleEnglish,
-	[ActiveField.status]: ActiveFieldDto.status,
-	[ActiveField.none]: ActiveFieldDto.none,
+	[ActiveField.AiredStart]: ActiveFieldDto.AiredStart,
+	[ActiveField.TitleEnglish]: ActiveFieldDto.TitleEnglish,
+	[ActiveField.Status]: ActiveFieldDto.Status,
+	[ActiveField.None]: ActiveFieldDto.None,
 };

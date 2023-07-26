@@ -38,6 +38,6 @@ export class AnimeService {
 				...FilterParamsMapper.toDto(params.filter),
 			},
 		})
-			.pipe(map(elem => PaginationMapper.fromDto(elem, result => AnimeMapper.fromDto(result))));
+			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, animeDto => AnimeMapper.fromDto(animeDto))));
 	}
 }

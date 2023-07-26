@@ -27,8 +27,8 @@ export class TableComponent {
 
 	/** Sorting params. */
 	protected readonly sortingParams: SortingParams = {
-		activeField: ActiveField.none,
-		direction: Direction.none,
+		activeField: ActiveField.None,
+		direction: Direction.None,
 	};
 
 	/** Form group with filter and search. */
@@ -53,13 +53,13 @@ export class TableComponent {
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Pagination. */
-	protected readonly pagination$: BehaviorSubject<PaginationParams>;
+	protected readonly pagination$ = new BehaviorSubject(this.paginationParams);
 
 	/** Sorting. */
-	protected readonly sorting$: BehaviorSubject<SortingParams>;
+	protected readonly sorting$ = new BehaviorSubject(this.sortingParams);
 
 	/** Filter form. */
-	protected readonly filterForm$: BehaviorSubject<FilterParams>;
+	protected readonly filterForm$ = new BehaviorSubject(this.filterForm.getRawValue());
 
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -73,13 +73,6 @@ export class TableComponent {
 
 	public constructor(private fb: FormBuilder) {
 		this.makeSnapshots();
-
-		this.pagination$ = new BehaviorSubject(this.paginationParams);
-		this.sorting$ = new BehaviorSubject(this.sortingParams);
-		this.filterForm$ = new BehaviorSubject({
-			search: this.filterForm.controls.search.value,
-			type: this.filterForm.controls.type.value,
-		});
 
 		this.animeList$ = combineLatest([
 			this.pagination$,
@@ -102,19 +95,31 @@ export class TableComponent {
 		if (snapshot['pageIndex'] && snapshot['pageSize']) {
 			this.paginationParams.pageIndex = snapshot['pageIndex'];
 			this.paginationParams.pageSize = snapshot['pageSize'];
+			this.pagination$.next(this.paginationParams);
 		}
 
 		if (snapshot['activeField'] && snapshot['direction']) {
 			this.sortingParams.activeField = snapshot['activeField'];
 			this.sortingParams.direction = snapshot['direction'];
-		}
-
-		if (snapshot['type']) {
-			this.filterForm.controls.type.setValue(snapshot['type']);
+			this.sorting$.next(this.sortingParams);
 		}
 
 		if (snapshot['search']) {
 			this.filterForm.controls.search.setValue(snapshot['search']);
+			const { search, type } = this.filterForm.getRawValue();
+			this.filterForm$.next({
+				search,
+				type,
+			});
+		}
+
+		if (snapshot['type']) {
+			this.filterForm.controls.type.setValue(snapshot['type'].split(','));
+			const { search, type } = this.filterForm.getRawValue();
+			this.filterForm$.next({
+				search,
+				type,
+			});
 		}
 	}
 
@@ -142,9 +147,10 @@ export class TableComponent {
 	protected onSubmit(): void {
 		this.paginationParams.pageIndex = 0;
 
+		const { search, type } = this.filterForm.getRawValue();
 		this.filterForm$.next({
-			search: this.filterForm.controls.search.value,
-			type: this.filterForm.controls.type.value,
+			search,
+			type,
 		});
 	}
 
@@ -158,7 +164,7 @@ export class TableComponent {
 			activeField: params.sorting.activeField,
 			direction: params.sorting.direction,
 			search: params.filter.search,
-			type: params.filter.type,
+			type: params.filter.type ? params.filter.type.join(',') : '',
 		};
 		this.router.navigate([], { queryParams: { ...queryParams } });
 	}

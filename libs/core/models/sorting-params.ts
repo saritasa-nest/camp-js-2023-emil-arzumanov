@@ -10,15 +10,15 @@ export interface SortingParams {
 
 /** All possible activeField values. */
 export enum ActiveField {
-	titleEnglish = 'titleEng',
-	airedStart = 'airedStart',
-	status = 'status',
-	none = '',
+	TitleEnglish = 'titleEng',
+	AiredStart = 'airedStart',
+	Status = 'status',
+	None = '',
 }
 
 /** All possible directions. */
 export enum Direction {
-	ascending = 'asc',
-	descending = 'desc',
-	none = '',
+	Ascending = 'asc',
+	Descending = 'desc',
+	None = '',
 }

@@ -47,17 +47,17 @@ export interface AnimeDto {
 export enum AnimeTypeDto {
 	TV = 'TV',
 	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
+	Movie = 'MOVIE',
+	Special = 'SPECIAL',
 	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
+	Music = 'MUSIC',
+	Unknown = 'UNKNOWN',
 }
 
 /** All statuses. */
 export enum AnimeStatusDto {
-	AIRING = 'AIRING',
-	FINISHED = 'FINISHED',
-	NOT_YET_AIRED = 'NOT_YET_AIRED',
-	UNKNOWN = 'UNKNOWN',
+	Airing = 'AIRING',
+	Finished = 'FINISHED',
+	NotYetAired = 'NOT_YET_AIRED',
+	Unknown = 'UNKNOWN',
 }
