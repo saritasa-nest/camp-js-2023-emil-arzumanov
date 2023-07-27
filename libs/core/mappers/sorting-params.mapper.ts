@@ -9,7 +9,7 @@ export namespace SortingParamsMapper {
 	 */
 	export function toDto(model: SortingParams): SortingParamsDto {
 		const direction = model.direction === Direction.Descending ? '-' : '';
-		const sortParamsDto = SORT_PARAMS_TO_DTO[model.field];
+		const sortParamsDto = SORT_PARAMS_TO_DTO[model.activeSortField];
 		return ({
 			ordering: direction + sortParamsDto,
 		});

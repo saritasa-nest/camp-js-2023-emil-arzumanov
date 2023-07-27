@@ -2,15 +2,24 @@ import { Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, map, switchMap, tap } from 'rxjs';
-import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { BehaviorSubject, Observable, combineLatest, map, startWith, switchMap, tap } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { FormBuilder } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { SortField, Direction, SortingParams } from '@js-camp/core/models/sorting-params';
+import { SortField, Direction } from '@js-camp/core/models/sorting-params';
 import { FilterParams } from '@js-camp/core/models/filter-params';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
+
+/** Query parameters for snapshots. */
+enum Params {
+	PageSize = 'pageSize',
+	PageIndex = 'pageIndex',
+	SortingParameter = 'sortField',
+	DirectionParameter = 'direction',
+	Search = 'search',
+	Type = 'type',
+}
 
 /** Table of anime. */
 @Component({
@@ -27,23 +36,11 @@ export class TableComponent {
 
 	private readonly fb = inject(FormBuilder);
 
-	/** Pagination parameters. */
-	protected readonly paginationParams: PaginationParams = {
-		pageSize: 5,
-		pageIndex: 0,
-	};
-
-	/** Sorting params. */
-	protected readonly sortingParams: SortingParams = {
-		field: SortField.None,
-		direction: Direction.None,
-	};
-
 	/** Form group with filter and search. */
 	protected readonly filterForm = this.fb.group<FilterParams>({
 		search: '',
 		type: [],
-	});
+	}, { updateOn: 'submit' });
 
 	/** Page size options. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
@@ -55,13 +52,16 @@ export class TableComponent {
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Pagination. */
-	protected readonly pagination$ = new BehaviorSubject(this.paginationParams);
+	protected readonly pagination$ = new BehaviorSubject({
+		pageSize: 5,
+		pageIndex: 0,
+	});
 
 	/** Sorting. */
-	protected readonly sorting$ = new BehaviorSubject(this.sortingParams);
-
-	/** Filter form. */
-	protected readonly filterForm$ = new BehaviorSubject(this.filterForm.getRawValue());
+	protected readonly sorting$ = new BehaviorSubject({
+		activeSortField: SortField.None,
+		direction: Direction.None,
+	});
 
 	/** Columns of table to display. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -74,12 +74,18 @@ export class TableComponent {
 	];
 
 	public constructor() {
-		this.makeSnapshots();
+		this.makeAndSaveSnapshots();
 
 		this.animeList$ = combineLatest([
 			this.pagination$,
 			this.sorting$,
-			this.filterForm$,
+			this.filterForm.valueChanges.pipe(
+				startWith(this.filterForm.value),
+				map(({ search, type }): FilterParams => ({
+					search: search === undefined ? '' : search,
+					type: type === undefined ? [] : type,
+				})),
+			),
 		]).pipe(
 			map(([pagination, sorting, filter]) => ({ pagination, sorting, filter })),
 			tap(params => this.setQueryParams(params)),
@@ -91,39 +97,29 @@ export class TableComponent {
 		* Makes snapshot of query params.
 		* Saves the value of the parameters if the parameters exist.
 	 */
-	private makeSnapshots(): void {
+	private makeAndSaveSnapshots(): void {
 		const snapshot = this.route.snapshot.queryParams;
 
-		if (snapshot['pageIndex'] && snapshot['pageSize']) {
+		if (snapshot[Params.PageIndex] != null && snapshot[Params.PageSize] != null) {
 			this.pagination$.next({
-				pageSize: snapshot['pageSize'],
-				pageIndex: snapshot['pageIndex'],
+				pageSize: snapshot[Params.PageSize],
+				pageIndex: snapshot[Params.PageIndex],
 			});
 		}
 
-		if (snapshot['sortField'] && snapshot['direction']) {
+		if (snapshot[Params.SortingParameter] != null && snapshot[Params.DirectionParameter] != null) {
 			this.sorting$.next({
-				field: snapshot['sortField'],
-				direction: snapshot['direction'],
+				activeSortField: snapshot[Params.SortingParameter],
+				direction: snapshot[Params.DirectionParameter],
 			});
 		}
 
-		if (snapshot['search']) {
-			this.filterForm.controls.search.setValue(snapshot['search']);
-			const { search, type } = this.filterForm.getRawValue();
-			this.filterForm$.next({
-				search,
-				type,
-			});
+		if (snapshot[Params.Search] != null) {
+			this.filterForm.controls.search.setValue(snapshot[Params.Search]);
 		}
 
-		if (snapshot['type']) {
-			this.filterForm.controls.type.setValue(snapshot['type'].split(','));
-			const { search, type } = this.filterForm.getRawValue();
-			this.filterForm$.next({
-				search,
-				type,
-			});
+		if (snapshot[Params.Type] != null) {
+			this.filterForm.controls.type.setValue(snapshot[Params.Type].split(','));
 		}
 	}
 
@@ -144,8 +140,8 @@ export class TableComponent {
 	 */
 	protected sortHandler(event: Sort): void {
 		this.sorting$.next({
-			field: event.active as SortField,
-			direction: event.direction as Direction,
+			activeSortField: event.active !== '' ? event.active as SortField : SortField.None,
+			direction: event.direction !== '' ? event.direction as Direction : Direction.None,
 		});
 	}
 
@@ -154,12 +150,6 @@ export class TableComponent {
 		this.pagination$.next({
 			pageSize: 5,
 			pageIndex: 0,
-		});
-
-		const { search, type } = this.filterForm.getRawValue();
-		this.filterForm$.next({
-			search,
-			type,
 		});
 	}
 
@@ -171,11 +161,29 @@ export class TableComponent {
 		const queryParams = {
 			pageSize: params.pagination.pageSize,
 			pageIndex: params.pagination.pageIndex,
-			sortField: params.sorting.field,
+			sortField: params.sorting.activeSortField,
 			direction: params.sorting.direction,
 			search: params.filter.search,
 			type: params.filter.type ? params.filter.type.join(',') : '',
 		};
 		this.router.navigate([], { queryParams });
+	}
+
+	/**
+	 * Track by anime id.
+	 * @param index Index.
+	 * @param anime Anime.
+	 */
+	protected trackById(index: number, anime: Anime): number {
+		return anime.id;
+	}
+
+	/**
+	 * Track by anime type.
+	 * @param index Index.
+	 * @param type Anime type.
+	 */
+	protected trackByAnimeType(index: number, type: AnimeType): AnimeType {
+		return type;
 	}
 }

@@ -2,7 +2,7 @@
 	<mat-form-field>
 		<mat-label>Type</mat-label>
 		<mat-select formControlName="type" multiple>
-			<mat-option *ngFor="let filter of filters" [value]="filter">{{ filter }}</mat-option>
+			<mat-option *ngFor="let filter of filters; trackBy: trackByAnimeType" [value]="filter">{{ filter }}</mat-option>
 		</mat-select>
 	</mat-form-field>
 	<mat-form-field>
@@ -15,18 +15,22 @@
 	<mat-paginator
 		[length]="animeList.count"
 		[pageSizeOptions]="pageSizeOptions"
-		[pageSize]="pagination$.getValue().pageSize"
-		[pageIndex]="pagination$.getValue().pageIndex"
+		*ngIf="pagination$ | async as pagination"
+		[pageSize]="pagination.pageSize"
+		[pageIndex]="pagination.pageIndex"
 		aria-label="Select page"
+
 		(page)="pageChangeHandler($event)"
 	></mat-paginator>
 	<table
 		mat-table
 		[dataSource]="animeList.results"
 		matSort
-		[matSortActive]="sorting$.getValue().field"
-		[matSortDirection]="sorting$.getValue().direction"
+		*ngIf="sorting$ | async as sorting"
+		[matSortActive]="sorting.activeSortField"
+		[matSortDirection]="sorting.direction"
 		(matSortChange)="sortHandler($event)"
+		[trackBy]="trackById"
 		aria-describedby="anime list"
 	>
 		<ng-container matColumnDef="poster">

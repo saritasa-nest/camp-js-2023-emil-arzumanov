@@ -2,7 +2,7 @@
 export interface SortingParams {
 
 	/** Field to sort by. */
-	readonly field: SortField;
+	readonly activeSortField: SortField;
 
 	/** Sort direction. */
 	readonly direction: Direction;
