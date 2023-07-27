@@ -1,15 +1,15 @@
 /** Sorting model. */
 export interface SortingParams {
 
-	/** Active sort field. */
-	activeField: ActiveField;
+	/** Field to sort by. */
+	readonly field: SortField;
 
 	/** Sort direction. */
-	direction: Direction;
+	readonly direction: Direction;
 }
 
-/** All possible activeField values. */
-export enum ActiveField {
+/** All possible SortField values. */
+export enum SortField {
 	TitleEnglish = 'titleEng',
 	AiredStart = 'airedStart',
 	Status = 'status',

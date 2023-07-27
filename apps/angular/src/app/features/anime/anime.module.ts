@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
@@ -27,9 +27,7 @@ import { TableComponent } from './table/table.component';
 		MatSelectModule,
 		FormsModule,
 		ReactiveFormsModule,
-		NgFor,
 		MatSortModule,
-		ReactiveFormsModule,
 		MatInputModule,
 		MatButtonModule,
 	],

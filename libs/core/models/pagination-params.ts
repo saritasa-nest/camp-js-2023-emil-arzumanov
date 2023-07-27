@@ -2,8 +2,8 @@
 export interface PaginationParams {
 
 	/** Page size. */
-	pageSize: number;
+	readonly pageSize: number;
 
 	/** Page index. */
-	pageIndex: number;
+	readonly pageIndex: number;
 }

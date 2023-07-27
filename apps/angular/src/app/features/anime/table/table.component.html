@@ -15,8 +15,8 @@
 	<mat-paginator
 		[length]="animeList.count"
 		[pageSizeOptions]="pageSizeOptions"
-		[pageSize]="paginationParams.pageSize"
-		[pageIndex]="paginationParams.pageIndex"
+		[pageSize]="pagination$.getValue().pageSize"
+		[pageIndex]="pagination$.getValue().pageIndex"
 		aria-label="Select page"
 		(page)="pageChangeHandler($event)"
 	></mat-paginator>
@@ -24,8 +24,8 @@
 		mat-table
 		[dataSource]="animeList.results"
 		matSort
-		[matSortActive]="sortingParams.activeField"
-		[matSortDirection]="sortingParams.direction"
+		[matSortActive]="sorting$.getValue().field"
+		[matSortDirection]="sorting$.getValue().direction"
 		(matSortChange)="sortHandler($event)"
 		aria-describedby="anime list"
 	>

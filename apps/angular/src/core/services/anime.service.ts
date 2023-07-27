@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -10,7 +10,7 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParamsMapper } from '@js-camp/core/mappers/pagination-params.mapper';
 import { SortingParamsMapper } from '@js-camp/core/mappers/sorting-params.mapper';
-import { FilterParamsMapper } from '@js-camp/core/mappers/filter-params.mapper.dto';
+import { FilterParamsMapper } from '@js-camp/core/mappers/filter-params.mapper';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 
 import { AppUrlsConfig } from './url-config.service';
@@ -20,12 +20,17 @@ import { AppUrlsConfig } from './url-config.service';
 	providedIn: 'root',
 })
 export class AnimeService {
-	public constructor(private readonly appUrlsConfig: AppUrlsConfig, private readonly http: HttpClient) {}
+	private readonly appUrlsConfig = inject(AppUrlsConfig);
+
+	private readonly http = inject(HttpClient);
+
+	public constructor() {}
 
 	/** URL to get list of all anime. */
 	private readonly animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
-	/** Sends get request to API and maps receives data.
+	/**
+		* Sends get request to API and maps receives data.
 	 * @param params Request parameters.
 	 */
 	public getAnimeList(params: AnimeParams): Observable<Pagination<Anime>> {

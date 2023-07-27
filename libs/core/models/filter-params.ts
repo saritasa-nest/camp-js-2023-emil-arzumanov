@@ -4,8 +4,8 @@ import { AnimeType } from './anime';
 export interface FilterParams {
 
 	/** Search. */
-	search: string | null;
+	readonly search: string | null;
 
 	/** Type array. */
-	type: AnimeType[] | null;
+	readonly type: readonly AnimeType[] | null;
 }

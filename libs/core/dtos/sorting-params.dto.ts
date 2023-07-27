@@ -5,8 +5,8 @@ export interface SortingParamsDto {
 	readonly ordering: string;
 }
 
-/** All possible activeField dto values. */
-export enum ActiveFieldDto {
+/** All possible SortField dto values. */
+export enum SortFieldDto {
 	TitleEnglish = 'title_eng',
 	AiredStart = 'aired__startswith',
 	Status = 'status',

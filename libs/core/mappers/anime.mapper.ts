@@ -25,7 +25,7 @@ export namespace AnimeMapper {
 		});
 	}
 
-	/** Anime type transformation object in dto. */
+	/** Anime type transformation object from dto to model. */
 	const ANIME_TYPES_FROM_DTO = {
 		[AnimeTypeDto.TV]: AnimeType.TV,
 		[AnimeTypeDto.OVA]: AnimeType.OVA,
@@ -36,7 +36,18 @@ export namespace AnimeMapper {
 		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 	};
 
-	/** Anime type transformation object in dto. */
+	/** Anime type transformation object from model to dto. */
+	export const ANIME_TYPES_TO_DTO = {
+		[AnimeType.TV]: AnimeTypeDto.TV,
+		[AnimeType.OVA]: AnimeTypeDto.OVA,
+		[AnimeType.Movie]: AnimeTypeDto.Movie,
+		[AnimeType.Special]: AnimeTypeDto.Special,
+		[AnimeType.ONA]: AnimeTypeDto.ONA,
+		[AnimeType.Music]: AnimeTypeDto.Music,
+		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
+	};
+
+	/** Anime statuses transformation object from dto to model. */
 	const ANIME_STATUSES_FROM_DTO = {
 		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 		[AnimeStatusDto.Finished]: AnimeStatus.Finished,

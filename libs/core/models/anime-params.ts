@@ -6,11 +6,11 @@ import { FilterParams } from './filter-params';
 export interface AnimeParams {
 
 	/** Pagination query params. */
-	pagination: PaginationParams;
+	readonly pagination: PaginationParams;
 
 	/** Sorting query params. */
-	sorting: SortingParams;
+	readonly sorting: SortingParams;
 
-	/** FIlter query params. */
-	filter: FilterParams;
+	/** Filter query params. */
+	readonly filter: FilterParams;
 }

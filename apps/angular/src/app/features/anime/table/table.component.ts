@@ -5,10 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest, map, switchMap, tap } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { FormBuilder } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { ActiveField, Direction, SortingParams } from '@js-camp/core/models/sorting-params';
+import { SortField, Direction, SortingParams } from '@js-camp/core/models/sorting-params';
 import { FilterParams } from '@js-camp/core/models/filter-params';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 
@@ -19,6 +19,14 @@ import { AnimeParams } from '@js-camp/core/models/anime-params';
 	styleUrls: ['./table.component.css'],
 })
 export class TableComponent {
+	private readonly router = inject(Router);
+
+	private readonly route = inject(ActivatedRoute);
+
+	private readonly animeService = inject(AnimeService);
+
+	private readonly fb = inject(FormBuilder);
+
 	/** Pagination parameters. */
 	protected readonly paginationParams: PaginationParams = {
 		pageSize: 5,
@@ -27,7 +35,7 @@ export class TableComponent {
 
 	/** Sorting params. */
 	protected readonly sortingParams: SortingParams = {
-		activeField: ActiveField.None,
+		field: SortField.None,
 		direction: Direction.None,
 	};
 
@@ -40,14 +48,8 @@ export class TableComponent {
 	/** Page size options. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
 
-	/** Type filter options.  */
-	protected readonly filters = ['TV', 'OVA', 'Movie', 'Special', 'ONA', 'Music', 'Unknown'];
-
-	private readonly router = inject(Router);
-
-	private readonly route = inject(ActivatedRoute);
-
-	private readonly animeService = inject(AnimeService);
+	/** Type filter options for layout.  */
+	protected readonly filters = Object.values(AnimeType);
 
 	/** List of anime. */
 	protected readonly animeList$: Observable<Pagination<Anime>>;
@@ -71,7 +73,7 @@ export class TableComponent {
 		'status',
 	];
 
-	public constructor(private fb: FormBuilder) {
+	public constructor() {
 		this.makeSnapshots();
 
 		this.animeList$ = combineLatest([
@@ -93,15 +95,17 @@ export class TableComponent {
 		const snapshot = this.route.snapshot.queryParams;
 
 		if (snapshot['pageIndex'] && snapshot['pageSize']) {
-			this.paginationParams.pageIndex = snapshot['pageIndex'];
-			this.paginationParams.pageSize = snapshot['pageSize'];
-			this.pagination$.next(this.paginationParams);
+			this.pagination$.next({
+				pageSize: snapshot['pageSize'],
+				pageIndex: snapshot['pageIndex'],
+			});
 		}
 
-		if (snapshot['activeField'] && snapshot['direction']) {
-			this.sortingParams.activeField = snapshot['activeField'];
-			this.sortingParams.direction = snapshot['direction'];
-			this.sorting$.next(this.sortingParams);
+		if (snapshot['sortField'] && snapshot['direction']) {
+			this.sorting$.next({
+				field: snapshot['sortField'],
+				direction: snapshot['direction'],
+			});
 		}
 
 		if (snapshot['search']) {
@@ -128,9 +132,10 @@ export class TableComponent {
 	 * @param event Event.
 	 */
 	protected pageChangeHandler(event: PageEvent): void {
-		this.paginationParams.pageIndex = event.pageIndex;
-		this.paginationParams.pageSize = event.pageSize;
-		this.pagination$.next(this.paginationParams);
+		this.pagination$.next({
+			pageSize: event.pageSize,
+			pageIndex: event.pageIndex,
+		});
 	}
 
 	/**
@@ -138,14 +143,18 @@ export class TableComponent {
 	 * @param event Event.
 	 */
 	protected sortHandler(event: Sort): void {
-		this.sortingParams.activeField = event.active as ActiveField;
-		this.sortingParams.direction = event.direction as Direction;
-		this.sorting$.next(this.sortingParams);
+		this.sorting$.next({
+			field: event.active as SortField,
+			direction: event.direction as Direction,
+		});
 	}
 
 	/** Filter form submit. */
 	protected onSubmit(): void {
-		this.paginationParams.pageIndex = 0;
+		this.pagination$.next({
+			pageSize: 5,
+			pageIndex: 0,
+		});
 
 		const { search, type } = this.filterForm.getRawValue();
 		this.filterForm$.next({
@@ -154,18 +163,19 @@ export class TableComponent {
 		});
 	}
 
-	/** Sets query parameters in URL.
+	/**
+		* Sets query parameters in URL.
 		* @param params Query parameters that will be added to URL.
 	 */
 	private setQueryParams(params: AnimeParams): void {
 		const queryParams = {
 			pageSize: params.pagination.pageSize,
 			pageIndex: params.pagination.pageIndex,
-			activeField: params.sorting.activeField,
+			sortField: params.sorting.field,
 			direction: params.sorting.direction,
 			search: params.filter.search,
 			type: params.filter.type ? params.filter.type.join(',') : '',
 		};
-		this.router.navigate([], { queryParams: { ...queryParams } });
+		this.router.navigate([], { queryParams });
 	}
 }

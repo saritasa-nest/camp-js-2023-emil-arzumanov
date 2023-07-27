@@ -1,5 +1,5 @@
-import { ActiveFieldDto, SortingParamsDto } from '../dtos/sorting-params.dto';
-import { ActiveField, SortingParams } from '../models/sorting-params';
+import { SortFieldDto, SortingParamsDto } from '../dtos/sorting-params.dto';
+import { Direction, SortField, SortingParams } from '../models/sorting-params';
 
 export namespace SortingParamsMapper {
 
@@ -8,18 +8,18 @@ export namespace SortingParamsMapper {
 	 * @param model SortingParams model.
 	 */
 	export function toDto(model: SortingParams): SortingParamsDto {
-		const direction = model.direction === 'desc' ? '-' : '';
-		const sortParamsDto = SORT_PARAMS_TO_DTO[model.activeField];
+		const direction = model.direction === Direction.Descending ? '-' : '';
+		const sortParamsDto = SORT_PARAMS_TO_DTO[model.field];
 		return ({
 			ordering: direction + sortParamsDto,
 		});
 	}
 }
 
-/** Anime type transformation object in dto. */
+/** Sort field type transformation object from model to dto. */
 const SORT_PARAMS_TO_DTO = {
-	[ActiveField.AiredStart]: ActiveFieldDto.AiredStart,
-	[ActiveField.TitleEnglish]: ActiveFieldDto.TitleEnglish,
-	[ActiveField.Status]: ActiveFieldDto.Status,
-	[ActiveField.None]: ActiveFieldDto.None,
+	[SortField.AiredStart]: SortFieldDto.AiredStart,
+	[SortField.TitleEnglish]: SortFieldDto.TitleEnglish,
+	[SortField.Status]: SortFieldDto.Status,
+	[SortField.None]: SortFieldDto.None,
 };
