@@ -7,9 +7,10 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { FormBuilder } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { SortField, Direction } from '@js-camp/core/models/sorting-params';
+import { SortField, SortParams } from '@js-camp/core/models/sorting-params';
 import { FilterParams } from '@js-camp/core/models/filter-params';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
 
 /** Query parameters for snapshots. */
 enum Params {
@@ -63,30 +64,28 @@ export class TableComponent {
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Pagination. */
-	protected readonly pagination$ = new BehaviorSubject({
+	protected readonly pagination$ = new BehaviorSubject<PaginationParams>({
 		pageSize: 5,
 		pageIndex: 0,
 	});
 
 	/** Sorting. */
-	protected readonly sorting$ = new BehaviorSubject({
+	protected readonly sorting$ = new BehaviorSubject<SortParams>({
 		field: SortField.None,
-		direction: Direction.None,
+		direction: '',
 	});
+
+	/** Mapped filter valueChanges. */
+	protected readonly filter$: Observable<FilterParams>;
 
 	public constructor() {
 		this.makeAndSaveSnapshots();
+		this.filter$ = this.createFiltersStream();
 
 		this.animeList$ = combineLatest([
 			this.pagination$,
 			this.sorting$,
-			this.filterForm.valueChanges.pipe(
-				startWith(this.filterForm.value),
-				map(({ search, type }): FilterParams => ({
-					search: search === undefined ? '' : search,
-					type: type === undefined ? [] : type,
-				})),
-			),
+			this.filter$,
 		]).pipe(
 			map(([pagination, sorting, filter]) => ({ pagination, sorting, filter })),
 			tap(params => this.setQueryParams(params)),
@@ -124,6 +123,16 @@ export class TableComponent {
 		}
 	}
 
+	private createFiltersStream(): Observable<FilterParams> {
+		return this.filterForm.valueChanges.pipe(
+			startWith(this.filterForm.value),
+			map(({ search, type }): FilterParams => ({
+				search: search === undefined ? '' : search,
+				type: type === undefined ? [] : type,
+			})),
+		);
+	}
+
 	/**
 	 * Handler for pagination event.
 	 * @param event Event.
@@ -141,8 +150,8 @@ export class TableComponent {
 	 */
 	protected sortHandler(event: Sort): void {
 		this.sorting$.next({
-			field: event.active !== '' ? event.active as SortField : SortField.None,
-			direction: event.direction !== '' ? event.direction as Direction : Direction.None,
+			field: event.active as SortField,
+			direction: event.direction,
 		});
 	}
 
