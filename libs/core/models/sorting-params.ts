@@ -1,8 +1,8 @@
 /** Sorting model. */
-export interface SortingParams {
+export interface SortParams {
 
 	/** Field to sort by. */
-	readonly activeSortField: SortField;
+	readonly field: SortField;
 
 	/** Sort direction. */
 	readonly direction: Direction;

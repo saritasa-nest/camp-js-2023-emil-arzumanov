@@ -19,7 +19,6 @@
 		[pageSize]="pagination.pageSize"
 		[pageIndex]="pagination.pageIndex"
 		aria-label="Select page"
-
 		(page)="pageChangeHandler($event)"
 	></mat-paginator>
 	<table
@@ -27,7 +26,7 @@
 		[dataSource]="animeList.results"
 		matSort
 		*ngIf="sorting$ | async as sorting"
-		[matSortActive]="sorting.activeSortField"
+		[matSortActive]="sorting.field"
 		[matSortDirection]="sorting.direction"
 		(matSortChange)="sortHandler($event)"
 		[trackBy]="trackById"

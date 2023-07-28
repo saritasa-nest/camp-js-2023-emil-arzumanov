@@ -6,14 +6,14 @@ import { AnimeMapper } from './anime.mapper';
 export namespace FilterParamsMapper {
 
 	/**
-	 * Maps model to dto.
-	 * @param model Filtering params model.
-	 */
+		* Maps model to dto.
+		* @param model Filtering params model.
+		*/
 	export function toDto(model: FilterParams): FilterParamsDto {
-		const dtoType = model.type ? model.type.map(elem => AnimeMapper.ANIME_TYPES_TO_DTO[elem]).join(',') : '';
+		const typeDto = model.type ? model.type.map(elem => AnimeMapper.ANIME_TYPES_TO_DTO_MAP[elem]).join(',') : '';
 		return ({
 			search: model.search ? model.search : '',
-			type__in: dtoType,
+			type__in: typeDto,
 		});
 	}
 }

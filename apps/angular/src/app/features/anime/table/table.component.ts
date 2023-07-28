@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -26,6 +26,7 @@ enum Params {
 	selector: 'camp-table',
 	templateUrl: './table.component.html',
 	styleUrls: ['./table.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
 	private readonly router = inject(Router);
@@ -36,17 +37,27 @@ export class TableComponent {
 
 	private readonly fb = inject(FormBuilder);
 
-	/** Form group with filter and search. */
-	protected readonly filterForm = this.fb.group<FilterParams>({
-		search: '',
-		type: [],
-	}, { updateOn: 'submit' });
-
 	/** Page size options. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 75, 100];
 
 	/** Type filter options for layout.  */
 	protected readonly filters = Object.values(AnimeType);
+
+	/** Columns of table to display. */
+	protected readonly displayedColumns: readonly string[] = [
+		'poster',
+		'titleEng',
+		'titleJpn',
+		'airedStart',
+		'type',
+		'status',
+	];
+
+	/** Form group with filter and search. */
+	protected readonly filterForm = this.fb.group<FilterParams>({
+		search: '',
+		type: [],
+	}, { updateOn: 'submit' });
 
 	/** List of anime. */
 	protected readonly animeList$: Observable<Pagination<Anime>>;
@@ -59,19 +70,9 @@ export class TableComponent {
 
 	/** Sorting. */
 	protected readonly sorting$ = new BehaviorSubject({
-		activeSortField: SortField.None,
+		field: SortField.None,
 		direction: Direction.None,
 	});
-
-	/** Columns of table to display. */
-	protected readonly displayedColumns: readonly string[] = [
-		'poster',
-		'titleEng',
-		'titleJpn',
-		'airedStart',
-		'type',
-		'status',
-	];
 
 	public constructor() {
 		this.makeAndSaveSnapshots();
@@ -109,7 +110,7 @@ export class TableComponent {
 
 		if (snapshot[Params.SortingParameter] != null && snapshot[Params.DirectionParameter] != null) {
 			this.sorting$.next({
-				activeSortField: snapshot[Params.SortingParameter],
+				field: snapshot[Params.SortingParameter],
 				direction: snapshot[Params.DirectionParameter],
 			});
 		}
@@ -140,7 +141,7 @@ export class TableComponent {
 	 */
 	protected sortHandler(event: Sort): void {
 		this.sorting$.next({
-			activeSortField: event.active !== '' ? event.active as SortField : SortField.None,
+			field: event.active !== '' ? event.active as SortField : SortField.None,
 			direction: event.direction !== '' ? event.direction as Direction : Direction.None,
 		});
 	}
@@ -161,7 +162,7 @@ export class TableComponent {
 		const queryParams = {
 			pageSize: params.pagination.pageSize,
 			pageIndex: params.pagination.pageIndex,
-			sortField: params.sorting.activeSortField,
+			sortField: params.sorting.field,
 			direction: params.sorting.direction,
 			search: params.filter.search,
 			type: params.filter.type ? params.filter.type.join(',') : '',

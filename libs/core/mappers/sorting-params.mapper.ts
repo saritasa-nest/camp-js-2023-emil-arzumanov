@@ -1,23 +1,26 @@
-import { SortFieldDto, SortingParamsDto } from '../dtos/sorting-params.dto';
-import { Direction, SortField, SortingParams } from '../models/sorting-params';
+import { SortFieldDto, SortParamsDto } from '../dtos/sorting-params.dto';
+import { Direction, SortField, SortParams } from '../models/sorting-params';
 
-export namespace SortingParamsMapper {
+export namespace SortParamsMapper {
 
 	/**
-	 * Maps model to dto.
-	 * @param model SortingParams model.
-	 */
-	export function toDto(model: SortingParams): SortingParamsDto {
+		* Maps model to dto.
+		* @param model SortParams model.
+		*/
+	export function toDto(model: SortParams): SortParamsDto {
 		const direction = model.direction === Direction.Descending ? '-' : '';
-		const sortParamsDto = SORT_PARAMS_TO_DTO[model.activeSortField];
+		const sortParamsDto = SORT_PARAMS_TO_DTO_MAP[model.field];
 		return ({
 			ordering: direction + sortParamsDto,
 		});
 	}
 }
 
-/** Sort field type transformation object from model to dto. */
-const SORT_PARAMS_TO_DTO = {
+/**
+	* Sort field type mapper.
+	* From model to dto.
+	*/
+const SORT_PARAMS_TO_DTO_MAP = {
 	[SortField.AiredStart]: SortFieldDto.AiredStart,
 	[SortField.TitleEnglish]: SortFieldDto.TitleEnglish,
 	[SortField.Status]: SortFieldDto.Status,

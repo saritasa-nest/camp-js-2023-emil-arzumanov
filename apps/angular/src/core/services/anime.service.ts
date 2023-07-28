@@ -9,7 +9,7 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParamsMapper } from '@js-camp/core/mappers/pagination-params.mapper';
-import { SortingParamsMapper } from '@js-camp/core/mappers/sorting-params.mapper';
+import { SortParamsMapper } from '@js-camp/core/mappers/sorting-params.mapper';
 import { FilterParamsMapper } from '@js-camp/core/mappers/filter-params.mapper';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 
@@ -24,22 +24,20 @@ export class AnimeService {
 
 	private readonly http = inject(HttpClient);
 
-	public constructor() {}
-
 	/** URL to get list of all anime. */
 	private readonly animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
 	/**
 		* Sends get request to API and maps receives data.
-	 * @param params Request parameters.
-	 */
+		* @param params Request parameters.
+		*/
 	public getAnimeList(params: AnimeParams): Observable<Pagination<Anime>> {
 
 		return this.http
 			.get<PaginationDto<AnimeDto>>(this.animeListUrl, {
 			params: {
 				...PaginationParamsMapper.toDto(params.pagination),
-				...SortingParamsMapper.toDto(params.sorting),
+				...SortParamsMapper.toDto(params.sorting),
 				...FilterParamsMapper.toDto(params.filter),
 			},
 		})

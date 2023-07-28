@@ -1,5 +1,5 @@
 /** Sorting params dto. */
-export interface SortingParamsDto {
+export interface SortParamsDto {
 
 	/** Sort ordering. */
 	readonly ordering: string;

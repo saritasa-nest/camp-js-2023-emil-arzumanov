@@ -18,15 +18,18 @@ export namespace AnimeMapper {
 			titleJpn: dto.title_jpn,
 			imageUrl: dto.image,
 			aired: AiredDateMapper.fromDto(dto.aired),
-			type: ANIME_TYPES_FROM_DTO[dto.type],
-			status: ANIME_STATUSES_FROM_DTO[dto.status],
+			type: ANIME_TYPES_FROM_DTO_MAP[dto.type],
+			status: ANIME_STATUSES_FROM_DTO_MAP[dto.status],
 			score: dto.score,
 			userScore: dto.user_score,
 		});
 	}
 
-	/** Anime type transformation object from dto to model. */
-	const ANIME_TYPES_FROM_DTO = {
+	/**
+		* Anime type mapper.
+		* From dto to model.
+		*/
+	const ANIME_TYPES_FROM_DTO_MAP = {
 		[AnimeTypeDto.TV]: AnimeType.TV,
 		[AnimeTypeDto.OVA]: AnimeType.OVA,
 		[AnimeTypeDto.Movie]: AnimeType.Movie,
@@ -36,8 +39,11 @@ export namespace AnimeMapper {
 		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 	};
 
-	/** Anime type transformation object from model to dto. */
-	export const ANIME_TYPES_TO_DTO = {
+	/**
+		* Anime type mapper.
+		* From model to dto.
+		*/
+	export const ANIME_TYPES_TO_DTO_MAP = {
 		[AnimeType.TV]: AnimeTypeDto.TV,
 		[AnimeType.OVA]: AnimeTypeDto.OVA,
 		[AnimeType.Movie]: AnimeTypeDto.Movie,
@@ -47,8 +53,11 @@ export namespace AnimeMapper {
 		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
 	};
 
-	/** Anime statuses transformation object from dto to model. */
-	const ANIME_STATUSES_FROM_DTO = {
+	/**
+		* Anime statuses mapper.
+		* From dto to model.
+		*/
+	const ANIME_STATUSES_FROM_DTO_MAP = {
 		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
 		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,

@@ -1,4 +1,4 @@
-import { SortingParams } from './sorting-params';
+import { SortParams } from './sorting-params';
 import { PaginationParams } from './pagination-params';
 import { FilterParams } from './filter-params';
 
@@ -9,7 +9,7 @@ export interface AnimeParams {
 	readonly pagination: PaginationParams;
 
 	/** Sorting query params. */
-	readonly sorting: SortingParams;
+	readonly sorting: SortParams;
 
 	/** Filter query params. */
 	readonly filter: FilterParams;
