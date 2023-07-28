@@ -1,4 +1,3 @@
-import { SortDirection } from '@angular/material/sort';
 
 /** Sorting model. */
 export interface SortParams {
@@ -7,7 +6,7 @@ export interface SortParams {
 	readonly field: SortField;
 
 	/** Sort direction. */
-	readonly direction: SortDirection;
+	readonly direction: Direction;
 }
 
 /** All possible SortField values. */
@@ -15,5 +14,12 @@ export enum SortField {
 	TitleEnglish = 'titleEng',
 	AiredStart = 'airedStart',
 	Status = 'status',
+	None = '',
+}
+
+/** All possible directions. */
+export enum Direction {
+	Ascending = 'asc',
+	Descending = 'desc',
 	None = '',
 }

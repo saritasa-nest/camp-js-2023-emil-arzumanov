@@ -7,7 +7,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { FormBuilder } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { SortField, SortParams } from '@js-camp/core/models/sorting-params';
+import { Direction, SortField, SortParams } from '@js-camp/core/models/sorting-params';
 import { FilterParams } from '@js-camp/core/models/filter-params';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
@@ -72,7 +72,7 @@ export class TableComponent {
 	/** Sorting. */
 	protected readonly sorting$ = new BehaviorSubject<SortParams>({
 		field: SortField.None,
-		direction: '',
+		direction: Direction.None,
 	});
 
 	/** Mapped filter valueChanges. */
@@ -151,7 +151,7 @@ export class TableComponent {
 	protected sortHandler(event: Sort): void {
 		this.sorting$.next({
 			field: event.active as SortField,
-			direction: event.direction,
+			direction: event.direction === 'asc' ? Direction.Ascending : Direction.Descending,
 		});
 	}
 
