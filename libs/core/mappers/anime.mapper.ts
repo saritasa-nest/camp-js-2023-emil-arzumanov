@@ -1,7 +1,7 @@
 import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
 import { Anime, AnimeStatus, AnimeType } from '../models/anime';
 
-import { AiredDateMapper } from './airedDate.mapper';
+import { AiredDateMapper } from './aired-date.mapper';
 
 export namespace AnimeMapper {
 
@@ -18,29 +18,49 @@ export namespace AnimeMapper {
 			titleJpn: dto.title_jpn,
 			imageUrl: dto.image,
 			aired: AiredDateMapper.fromDto(dto.aired),
-			type: ANIME_TYPES_FROM_DTO[dto.type],
-			status: ANIME_STATUSES_FROM_DTO[dto.status],
+			type: ANIME_TYPES_FROM_DTO_MAP[dto.type],
+			status: ANIME_STATUSES_FROM_DTO_MAP[dto.status],
 			score: dto.score,
 			userScore: dto.user_score,
 		});
 	}
 
-	/** Anime type transformation object in dto. */
-	const ANIME_TYPES_FROM_DTO = {
+	/**
+		* Anime type mapper.
+		* From dto to model.
+		*/
+	const ANIME_TYPES_FROM_DTO_MAP = {
 		[AnimeTypeDto.TV]: AnimeType.TV,
 		[AnimeTypeDto.OVA]: AnimeType.OVA,
-		[AnimeTypeDto.MOVIE]: AnimeType.Movie,
-		[AnimeTypeDto.SPECIAL]: AnimeType.Special,
+		[AnimeTypeDto.Movie]: AnimeType.Movie,
+		[AnimeTypeDto.Special]: AnimeType.Special,
 		[AnimeTypeDto.ONA]: AnimeType.ONA,
-		[AnimeTypeDto.MUSIC]: AnimeType.Music,
-		[AnimeTypeDto.UNKNOWN]: AnimeType.Unknown,
+		[AnimeTypeDto.Music]: AnimeType.Music,
+		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 	};
 
-	/** Anime type transformation object in dto. */
-	const ANIME_STATUSES_FROM_DTO = {
-		[AnimeStatusDto.AIRING]: AnimeStatus.Airing,
-		[AnimeStatusDto.FINISHED]: AnimeStatus.Finished,
-		[AnimeStatusDto.NOT_YET_AIRED]: AnimeStatus.NotYetAired,
-		[AnimeStatusDto.UNKNOWN]: AnimeStatus.Unknown,
+	/**
+		* Anime type mapper.
+		* From model to dto.
+		*/
+	export const ANIME_TYPES_TO_DTO_MAP = {
+		[AnimeType.TV]: AnimeTypeDto.TV,
+		[AnimeType.OVA]: AnimeTypeDto.OVA,
+		[AnimeType.Movie]: AnimeTypeDto.Movie,
+		[AnimeType.Special]: AnimeTypeDto.Special,
+		[AnimeType.ONA]: AnimeTypeDto.ONA,
+		[AnimeType.Music]: AnimeTypeDto.Music,
+		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
+	};
+
+	/**
+		* Anime statuses mapper.
+		* From dto to model.
+		*/
+	const ANIME_STATUSES_FROM_DTO_MAP = {
+		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
+		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
+		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
+		[AnimeStatusDto.Unknown]: AnimeStatus.Unknown,
 	};
 }

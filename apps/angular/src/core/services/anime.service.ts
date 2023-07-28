@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -8,6 +8,10 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
+import { PaginationParamsMapper } from '@js-camp/core/mappers/pagination-params.mapper';
+import { SortParamsMapper } from '@js-camp/core/mappers/sorting-params.mapper';
+import { FilterParamsMapper } from '@js-camp/core/mappers/filter-params.mapper';
+import { AnimeParams } from '@js-camp/core/models/anime-params';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -16,23 +20,27 @@ import { AppUrlsConfig } from './url-config.service';
 	providedIn: 'root',
 })
 export class AnimeService {
+	private readonly appUrlsConfig = inject(AppUrlsConfig);
 
-	public constructor(
-		private readonly appUrlsConfig: AppUrlsConfig,
-		private readonly http: HttpClient,
-	) {}
+	private readonly http = inject(HttpClient);
 
 	/** URL to get list of all anime. */
 	private readonly animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
-	/** Sends get request to API and maps receives data. */
-	public getAnimeList(): Observable<Pagination<Anime>> {
+	/**
+		* Sends get request to API and maps receives data.
+		* @param params Request parameters.
+		*/
+	public getAnimeList(params: AnimeParams): Observable<Pagination<Anime>> {
+
 		return this.http
-			.get<PaginationDto<AnimeDto>>(this.animeListUrl)
-			.pipe(
-				map(elem =>
-					PaginationMapper.fromDto(elem, result =>
-						AnimeMapper.fromDto(result))),
-			);
+			.get<PaginationDto<AnimeDto>>(this.animeListUrl, {
+			params: {
+				...PaginationParamsMapper.toDto(params.pagination),
+				...SortParamsMapper.toDto(params.sorting),
+				...FilterParamsMapper.toDto(params.filter),
+			},
+		})
+			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, animeDto => AnimeMapper.fromDto(animeDto))));
 	}
 }

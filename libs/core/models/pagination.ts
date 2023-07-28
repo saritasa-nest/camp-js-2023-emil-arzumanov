@@ -2,17 +2,16 @@ import { Immerable, OmitImmerable } from './immerable';
 
 /** Pagination class. */
 export class Pagination<TModel> extends Immerable {
-
-	/** Amount of anime in DB. */
+	/** Amount of elements in DB. */
 	public readonly count: number;
 
-	/** URL for anime list on next page. */
+	/** URL for list on next page. */
 	public readonly next: string;
 
-	/** URL for anime list on previous page. */
+	/** URL for list on previous page. */
 	public readonly previous: string;
 
-	/** Array of Anime on current page. */
+	/** Array of results on current page. */
 	public readonly results: readonly TModel[];
 
 	public constructor(data: PaginationConstructorData<TModel>) {

@@ -1,4 +1,4 @@
-import { AiredDate } from './airedDate';
+import { AiredDate } from './aired-date';
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Represents one anime. */
