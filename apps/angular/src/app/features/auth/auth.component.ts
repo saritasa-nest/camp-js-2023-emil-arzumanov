@@ -4,6 +4,5 @@ import { Component } from '@angular/core';
 @Component({
 	selector: 'camp-auth',
 	templateUrl: './auth.component.html',
-	styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent {}

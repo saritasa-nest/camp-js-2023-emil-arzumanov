@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
@@ -21,7 +20,6 @@ import { AnimeRoutingModule } from './anime-routing.module';
 	declarations: [TableComponent],
 	imports: [
 		CommonModule,
-		HttpClientModule,
 		MatTableModule,
 		MatPaginatorModule,
 		RouterModule,
