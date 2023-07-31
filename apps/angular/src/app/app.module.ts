@@ -9,12 +9,11 @@ import { SharedModule } from '../shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AnimeModule } from './features/anime/anime.module';
 
 /** App module. */
 @NgModule({
 	declarations: [AppComponent],
-	imports: [BrowserModule, SharedModule, AppRoutingModule, AnimeModule, BrowserAnimationsModule, RouterModule],
+	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule, RouterModule],
 	providers: [{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true }],
 	bootstrap: [AppComponent],
 })

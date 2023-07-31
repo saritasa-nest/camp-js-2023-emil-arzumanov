@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-/** App component. */
+/** Auth component. */
 @Component({
 	selector: 'camp-auth',
 	templateUrl: './auth.component.html',

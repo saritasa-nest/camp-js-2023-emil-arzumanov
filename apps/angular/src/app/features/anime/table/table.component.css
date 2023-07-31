@@ -1,3 +1,8 @@
+.heading {
+  text-align: right;
+  min-height: 38px;
+}
+
 .filter-form {
   display: grid;
 }

@@ -11,8 +11,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { TableComponent } from './table/table.component';
+import { AnimeRoutingModule } from './anime-routing.module';
 
 /** Anime module. */
 @NgModule({
@@ -30,6 +32,8 @@ import { TableComponent } from './table/table.component';
 		MatSortModule,
 		MatInputModule,
 		MatButtonModule,
+		MatIconModule,
+		AnimeRoutingModule,
 	],
 	providers: [AnimeService],
 })
