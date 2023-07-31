@@ -1,6 +1,6 @@
 .heading {
-  text-align: right;
-  min-height: 38px;
+  display: grid;
+  margin-bottom: 22px;
 }
 
 .filter-form {

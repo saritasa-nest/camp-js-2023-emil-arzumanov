@@ -12,7 +12,6 @@ export namespace RegistrationMapper {
 			email: model.email,
 			first_name: model.firstName,
 			last_name: model.lastName,
-			avatar: '',
 			password: model.password,
 		});
 	}

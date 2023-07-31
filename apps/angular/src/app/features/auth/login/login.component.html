@@ -1,19 +1,19 @@
-<form [formGroup]="loginForm">
-	<fieldset>
-		<legend>Login</legend>
-		<div class="form-field">
-			<label>Email:</label>
-			<input name="email" formControlName="email" />
-		</div>
-		<div class="form-field">
-			<label>Password:</label>
-			<input name="password" formControlName="password" type="password" />
-		</div>
-	</fieldset>
-	<div class="form-buttons">
-		<button type="submit" class="button button-primary">Login</button>
-	</div>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
+	<mat-form-field>
+		<mat-label>Email:</mat-label>
+		<input matInput formControlName="email" />
+	</mat-form-field>
+	<mat-form-field>
+		<mat-label>Password</mat-label>
+		<input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+		<button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+			<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+		</button>
+	</mat-form-field>
+	<button mat-flat-button color="primary" type="submit">Sign in</button>
 </form>
-<a routerLink="/home" mat-raised-button>Profile</a>
-<a routerLink="/home/registration" mat-raised-button>Sign up</a>
-<a routerLink="/anime" mat-raised-button>Table</a>
+<nav class="navigation">
+	<a routerLink="/home/registration" mat-raised-button>Sign up</a>
+	<a routerLink="/anime" mat-raised-button>Anime</a>
+</nav>

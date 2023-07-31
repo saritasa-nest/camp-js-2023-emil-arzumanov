@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
@@ -52,7 +52,6 @@ export class AuthService {
 		* @param tokens JWT tokens.
 		*/
 	private setTokens(tokens: TokenBody): void {
-		console.log(tokens);
 		localStorage.setItem('access_token', tokens.access);
 		localStorage.setItem('refresh_token', tokens.refresh);
 	}

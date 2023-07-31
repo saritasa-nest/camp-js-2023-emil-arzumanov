@@ -1,26 +1,68 @@
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form">
-	<mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.email as email">
 		<mat-label>Email:</mat-label>
-		<input matInput formControlName="email" />
+		<input matInput [formControl]="email" formControlName="email" />
+		<mat-error *ngIf="email.hasError('required')">
+			Email is required
+		</mat-error>
+		<mat-error *ngIf="email.hasError('email')">
+			Invalid Email
+		</mat-error>
 	</mat-form-field>
-	<mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.firstName as firstName">
 		<mat-label>First name:</mat-label>
-		<input matInput formControlName="firstName" />
+		<input matInput [formControl]="firstName" />
+		<mat-error *ngIf="firstName.hasError('required')">
+			First name is required
+		</mat-error>
 	</mat-form-field>
-	<mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.lastName as lastName">
 		<mat-label>Last name:</mat-label>
-		<input matInput formControlName="lastName" />
+		<input matInput [formControl]="lastName" />
+		<mat-error *ngIf="lastName.hasError('required')">
+			Last name is required
+		</mat-error>
 	</mat-form-field>
-	<mat-form-field>
-		<mat-label>Password:</mat-label>
-		<input matInput formControlName="password" type="password" />
+
+	<mat-form-field *ngIf="registrationForm.controls.password as password">
+		<mat-label>Password</mat-label>
+		<input matInput [formControl]="password" [type]="hidePassword ? 'password' : 'text'">
+		<mat-error *ngIf="password.hasError('required')">
+			Password is required
+		</mat-error>
+		<mat-error *ngIf="password.hasError('minlength')">
+			Password is too short
+		</mat-error>
+		<button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+			<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+		</button>
 	</mat-form-field>
-	<mat-form-field>
-		<mat-label>Re type password:</mat-label>
-		<input matInput formControlName="reTypePassword" type="password" />
+
+	<mat-form-field *ngIf="registrationForm.controls.reTypePassword as reTypePassword">
+		<mat-label>Password</mat-label>
+		<input matInput [formControl]="reTypePassword" [type]="hidePasswordRetype ? 'password' : 'text'">
+		<mat-error *ngIf="reTypePassword.hasError('required')">
+			Repeat password
+		</mat-error>
+		<mat-error *ngIf="reTypePassword.hasError('minlength')">
+			Password is too short
+		</mat-error>
+		<mat-error *ngIf="reTypePassword.hasError('matching')">
+			Password does not match
+		</mat-error>
+		<button type="button" mat-icon-button matSuffix (click)="hidePasswordRetype = !hidePasswordRetype"
+			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordRetype">
+			<mat-icon>{{hidePasswordRetype ? 'visibility_off' : 'visibility'}}</mat-icon>
+		</button>
 	</mat-form-field>
+
 	<button mat-flat-button color="primary" type="submit">Sign up</button>
 </form>
-<a routerLink="/home" mat-raised-button>Profile</a>
-<a routerLink="/home/login" mat-raised-button>Sign in</a>
-<a routerLink="/anime" mat-raised-button>Table</a>
+<nav class="navigation">
+	<a routerLink="/home/login" mat-raised-button>Sign in</a>
+	<a routerLink="/anime" mat-raised-button>Anime</a>
+</nav>

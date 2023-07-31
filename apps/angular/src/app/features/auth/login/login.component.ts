@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { Login } from '@js-camp/core/models/login';
-import { map, switchMap } from 'rxjs';
+import { tap } from 'rxjs';
 
 /** Login. */
 @Component({
@@ -11,6 +10,12 @@ import { map, switchMap } from 'rxjs';
 	styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+	/** Show password or not. */
+	protected hidePassword = true;
+
+	/** Show password retype or not. */
+	protected hidePasswordRetype = true;
+
 	private readonly authService = inject(AuthService);
 
 	private readonly fb = inject(FormBuilder);
@@ -18,20 +23,22 @@ export class LoginComponent {
 	/** Form group for login. */
 	protected readonly loginForm = this.fb.group(
 		{
-			email: ['', Validators.required],
+			email: ['', [Validators.required, Validators.email]],
 			password: ['', Validators.required],
 		},
 		{ updateOn: 'submit' },
 	);
 
-	/** Mapped filter valueChanges. */
-	protected readonly loginForm$ = this.loginForm.valueChanges.pipe(
-		map(
-			({ email, password }): Login => ({
-				email: email === undefined ? '' : email,
-				password: password === undefined ? '' : password,
-			}),
-		),
-		switchMap(body => this.authService.login(body)),
-	);
+	/** Login form submit. */
+	protected onSubmit(): void {
+		if (this.loginForm.invalid) {
+			return;
+		}
+		const body = this.loginForm.getRawValue();
+		this.authService.login(body)
+			.pipe(
+				tap(elem => console.log(elem)),
+			)
+			.subscribe();
+	}
 }
