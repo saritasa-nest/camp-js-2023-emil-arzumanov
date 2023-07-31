@@ -6,9 +6,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 
 import { TableComponent } from './features/anime/table/table.component';
+import { AuthModule } from './features/anime/auth/auth.module';
 
 const routes: Routes = [
 	{ path: 'anime', component: TableComponent },
+	{ path: 'auth', component: AuthModule },
 	{ path: '', redirectTo: 'anime', pathMatch: 'full' },
 	{ path: '**', component: PageNotFoundComponent },
 ];
