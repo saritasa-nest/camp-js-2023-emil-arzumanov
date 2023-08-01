@@ -3,7 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { matchValidator } from '@js-camp/angular/core/utils/password-validator';
+import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.utils';
+import { matchValidator } from '@js-camp/angular/core/utils/password-validate.utils';
 import { ErrorType } from '@js-camp/core/models/error';
 import { Observable, catchError, first, throwError } from 'rxjs';
 
@@ -29,7 +30,7 @@ export class RegistrationComponent {
 	/** Form group for login. */
 	protected readonly registrationForm = this.fb.group(
 		{
-			email: ['', [Validators.required, Validators.email]],
+			email: ['', Validators.required],
 			firstName: ['', Validators.required],
 			lastName: ['', Validators.required],
 			password: ['', [Validators.required, matchValidator('reTypePassword', true)]],
@@ -39,7 +40,7 @@ export class RegistrationComponent {
 	);
 
 	/**
-	 * Error handler for authorization requests.
+	 * Error handler for registration requests.
 	 * @param error Error.
 	 */
 	private handleRegistrationError(error: unknown): Observable<never> {
@@ -51,11 +52,21 @@ export class RegistrationComponent {
 						...(control.errors ?? {}),
 						[errorObject.code]: errorObject.detail,
 					});
+				} else {
+					this.registrationForm.controls.email.setErrors({
+						[errorObject.code]: errorObject.detail,
+					});
+					this.registrationForm.controls.password.setErrors({
+						[errorObject.code]: errorObject.detail,
+					});
 				}
 			});
 		}
 		return throwError(() => error);
 	}
+
+	/** Util returns errors array of form field. */
+	protected getFieldErrors = getFieldErrors;
 
 	/** Registration form submit. */
 	protected onSubmit(): void {
@@ -69,7 +80,7 @@ export class RegistrationComponent {
 				)
 				.subscribe({
 					next: () => {
-						this.router.navigate(['/home/login']);
+						this.router.navigate(['/home/profile']);
 					},
 					error(err: unknown) {
 						console.error('Error during registration', err);

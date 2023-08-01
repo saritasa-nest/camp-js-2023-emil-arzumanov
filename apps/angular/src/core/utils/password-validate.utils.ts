@@ -6,8 +6,7 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 	* @param reverse Reverse.
 	*/
 export function matchValidator(matchTo: string, reverse?: boolean): ValidatorFn {
-	return (control: AbstractControl):
-	ValidationErrors | null => {
+	return (control: AbstractControl): ValidationErrors | null => {
 		if (control.parent && reverse) {
 			const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
 			if (c) {

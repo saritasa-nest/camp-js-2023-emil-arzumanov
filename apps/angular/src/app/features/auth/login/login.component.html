@@ -6,8 +6,8 @@
 		<mat-error *ngIf="email.hasError('required')">
 			Email is required
 		</mat-error>
-		<mat-error *ngIf="email.hasError('email')">
-			Invalid Email
+		<mat-error *ngFor="let error of getFieldErrors(email)">
+			{{error}}
 		</mat-error>
 	</mat-form-field>
 
@@ -16,6 +16,9 @@
 		<input matInput [formControl]="password" [type]="hidePassword ? 'password' : 'text'">
 		<mat-error *ngIf="password.hasError('required')">
 			Password is required
+		</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(password)">
+			{{error}}
 		</mat-error>
 		<button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
 			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
