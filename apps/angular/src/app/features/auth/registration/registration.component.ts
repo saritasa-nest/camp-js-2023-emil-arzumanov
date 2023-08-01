@@ -4,7 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validator';
-import { first } from 'rxjs';
+import { ErrorType } from '@js-camp/core/models/error';
+import { Observable, catchError, first, throwError } from 'rxjs';
 
 /** Registration. */
 @Component({
@@ -37,6 +38,25 @@ export class RegistrationComponent {
 		{ updateOn: 'submit' },
 	);
 
+	/**
+	 * Error handler for authorization requests.
+	 * @param error Error.
+	 */
+	private handleRegistrationError(error: unknown): Observable<never> {
+		if (error instanceof HttpErrorResponse) {
+			error.error.errors.forEach((elem: ErrorType) => {
+				const control = this.registrationForm.get(elem.attr);
+				if (control) {
+					control.setErrors({
+						...(control.errors ?? {}),
+						[elem.code]: elem.detail,
+					});
+				}
+			});
+		}
+		return throwError(() => error);
+	}
+
 	/** Registration form submit. */
 	protected onSubmit(): void {
 		if (!this.registrationForm.invalid) {
@@ -45,17 +65,14 @@ export class RegistrationComponent {
 				.registration(body)
 				.pipe(
 					first(),
+					catchError((error: unknown) => this.handleRegistrationError(error)),
 				)
 				.subscribe({
 					next: () => {
 						this.router.navigate(['/home/login']);
 					},
-					error: (error: unknown) => {
-						if (error instanceof HttpErrorResponse) {
-							this.registrationForm.controls.email.setErrors({
-								appError: 'afafsd',
-							});
-						}
+					error(err: unknown) {
+						console.error('Error during registration', err);
 					},
 				});
 		}

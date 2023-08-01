@@ -50,7 +50,7 @@ export class AuthService {
 	 * @param body Request body.
 	 */
 	public login(body: Login): Observable<void> {
-		return this.http.post<TokenBody>(this.loginUrl, { body }).pipe(map(res => this.setTokens(res)));
+		return this.http.post<TokenBody>(this.loginUrl, { ...body }).pipe(map(res => this.setTokens(res)));
 	}
 
 	/**
@@ -61,10 +61,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(
-				map(res => {
-					this.setTokens(res);
-				}),
-				catchError((error: unknown) => this.handleAuthError(error)),
+				map(res => this.setTokens(res)),
 			);
 	}
 
