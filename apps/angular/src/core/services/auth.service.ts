@@ -31,11 +31,11 @@ export class AuthService {
 		* Error handler for authorization requests.
 		* @param error Error.
 		*/
-	private handleAuthError(error: HttpErrorResponse): Observable<ErrorType[]> {
+	private handleAuthError(error: unknown): Observable<ErrorType[]> {
 		let errorDetails: ErrorType[] = [];
-		if (error.error instanceof ErrorEvent) {
+		if (error instanceof ErrorEvent) {
 			console.error('An error occurred:', error.error.message);
-		} else {
+		} else if (error instanceof HttpErrorResponse) {
 			errorDetails = error.error.errors.map((elem: ErrorType) => ({
 				detail: elem.detail,
 				attr: elem.attr,
@@ -64,7 +64,7 @@ export class AuthService {
 				map(res => {
 					this.setTokens(res);
 				}),
-				catchError((error: HttpErrorResponse) => this.handleAuthError(error)),
+				catchError((error: unknown) => this.handleAuthError(error)),
 			);
 	}
 

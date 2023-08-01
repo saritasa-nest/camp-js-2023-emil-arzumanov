@@ -43,21 +43,21 @@ export class RegistrationComponent {
 			const body = this.registrationForm.getRawValue();
 			this.authService
 				.registration(body)
-				.pipe(first())
-				.subscribe(
-					() => {
+				.pipe(
+					first(),
+				)
+				.subscribe({
+					next: () => {
 						this.router.navigate(['/home/login']);
 					},
-					(error: unknown) => {
+					error: (error: unknown) => {
 						if (error instanceof HttpErrorResponse) {
-							console.log(error);
 							this.registrationForm.controls.email.setErrors({
 								appError: 'afafsd',
 							});
 						}
-						console.log(error);
 					},
-				);
+				});
 		}
 	}
 }
