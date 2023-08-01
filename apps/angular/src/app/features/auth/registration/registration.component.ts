@@ -29,14 +29,12 @@ export class RegistrationComponent {
 			password: [
 				'', [
 					Validators.required,
-					Validators.minLength(8),
 					matchValidator('reTypePassword', true),
 				],
 			],
 			reTypePassword: [
 				'', [
 					Validators.required,
-					Validators.minLength(8),
 					matchValidator('password'),
 				],
 			],

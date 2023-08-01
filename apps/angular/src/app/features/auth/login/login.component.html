@@ -17,9 +17,6 @@
 		<mat-error *ngIf="password.hasError('required')">
 			Password is required
 		</mat-error>
-		<mat-error *ngIf="password.hasError('minlength')">
-			Password is too short
-		</mat-error>
 		<button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
 			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
 			<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>

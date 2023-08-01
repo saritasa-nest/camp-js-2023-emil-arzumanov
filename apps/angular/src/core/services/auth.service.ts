@@ -66,7 +66,7 @@ export class AuthService {
 	}
 
 	/** Is user logged in. */
-	protected isLoggedIn(): boolean {
+	public isLoggedIn(): boolean {
 		return !!localStorage.getItem(ACCESS) && !!localStorage.getItem(REFRESH);
 	}
 }

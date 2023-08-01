@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '@js-camp/angular/core/services/auth.service';
+import { AuthGuard } from '@js-camp/angular/core/services/auth-guard.service';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -27,6 +29,6 @@ import { LoginComponent } from './login/login.component';
 		MatFormFieldModule,
 		MatIconModule,
 	],
-	providers: [AuthComponent],
+	providers: [AuthService, AuthGuard],
 })
 export class AuthModule {}
