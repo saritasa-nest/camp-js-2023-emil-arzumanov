@@ -44,12 +44,12 @@ export class RegistrationComponent {
 	 */
 	private handleRegistrationError(error: unknown): Observable<never> {
 		if (error instanceof HttpErrorResponse) {
-			error.error.errors.forEach((elem: ErrorType) => {
-				const control = this.registrationForm.get(elem.attr);
+			error.error.errors.forEach((errorObject: ErrorType) => {
+				const control = this.registrationForm.get(errorObject.attr);
 				if (control) {
 					control.setErrors({
 						...(control.errors ?? {}),
-						[elem.code]: elem.detail,
+						[errorObject.code]: errorObject.detail,
 					});
 				}
 			});

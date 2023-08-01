@@ -5,7 +5,6 @@ import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
-import { ErrorType } from '@js-camp/core/models/error';
 
 import { AppUrlsConfig } from './url-config.service';
 
