@@ -1,16 +1,31 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
-	<mat-form-field>
+
+	<mat-form-field *ngIf="loginForm.controls.email as email">
 		<mat-label>Email:</mat-label>
-		<input matInput formControlName="email" />
+		<input matInput [formControl]="email" />
+		<mat-error *ngIf="email.hasError('required')">
+			Email is required
+		</mat-error>
+		<mat-error *ngIf="email.hasError('email')">
+			Invalid Email
+		</mat-error>
 	</mat-form-field>
-	<mat-form-field>
+
+	<mat-form-field *ngIf="loginForm.controls.password as password">
 		<mat-label>Password</mat-label>
-		<input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+		<input matInput [formControl]="password" [type]="hidePassword ? 'password' : 'text'">
+		<mat-error *ngIf="password.hasError('required')">
+			Password is required
+		</mat-error>
+		<mat-error *ngIf="password.hasError('minlength')">
+			Password is too short
+		</mat-error>
 		<button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
 			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
 			<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
 		</button>
 	</mat-form-field>
+
 	<button mat-flat-button color="primary" type="submit">Sign in</button>
 </form>
 <nav class="navigation">

@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { tap } from 'rxjs';
 
 /** Login. */
 @Component({
@@ -24,21 +23,16 @@ export class LoginComponent {
 	protected readonly loginForm = this.fb.group(
 		{
 			email: ['', [Validators.required, Validators.email]],
-			password: ['', Validators.required],
+			password: ['', [Validators.required, Validators.minLength(8)]],
 		},
 		{ updateOn: 'submit' },
 	);
 
 	/** Login form submit. */
 	protected onSubmit(): void {
-		if (this.loginForm.invalid) {
-			return;
+		if (!this.loginForm.invalid) {
+			const body = this.loginForm.getRawValue();
+			this.authService.login(body).subscribe();
 		}
-		const body = this.loginForm.getRawValue();
-		this.authService.login(body)
-			.pipe(
-				tap(elem => console.log(elem)),
-			)
-			.subscribe();
 	}
 }

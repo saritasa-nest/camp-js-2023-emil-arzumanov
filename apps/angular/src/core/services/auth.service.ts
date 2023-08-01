@@ -8,6 +8,9 @@ import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 
 import { AppUrlsConfig } from './url-config.service';
 
+const ACCESS = 'access_token';
+const REFRESH = 'refresh_token';
+
 /** Service for auth requests. */
 @Injectable({
 	providedIn: 'root',
@@ -52,18 +55,18 @@ export class AuthService {
 		* @param tokens JWT tokens.
 		*/
 	private setTokens(tokens: TokenBody): void {
-		localStorage.setItem('access_token', tokens.access);
-		localStorage.setItem('refresh_token', tokens.refresh);
+		localStorage.setItem(ACCESS, tokens.access);
+		localStorage.setItem(REFRESH, tokens.refresh);
 	}
 
 	/** Logout. Delete tokens from local storage. */
 	public logout(): void {
-		localStorage.removeItem('access_token');
-		localStorage.removeItem('refresh_token');
+		localStorage.removeItem(ACCESS);
+		localStorage.removeItem(REFRESH);
 	}
 
 	/** Is user logged in. */
 	protected isLoggedIn(): boolean {
-		return !!localStorage.getItem('access_token') && !!localStorage.getItem('refresh_token');
+		return !!localStorage.getItem(ACCESS) && !!localStorage.getItem(REFRESH);
 	}
 }
