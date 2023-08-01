@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -43,9 +44,20 @@ export class RegistrationComponent {
 			this.authService
 				.registration(body)
 				.pipe(first())
-				.subscribe(() => {
-					this.router.navigateByUrl('/home/profile');
-				});
+				.subscribe(
+					() => {
+						this.router.navigate(['/home/login']);
+					},
+					(error: unknown) => {
+						if (error instanceof HttpErrorResponse) {
+							console.log(error);
+							this.registrationForm.controls.email.setErrors({
+								appError: 'afafsd',
+							});
+						}
+						console.log(error);
+					},
+				);
 		}
 	}
 }
