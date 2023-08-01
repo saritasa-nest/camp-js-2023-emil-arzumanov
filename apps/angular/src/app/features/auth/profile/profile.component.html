@@ -1,4 +1,5 @@
-<h1>Welcome to your profile!</h1>
-<a routerLink="/home/login" mat-raised-button>Sign in</a>
-<a routerLink="/home/registration" mat-raised-button>Sign up</a>
-<a routerLink="/anime" mat-raised-button>Table</a>
+<div class="profile">
+	<h1>Welcome to your profile!</h1>
+	<button type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
+	<a routerLink="/anime" mat-raised-button>Table</a>
+</div>

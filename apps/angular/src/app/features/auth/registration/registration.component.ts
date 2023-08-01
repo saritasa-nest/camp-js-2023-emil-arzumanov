@@ -1,7 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validator';
+import { first } from 'rxjs';
 
 /** Registration. */
 @Component({
@@ -18,34 +20,32 @@ export class RegistrationComponent {
 
 	private readonly authService = inject(AuthService);
 
+	private readonly router = inject(Router);
+
 	private readonly fb = inject(FormBuilder);
 
 	/** Form group for login. */
 	protected readonly registrationForm = this.fb.group(
 		{
-			email: ['', [Validators.required,	Validators.email]],
+			email: ['', [Validators.required, Validators.email]],
 			firstName: ['', Validators.required],
 			lastName: ['', Validators.required],
-			password: [
-				'', [
-					Validators.required,
-					matchValidator('reTypePassword', true),
-				],
-			],
-			reTypePassword: [
-				'', [
-					Validators.required,
-					matchValidator('password'),
-				],
-			],
-		}, { updateOn: 'submit' },
+			password: ['', [Validators.required, matchValidator('reTypePassword', true)]],
+			reTypePassword: ['', [Validators.required, matchValidator('password')]],
+		},
+		{ updateOn: 'submit' },
 	);
 
 	/** Registration form submit. */
 	protected onSubmit(): void {
 		if (!this.registrationForm.invalid) {
 			const body = this.registrationForm.getRawValue();
-			this.authService.registration(body).subscribe();
+			this.authService
+				.registration(body)
+				.pipe(first())
+				.subscribe(() => {
+					this.router.navigateByUrl('/home/profile');
+				});
 		}
 	}
 }
