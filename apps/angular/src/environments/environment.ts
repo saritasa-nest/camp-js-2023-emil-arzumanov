@@ -6,6 +6,8 @@ export const environment = {
 	production: false,
 	apiUrl: 'https://api.camp-js.saritasa.rocks/api/v1/',
 	apiKey: '9c9da0d3-c65c-402b-8df6-4a04ad9fa847',
+	accessToken: 'access_token',
+	refreshToken: 'refresh_token',
 };
 
 /*

@@ -5,11 +5,12 @@ import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
+import { environment } from '@js-camp/angular/environments/environment';
 
 import { AppUrlsConfig } from './url-config.service';
 
-const ACCESS = 'access_token';
-const REFRESH = 'refresh_token';
+const ACCESS = environment.accessToken;
+const REFRESH = environment.refreshToken;
 
 /** Service for auth requests. */
 @Injectable({

@@ -11,6 +11,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthInterceptor } from '@js-camp/angular/core/interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TableComponent } from './table/table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
@@ -33,6 +35,6 @@ import { AnimeRoutingModule } from './anime-routing.module';
 		MatIconModule,
 		AnimeRoutingModule,
 	],
-	providers: [AnimeService],
+	providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AnimeService],
 })
 export class AnimeModule {}
