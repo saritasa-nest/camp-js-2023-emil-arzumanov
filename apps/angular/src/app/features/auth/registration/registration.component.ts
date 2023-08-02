@@ -3,8 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.utils';
-import { matchValidator } from '@js-camp/angular/core/utils/password-validate.utils';
+import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
 import { ErrorType } from '@js-camp/core/models/error';
 import { Observable, catchError, first, throwError } from 'rxjs';
 
@@ -50,13 +50,6 @@ export class RegistrationComponent {
 				if (control) {
 					control.setErrors({
 						...(control.errors ?? {}),
-						[errorObject.code]: errorObject.detail,
-					});
-				} else {
-					this.registrationForm.controls.email.setErrors({
-						[errorObject.code]: errorObject.detail,
-					});
-					this.registrationForm.controls.password.setErrors({
 						[errorObject.code]: errorObject.detail,
 					});
 				}
