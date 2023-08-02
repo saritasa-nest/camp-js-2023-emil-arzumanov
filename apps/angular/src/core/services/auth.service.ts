@@ -9,9 +9,6 @@ import { environment } from '@js-camp/angular/environments/environment';
 
 import { AppUrlsConfig } from './url-config.service';
 
-const ACCESS = environment.accessToken;
-const REFRESH = environment.refreshToken;
-
 /** Service for auth requests. */
 @Injectable({
 	providedIn: 'root',
@@ -53,7 +50,7 @@ export class AuthService {
 	/** Refresh token. */
 	public refreshToken(): Observable<void> {
 		return this.http
-			.post<TokenBody>(this.refreshTokenUrl, { refresh: localStorage.getItem(REFRESH) })
+			.post<TokenBody>(this.refreshTokenUrl, { refresh: localStorage.getItem(environment.refreshToken) })
 			.pipe(map(res => this.setTokens(res)));
 	}
 
@@ -62,19 +59,19 @@ export class AuthService {
 	 * @param tokens JWT tokens.
 	 */
 	private setTokens(tokens: TokenBody): void {
-		localStorage.setItem(ACCESS, tokens.access);
-		localStorage.setItem(REFRESH, tokens.refresh);
+		localStorage.setItem(environment.accessToken, tokens.access);
+		localStorage.setItem(environment.refreshToken, tokens.refresh);
 	}
 
 	/** Logout. Delete tokens from local storage. */
 	public logout(): void {
-		localStorage.removeItem(ACCESS);
-		localStorage.removeItem(REFRESH);
+		localStorage.removeItem(environment.accessToken);
+		localStorage.removeItem(environment.refreshToken);
 	}
 
 	/** Is user logged in. */
 	public isLoggedIn(): boolean {
-		if (localStorage.getItem(ACCESS) === null && localStorage.getItem(REFRESH) === null) {
+		if (localStorage.getItem(environment.accessToken) === null && localStorage.getItem(environment.refreshToken) === null) {
 			return false;
 		}
 		return true;

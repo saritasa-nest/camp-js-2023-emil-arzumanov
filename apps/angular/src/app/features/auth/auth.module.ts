@@ -14,10 +14,11 @@ import { AuthComponent } from './auth.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
+import { PasswordFieldComponent } from './shared-components/password-field/password-field.component';
 
 /** Authorization module. */
 @NgModule({
-	declarations: [AuthComponent, ProfileComponent, RegistrationComponent, LoginComponent],
+	declarations: [AuthComponent, ProfileComponent, RegistrationComponent, LoginComponent, PasswordFieldComponent],
 	imports: [
 		CommonModule,
 		AuthRoutingModule,

@@ -1,10 +1,11 @@
 import { Observable, catchError, first, throwError } from 'rxjs';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorType } from '@js-camp/core/models/error';
+import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 
 /** Login. */
 @Component({
@@ -13,9 +14,6 @@ import { ErrorType } from '@js-camp/core/models/error';
 	styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-	/** Show password or not. */
-	protected hidePassword = true;
-
 	/** Show password retype or not. */
 	protected hidePasswordRetype = true;
 
@@ -60,17 +58,8 @@ export class LoginComponent {
 		return throwError(() => error);
 	}
 
-	/**
-	 * Return errors array of form field.
-	 * @param formField Form field.
-	 */
-	protected getFieldErrors(formField: FormControl<string | null>): string[] {
-		let errorsArray: string[] = [];
-		if (formField.errors) {
-			errorsArray = Object.keys(formField.errors).map(error => formField.getError(error));
-		}
-		return errorsArray;
-	}
+	/** Util returns errors array of form field. */
+	protected getFieldErrors = getFieldErrors;
 
 	/** Login form submit. */
 	protected onSubmit(): void {

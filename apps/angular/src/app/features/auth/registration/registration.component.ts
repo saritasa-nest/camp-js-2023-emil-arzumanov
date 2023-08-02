@@ -15,9 +15,6 @@ import { Observable, catchError, first, throwError } from 'rxjs';
 	styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent {
-	/** Show password or not. */
-	protected hidePassword = true;
-
 	/** Show password retype or not. */
 	protected hidePasswordRetype = true;
 

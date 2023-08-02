@@ -5,8 +5,6 @@ import { environment } from '@js-camp/angular/environments/environment';
 
 import { AppUrlsConfig } from '../services/url-config.service';
 
-const ACCESS = environment.accessToken;
-
 /** Auth interceptor. Intercepts request and adds JWT token to headers. */
 @Injectable()
 export class AuthInterceptor<T> implements HttpInterceptor {
@@ -17,7 +15,7 @@ export class AuthInterceptor<T> implements HttpInterceptor {
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		const animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
-		const accessToken = localStorage.getItem(ACCESS);
+		const accessToken = localStorage.getItem(environment.accessToken);
 
 		if (req.url.includes(animeListUrl) && accessToken) {
 			const modifiedReq = req.clone({

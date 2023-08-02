@@ -27,20 +27,7 @@
 		</mat-error>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="registrationForm.controls.password as password">
-		<mat-label>Password</mat-label>
-		<input matInput [formControl]="password" [type]="hidePassword ? 'password' : 'text'">
-		<mat-error *ngIf="password.hasError('required')">
-			Password is required
-		</mat-error>
-		<mat-error *ngFor="let error of getFieldErrors(password)">
-			{{error}}
-		</mat-error>
-		<button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
-			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-			<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-		</button>
-	</mat-form-field>
+	<camp-password-field [passwordControl]="registrationForm.controls.password"></camp-password-field>
 
 	<mat-form-field *ngIf="registrationForm.controls.confirmPassword as confirmPassword">
 		<mat-label>Repeat Password</mat-label>
