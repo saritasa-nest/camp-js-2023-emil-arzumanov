@@ -18,10 +18,11 @@ export class AuthInterceptor<T> implements HttpInterceptor {
 
 		const animeListUrl = appUrlsConfig.toApi('anime', 'anime');
 
-		if (req.url.search(animeListUrl) === -1) {
+		if (req.url !== animeListUrl) {
+			const accessToken = localStorage.getItem(ACCESS);
 			const modifiedReq = req.clone({
 				setHeaders: {
-					Authorization: `Bearer ${localStorage.getItem(ACCESS)}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 			});
 			return next.handle(modifiedReq);

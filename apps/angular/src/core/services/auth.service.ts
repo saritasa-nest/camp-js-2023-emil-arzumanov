@@ -27,6 +27,9 @@ export class AuthService {
 	/** URL for registration request. */
 	private readonly registrationUrl = this.appUrlsConfig.toApi('auth', 'register');
 
+	/** URL for refresh token request. */
+	private readonly refreshTokenUrl = this.appUrlsConfig.toApi('auth', 'token', 'refresh');
+
 	/**
 	 * Login.
 	 * @param body Request body.
@@ -45,6 +48,11 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(map(res => this.setTokens(res)));
+	}
+
+	/** Refresh token. */
+	public refreshToken(): Observable<Object> {
+		return this.http.post(this.refreshTokenUrl, { refresh: localStorage.getItem(REFRESH) });
 	}
 
 	/**
