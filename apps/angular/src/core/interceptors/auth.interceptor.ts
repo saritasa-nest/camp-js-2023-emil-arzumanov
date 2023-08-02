@@ -11,15 +11,15 @@ const ACCESS = environment.accessToken;
 @Injectable()
 export class AuthInterceptor<T> implements HttpInterceptor {
 
+	private readonly appUrlsConfig = inject(AppUrlsConfig);
+
 	/** @inheritdoc */
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
+		const animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
-		const appUrlsConfig = inject(AppUrlsConfig);
+		const accessToken = localStorage.getItem(ACCESS);
 
-		const animeListUrl = appUrlsConfig.toApi('anime', 'anime');
-
-		if (req.url !== animeListUrl) {
-			const accessToken = localStorage.getItem(ACCESS);
+		if (req.url.includes(animeListUrl) && accessToken) {
 			const modifiedReq = req.clone({
 				setHeaders: {
 					Authorization: `Bearer ${accessToken}`,
@@ -27,6 +27,7 @@ export class AuthInterceptor<T> implements HttpInterceptor {
 			});
 			return next.handle(modifiedReq);
 		}
+
 		return next.handle(req);
 	}
 }
