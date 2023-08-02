@@ -42,13 +42,13 @@
 		</button>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="registrationForm.controls.reTypePassword as reTypePassword">
+	<mat-form-field *ngIf="registrationForm.controls.confirmPassword as confirmPassword">
 		<mat-label>Repeat Password</mat-label>
-		<input matInput [formControl]="reTypePassword" [type]="hidePasswordRetype ? 'password' : 'text'">
-		<mat-error *ngIf="reTypePassword.hasError('required')">
+		<input matInput [formControl]="confirmPassword" [type]="hidePasswordRetype ? 'password' : 'text'">
+		<mat-error *ngIf="confirmPassword.hasError('required')">
 			Repeat password
 		</mat-error>
-		<mat-error *ngIf="reTypePassword.hasError('matching')">
+		<mat-error *ngIf="confirmPassword.hasError('matching')">
 			Passwords do not match
 		</mat-error>
 		<button type="button" mat-icon-button matSuffix (click)="hidePasswordRetype = !hidePasswordRetype"

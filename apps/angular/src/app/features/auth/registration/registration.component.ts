@@ -33,8 +33,8 @@ export class RegistrationComponent {
 			email: ['', Validators.required],
 			firstName: ['', Validators.required],
 			lastName: ['', Validators.required],
-			password: ['', [Validators.required, matchValidator('reTypePassword', true)]],
-			reTypePassword: ['', [Validators.required, matchValidator('password')]],
+			password: ['', Validators.required],
+			confirmPassword: ['', [Validators.required, matchValidator()]],
 		},
 		{ updateOn: 'submit' },
 	);

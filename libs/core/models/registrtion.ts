@@ -14,5 +14,5 @@ export interface Registration {
 	readonly password: string | null;
 
 	/** Password re type. */
-	readonly reTypePassword: string | null;
+	readonly confirmPassword: string | null;
 }
