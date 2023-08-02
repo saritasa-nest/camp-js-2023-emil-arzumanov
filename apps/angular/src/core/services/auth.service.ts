@@ -5,7 +5,6 @@ import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
-import { environment } from '@js-camp/angular/environments/environment';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -17,6 +16,10 @@ export class AuthService {
 	private readonly appUrlsConfig = inject(AppUrlsConfig);
 
 	private readonly http = inject(HttpClient);
+
+	private readonly accessTokenName = 'access_token';
+
+	private readonly refreshTokenName = 'refresh_token';
 
 	/** URL for login request. */
 	private readonly loginUrl = this.appUrlsConfig.toApi('auth', 'login');
@@ -50,7 +53,7 @@ export class AuthService {
 	/** Refresh token. */
 	public refreshToken(): Observable<void> {
 		return this.http
-			.post<TokenBody>(this.refreshTokenUrl, { refresh: localStorage.getItem(environment.refreshToken) })
+			.post<TokenBody>(this.refreshTokenUrl, { refresh: localStorage.getItem(this.refreshTokenName) })
 			.pipe(map(res => this.setTokens(res)));
 	}
 
@@ -59,19 +62,19 @@ export class AuthService {
 	 * @param tokens JWT tokens.
 	 */
 	private setTokens(tokens: TokenBody): void {
-		localStorage.setItem(environment.accessToken, tokens.access);
-		localStorage.setItem(environment.refreshToken, tokens.refresh);
+		localStorage.setItem(this.accessTokenName, tokens.access);
+		localStorage.setItem(this.refreshTokenName, tokens.refresh);
 	}
 
 	/** Logout. Delete tokens from local storage. */
 	public logout(): void {
-		localStorage.removeItem(environment.accessToken);
-		localStorage.removeItem(environment.refreshToken);
+		localStorage.removeItem(this.accessTokenName);
+		localStorage.removeItem(this.refreshTokenName);
 	}
 
 	/** Is user logged in. */
 	public isLoggedIn(): boolean {
-		if (localStorage.getItem(environment.accessToken) === null && localStorage.getItem(environment.refreshToken) === null) {
+		if (localStorage.getItem(this.accessTokenName) === null && localStorage.getItem(this.refreshTokenName) === null) {
 			return false;
 		}
 		return true;
