@@ -1,6 +1,6 @@
 import { Observable, catchError, first, throwError } from 'rxjs';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -21,10 +21,10 @@ export class LoginComponent {
 
 	private readonly router = inject(Router);
 
-	private readonly fb = inject(FormBuilder);
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/** Form group for login. */
-	protected readonly loginForm = this.fb.group(
+	protected readonly loginForm = this.formBuilder.group(
 		{
 			email: ['', Validators.required],
 			password: ['', Validators.required],

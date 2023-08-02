@@ -2,17 +2,17 @@
 export interface Registration {
 
 	/** Email. */
-	readonly email: string | null;
+	readonly email: string;
 
 	/** First name. */
-	readonly firstName: string | null;
+	readonly firstName: string;
 
 	/** Last name. */
-	readonly lastName: string | null;
+	readonly lastName: string;
 
 	/** Password. */
-	readonly password: string | null;
+	readonly password: string;
 
 	/** Password re type. */
-	readonly confirmPassword: string | null;
+	readonly confirmPassword: string;
 }

@@ -5,9 +5,9 @@ import { FormControl } from '@angular/forms';
  * @param formField Form field.
  */
 export function getFieldErrors(formField: FormControl<string | null>): string[] {
-	let errorsArray: string[] = [];
+	const errorsArray: string[] = [];
 	if (formField.errors) {
-		errorsArray = Object.keys(formField.errors).map(error => formField.getError(error));
+		errorsArray.push(...Object.keys(formField.errors).map(error => formField.getError(error)));
 	}
 	return errorsArray;
 }

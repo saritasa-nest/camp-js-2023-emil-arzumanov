@@ -8,11 +8,11 @@ import { PageNotFoundComponent } from '../shared/components/page-not-found/page-
 const routes: Routes = [
 	{
 		path: 'anime',
-		loadChildren: () => import('./features/anime/anime.module').then(m => m.AnimeModule),
+		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
 	},
 	{
 		path: 'home',
-		loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule),
+		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
 	},
 	{ path: '', redirectTo: 'anime', pathMatch: 'full' },
 	{ path: '**', component: PageNotFoundComponent },

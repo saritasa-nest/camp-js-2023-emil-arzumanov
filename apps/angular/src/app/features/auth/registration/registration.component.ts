@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
@@ -22,10 +22,10 @@ export class RegistrationComponent {
 
 	private readonly router = inject(Router);
 
-	private readonly fb = inject(FormBuilder);
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	/** Form group for login. */
-	protected readonly registrationForm = this.fb.group(
+	/** Form group for registration. */
+	protected readonly registrationForm = this.formBuilder.group(
 		{
 			email: ['', Validators.required],
 			firstName: ['', Validators.required],

@@ -2,8 +2,8 @@
 export interface Login {
 
 	/** Email. */
-	readonly email: string | null;
+	readonly email: string;
 
 	/** Password. */
-	readonly password: string | null;
+	readonly password: string;
 }
