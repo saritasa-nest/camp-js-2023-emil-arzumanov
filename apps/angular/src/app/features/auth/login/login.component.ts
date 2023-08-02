@@ -63,7 +63,7 @@ export class LoginComponent {
 
 	/** Login form submit. */
 	protected onSubmit(): void {
-		if (!this.loginForm.invalid) {
+		if (this.loginForm.invalid === false) {
 			const body = this.loginForm.getRawValue();
 			this.authService.login(body)
 				.pipe(

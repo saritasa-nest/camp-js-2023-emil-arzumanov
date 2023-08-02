@@ -30,7 +30,7 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 		* @param next Next handler.
 		*/
 	private handleTokenError(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-		if (!this.isRefreshing) {
+		if (this.isRefreshing === false) {
 			this.isRefreshing = true;
 
 			if (this.authService.isLoggedIn()) {
