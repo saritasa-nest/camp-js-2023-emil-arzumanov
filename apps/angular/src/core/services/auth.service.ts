@@ -37,10 +37,10 @@ export class AuthService {
 	}
 
 	/**
-	 * Registration.
+	 * Register.
 	 * @param body Request body.
 	 */
-	public registration(body: Registration): Observable<void> {
+	public register(body: Registration): Observable<void> {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(map(res => this.setTokens(res)));
@@ -63,6 +63,9 @@ export class AuthService {
 
 	/** Is user logged in. */
 	public isLoggedIn(): boolean {
-		return !!localStorage.getItem(ACCESS) && !!localStorage.getItem(REFRESH);
+		if (localStorage.getItem(ACCESS) === null && localStorage.getItem(REFRESH) === null) {
+			return false;
+		}
+		return true;
 	}
 }

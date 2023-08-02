@@ -66,7 +66,7 @@ export class RegistrationComponent {
 		if (!this.registrationForm.invalid) {
 			const body = this.registrationForm.getRawValue();
 			this.authService
-				.registration(body)
+				.register(body)
 				.pipe(
 					first(),
 					catchError((error: unknown) => this.handleRegistrationError(error)),
