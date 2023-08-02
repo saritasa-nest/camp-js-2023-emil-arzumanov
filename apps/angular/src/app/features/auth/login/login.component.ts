@@ -1,4 +1,4 @@
-import { Observable, catchError, first, throwError } from 'rxjs';
+import { catchError, first, throwError } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
@@ -36,7 +36,7 @@ export class LoginComponent {
 	 * Error handler for login request.
 	 * @param error Error.
 	 */
-	private handleLoginError(error: unknown): Observable<never> {
+	private handleLoginError(error: unknown): void {
 		if (error instanceof HttpErrorResponse) {
 			error.error.errors.forEach((errorObject: ErrorType) => {
 				const control = this.loginForm.get(errorObject.attr);
@@ -55,7 +55,6 @@ export class LoginComponent {
 				}
 			});
 		}
-		return throwError(() => error);
 	}
 
 	/** Util returns errors array of form field. */
@@ -68,15 +67,13 @@ export class LoginComponent {
 			this.authService.login(body)
 				.pipe(
 					first(),
-					catchError((error: unknown) => this.handleLoginError(error)),
+					catchError((error: unknown) => {
+						this.handleLoginError(error);
+						return throwError(() => error);
+					}),
 				)
-				.subscribe({
-					next: () => {
-						this.router.navigate(['/home/profile']);
-					},
-					error(err: unknown) {
-						console.error('Error during registration', err);
-					},
+				.subscribe(() => {
+					this.router.navigate(['/home/profile']);
 				});
 		}
 	}

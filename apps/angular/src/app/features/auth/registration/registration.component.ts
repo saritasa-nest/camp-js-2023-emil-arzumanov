@@ -6,7 +6,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
 import { ErrorType } from '@js-camp/core/models/error';
-import { Observable, catchError, first, throwError } from 'rxjs';
+import { catchError, first, throwError } from 'rxjs';
 
 /** Registration. */
 @Component({
@@ -40,7 +40,7 @@ export class RegistrationComponent {
 	 * Error handler for registration requests.
 	 * @param error Error.
 	 */
-	private handleRegistrationError(error: unknown): Observable<never> {
+	private handleRegistrationError(error: unknown): void {
 		if (error instanceof HttpErrorResponse) {
 			error.error.errors.forEach((errorObject: ErrorType) => {
 				const control = this.registrationForm.get(errorObject.attr);
@@ -52,7 +52,6 @@ export class RegistrationComponent {
 				}
 			});
 		}
-		return throwError(() => error);
 	}
 
 	/** Util returns errors array of form field. */
@@ -62,19 +61,16 @@ export class RegistrationComponent {
 	protected onSubmit(): void {
 		if (this.registrationForm.invalid === false) {
 			const body = this.registrationForm.getRawValue();
-			this.authService
-				.register(body)
+			this.authService.register(body)
 				.pipe(
 					first(),
-					catchError((error: unknown) => this.handleRegistrationError(error)),
+					catchError((error: unknown) => {
+						this.handleRegistrationError(error);
+						return throwError(() => error);
+					}),
 				)
-				.subscribe({
-					next: () => {
-						this.router.navigate(['/home/profile']);
-					},
-					error(err: unknown) {
-						console.error('Error during registration', err);
-					},
+				.subscribe(() => {
+					this.router.navigate(['/home/profile']);
 				});
 		}
 	}
