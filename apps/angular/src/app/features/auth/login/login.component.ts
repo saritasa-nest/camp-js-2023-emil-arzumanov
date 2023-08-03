@@ -1,10 +1,9 @@
-import { catchError, first, throwError } from 'rxjs';
+import { first } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
-import { getFieldErrors, setErrorsToFields } from '@js-camp/angular/core/utils/auth-error.util';
-import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
+import { errorCatchForComponent, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 
 /** Login. */
 @Component({
@@ -41,12 +40,7 @@ export class LoginComponent {
 			this.authService.login(body)
 				.pipe(
 					first(),
-					catchError((error: unknown) => {
-						if (error instanceof AuthCustomError) {
-							setErrorsToFields(error.mappedErrorArray, this.loginForm);
-						}
-						return throwError(() => error);
-					}),
+					errorCatchForComponent(this.loginForm),
 				)
 				.subscribe(() => {
 					this.router.navigate(['/home/profile']);

@@ -2,10 +2,9 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { getFieldErrors, setErrorsToFields } from '@js-camp/angular/core/utils/auth-error.util';
+import { errorCatchForComponent, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
-import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
-import { catchError, first, throwError } from 'rxjs';
+import { first } from 'rxjs';
 
 /** Registration. */
 @Component({
@@ -45,12 +44,7 @@ export class RegistrationComponent {
 			this.authService.register(body)
 				.pipe(
 					first(),
-					catchError((error: unknown) => {
-						if (error instanceof AuthCustomError) {
-							setErrorsToFields(error.mappedErrorArray, this.registrationForm);
-						}
-						return throwError(() => error);
-					}),
+					errorCatchForComponent(this.registrationForm),
 				)
 				.subscribe(() => {
 					this.router.navigate(['/home/profile']);

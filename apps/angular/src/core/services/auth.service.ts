@@ -1,13 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
-import { AuthErrorMapper } from '@js-camp/core/mappers/auth-error.mapper';
-import { AuthErrorDto } from '@js-camp/core/dtos/auth-error.dto';
-import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
+
+import { errorCatchForService } from '../utils/auth-error.util';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -41,15 +40,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.loginUrl, { ...body })
 			.pipe(
-				catchError((error: unknown) => {
-					if (error instanceof HttpErrorResponse) {
-						const authErrorArray = error.error.errors.map(
-							(errorsElement: AuthErrorDto) => AuthErrorMapper.fromDto(errorsElement),
-						);
-						return throwError(() => new AuthCustomError(authErrorArray));
-					}
-					return throwError(() => error);
-				}),
+				errorCatchForService(),
 				tap(res => this.setTokens(res)),
 			);
 	}
@@ -62,15 +53,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(
-				catchError((error: unknown) => {
-					if (error instanceof HttpErrorResponse) {
-						const authErrorArray = error.error.errors.map(
-							(errorsElement: AuthErrorDto) => AuthErrorMapper.fromDto(errorsElement),
-						);
-						return throwError(() => new AuthCustomError(authErrorArray));
-					}
-					return throwError(() => error);
-				}),
+				errorCatchForService(),
 				tap(res => this.setTokens(res)),
 			);
 	}

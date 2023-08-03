@@ -1,5 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuthErrorDto } from '@js-camp/core/dtos/auth-error.dto';
+import { AuthErrorMapper } from '@js-camp/core/mappers/auth-error.mapper';
+import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
 import { AuthErrorType } from '@js-camp/core/models/auth-error';
+import { OperatorFunction, catchError, throwError } from 'rxjs';
 
 /**
  * Return errors array of form field.
@@ -13,11 +18,37 @@ export function getFieldErrors(formField: FormControl<string | null>): string[] 
 	return errorsArray;
 }
 
+/** Custom catch error for service requests. */
+export function errorCatchForService<T>(): OperatorFunction<T, T> {
+	return catchError((error: unknown) => {
+		if (error instanceof HttpErrorResponse) {
+			const authErrorArray = error.error.errors.map(
+				(errorsElement: AuthErrorDto) => AuthErrorMapper.fromDto(errorsElement),
+			);
+			return throwError(() => new AuthCustomError(authErrorArray));
+		}
+		return throwError(() => error);
+	});
+}
+
 /**
- * Sets errors to fields of form group.
- * @param errorArray Array of mapped errors.
+	* Custom catch error for component requests.
 	* @param formGroup Form group.
- */
+	*/
+export function errorCatchForComponent<T>(formGroup: FormGroup): OperatorFunction<T, T> {
+	return catchError((error: unknown) => {
+		if (error instanceof AuthCustomError) {
+			setErrorsToFields(error.mappedErrorArray, formGroup);
+		}
+		return throwError(() => error);
+	});
+}
+
+/**
+	* Sets errors to fields of form group.
+	* @param errorArray Array of mapped errors.
+	* @param formGroup Form group.
+	*/
 export function setErrorsToFields(errorArray: AuthErrorType[], formGroup: FormGroup): void {
 	errorArray.forEach((errorObject: AuthErrorType) => {
 		const control = formGroup.get(errorObject.attribute);
