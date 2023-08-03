@@ -9,17 +9,9 @@ export namespace AuthErrorMapper {
 	 * @param dto AuthErrorDto dto.
 	 */
 	export function fromDto(dto: AuthErrorDto): AuthErrorType {
-		let mappedAttribute: string;
-
-		if (dto.attr === null) {
-			mappedAttribute = 'email';
-		} else {
-			mappedAttribute = snakeToCamel(dto.attr);
-		}
-
 		return ({
 			code: dto.code,
-			attribute: mappedAttribute,
+			attribute: dto.attr === null ? 'email' : snakeToCamel(dto.attr),
 			detail: dto.detail,
 		});
 	}

@@ -11,8 +11,8 @@ export class StorageService {
 		* @param key Item key.
 		* @param value Value.
 		*/
-	public setValue(key: string, value: string): void {
-		localStorage.setItem(key, value);
+	public setValue<T>(key: string, value: T): void {
+		localStorage.setItem(key, JSON.stringify(value));
 	}
 
 	/**
