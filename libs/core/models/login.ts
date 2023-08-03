@@ -1,4 +1,4 @@
-/** Login interface. */
+/** Login model. */
 export interface Login {
 
 	/** Email. */
