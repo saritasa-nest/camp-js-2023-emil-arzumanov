@@ -1,5 +1,6 @@
 import { AuthErrorDto } from '../dtos/auth-error.dto';
 import { AuthErrorType } from '../models/auth-error';
+import { snakeToCamel } from '../utils/snake-to-camel.util';
 
 export namespace AuthErrorMapper {
 
@@ -8,16 +9,17 @@ export namespace AuthErrorMapper {
 	 * @param dto AuthErrorDto dto.
 	 */
 	export function fromDto(dto: AuthErrorDto): AuthErrorType {
-		const ATTRIBUTE_TO_MODEL: Record<string, string> = {
-			email: 'email',
-			password: 'password',
-			first__name: 'firstName',
-			last__name: 'lastName',
-		};
+		let mappedAttribute: string;
+
+		if (dto.attr === null) {
+			mappedAttribute = 'email';
+		} else {
+			mappedAttribute = snakeToCamel(dto.attr);
+		}
 
 		return ({
 			code: dto.code,
-			attribute: ATTRIBUTE_TO_MODEL[dto.attr] ?? 'email',
+			attribute: mappedAttribute,
 			detail: dto.detail,
 		});
 	}
