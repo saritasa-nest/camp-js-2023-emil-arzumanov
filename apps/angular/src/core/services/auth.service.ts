@@ -1,10 +1,13 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
+import { AuthErrorMapper } from '@js-camp/core/mappers/auth-error.mapper';
+import { AuthErrorDto } from '@js-camp/core/dtos/auth-error.dto';
+import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -37,7 +40,18 @@ export class AuthService {
 	public login(body: Login): Observable<void> {
 		return this.http
 			.post<TokenBody>(this.loginUrl, { ...body })
-			.pipe(map(res => this.setTokens(res)));
+			.pipe(
+				catchError((error: unknown) => {
+					if (error instanceof HttpErrorResponse) {
+						const authErrorArray = error.error.errors.map(
+							(errorsElement: AuthErrorDto) => AuthErrorMapper.fromDto(errorsElement),
+						);
+						return throwError(() => new AuthCustomError(authErrorArray));
+					}
+					return throwError(() => error);
+				}),
+				map(res => this.setTokens(res)),
+			);
 	}
 
 	/**
@@ -47,7 +61,18 @@ export class AuthService {
 	public register(body: Registration): Observable<void> {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
-			.pipe(map(res => this.setTokens(res)));
+			.pipe(
+				catchError((error: unknown) => {
+					if (error instanceof HttpErrorResponse) {
+						const authErrorArray = error.error.errors.map(
+							(errorsElement: AuthErrorDto) => AuthErrorMapper.fromDto(errorsElement),
+						);
+						return throwError(() => new AuthCustomError(authErrorArray));
+					}
+					return throwError(() => error);
+				}),
+				map(res => this.setTokens(res)),
+			);
 	}
 
 	/** Refresh token. */

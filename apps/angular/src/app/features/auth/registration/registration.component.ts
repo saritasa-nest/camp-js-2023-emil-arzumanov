@@ -1,11 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
-import { ErrorType } from '@js-camp/core/models/error';
+import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
+import { AuthErrorType } from '@js-camp/core/models/auth-error';
 import { catchError, first, throwError } from 'rxjs';
 
 /** Registration. */
@@ -37,21 +37,19 @@ export class RegistrationComponent {
 	);
 
 	/**
-	 * Error handler for registration requests.
-	 * @param error Error.
+	 * Error handler for registration request.
+	 * @param errorArray Array of mapped errors.
 	 */
-	private handleRegistrationError(error: unknown): void {
-		if (error instanceof HttpErrorResponse) {
-			error.error.errors.forEach((errorObject: ErrorType) => {
-				const control = this.registrationForm.get(errorObject.attr);
-				if (control) {
-					control.setErrors({
-						...(control.errors ?? {}),
-						[errorObject.code]: errorObject.detail,
-					});
-				}
-			});
-		}
+	private handleRegistrationError(errorArray: AuthErrorType[]): void {
+		errorArray.forEach((errorObject: AuthErrorType) => {
+			const control = this.registrationForm.get(errorObject.attribute);
+			if (control) {
+				control.setErrors({
+					...(control.errors ?? {}),
+					[errorObject.code]: errorObject.detail,
+				});
+			}
+		});
 	}
 
 	/** Util returns errors array of form field. */
@@ -65,7 +63,9 @@ export class RegistrationComponent {
 				.pipe(
 					first(),
 					catchError((error: unknown) => {
-						this.handleRegistrationError(error);
+						if (error instanceof AuthCustomError) {
+							this.handleRegistrationError(error.mappedErrorArray);
+						}
 						return throwError(() => error);
 					}),
 				)

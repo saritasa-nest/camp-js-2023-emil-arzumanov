@@ -1,8 +1,8 @@
 export interface TokenBody {
 
 	/** Access token. */
-	readonly access: 'string';
+	readonly access: string;
 
 	/** Refresh token. */
-	readonly refresh: 'string';
+	readonly refresh: string;
 }

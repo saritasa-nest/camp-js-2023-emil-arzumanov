@@ -3,9 +3,9 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorType } from '@js-camp/core/models/error';
+import { AuthErrorType } from '@js-camp/core/models/auth-error';
 import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
 
 /** Login. */
 @Component({
@@ -34,27 +34,18 @@ export class LoginComponent {
 
 	/**
 	 * Error handler for login request.
-	 * @param error Error.
+	 * @param errorArray Array of mapped errors.
 	 */
-	private handleLoginError(error: unknown): void {
-		if (error instanceof HttpErrorResponse) {
-			error.error.errors.forEach((errorObject: ErrorType) => {
-				const control = this.loginForm.get(errorObject.attr);
-				if (control) {
-					control.setErrors({
-						...(control.errors ?? {}),
-						[errorObject.code]: errorObject.detail,
-					});
-				} else {
-					this.loginForm.controls.email.setErrors({
-						[errorObject.code]: errorObject.detail,
-					});
-					this.loginForm.controls.password.setErrors({
-						[errorObject.code]: errorObject.detail,
-					});
-				}
-			});
-		}
+	private handleLoginError(errorArray: AuthErrorType[]): void {
+		errorArray.forEach((errorObject: AuthErrorType) => {
+			const control = this.loginForm.get(errorObject.attribute);
+			if (control) {
+				control.setErrors({
+					...(control.errors ?? {}),
+					[errorObject.code]: errorObject.detail,
+				});
+			}
+		});
 	}
 
 	/** Util returns errors array of form field. */
@@ -68,7 +59,9 @@ export class LoginComponent {
 				.pipe(
 					first(),
 					catchError((error: unknown) => {
-						this.handleLoginError(error);
+						if (error instanceof AuthCustomError) {
+							this.handleLoginError(error.mappedErrorArray);
+						}
 						return throwError(() => error);
 					}),
 				)
