@@ -5,10 +5,12 @@ import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
+import { environment } from '@js-camp/angular/environments/environment';
 
-import { errorCatchForService } from '../utils/auth-error.util';
+import { errorCatchDomain } from '../utils/auth-error.util';
 
 import { AppUrlsConfig } from './url-config.service';
+import { StorageService } from './storage.service';
 
 /** Service for auth requests. */
 @Injectable({
@@ -17,11 +19,13 @@ import { AppUrlsConfig } from './url-config.service';
 export class AuthService {
 	private readonly appUrlsConfig = inject(AppUrlsConfig);
 
+	private readonly storageService = inject(StorageService);
+
 	private readonly http = inject(HttpClient);
 
-	private readonly accessTokenName = 'access_token';
+	private readonly accessTokenName = environment.accessTokenName;
 
-	private readonly refreshTokenName = 'refresh_token';
+	private readonly refreshTokenName = environment.refreshTokenName;
 
 	/** URL for login request. */
 	private readonly loginUrl = this.appUrlsConfig.toApi('auth', 'login');
@@ -40,7 +44,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.loginUrl, { ...body })
 			.pipe(
-				errorCatchForService(),
+				errorCatchDomain(),
 				tap(res => this.setTokens(res)),
 			);
 	}
@@ -53,7 +57,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(
-				errorCatchForService(),
+				errorCatchDomain(),
 				tap(res => this.setTokens(res)),
 			);
 	}
@@ -61,7 +65,7 @@ export class AuthService {
 	/** Refresh token. */
 	public refreshToken(): Observable<TokenBody> {
 		return this.http
-			.post<TokenBody>(this.refreshTokenUrl, { refresh: localStorage.getItem(this.refreshTokenName) })
+			.post<TokenBody>(this.refreshTokenUrl, { refresh: this.storageService.getValue(this.refreshTokenName) })
 			.pipe(tap(res => this.setTokens(res)));
 	}
 
@@ -70,19 +74,20 @@ export class AuthService {
 	 * @param tokens JWT tokens.
 	 */
 	private setTokens(tokens: TokenBody): void {
-		localStorage.setItem(this.accessTokenName, tokens.access);
-		localStorage.setItem(this.refreshTokenName, tokens.refresh);
+		this.storageService.setValue(this.accessTokenName, tokens.access);
+		this.storageService.setValue(this.refreshTokenName, tokens.refresh);
 	}
 
 	/** Logout. Delete tokens from local storage. */
 	public logout(): void {
-		localStorage.removeItem(this.accessTokenName);
-		localStorage.removeItem(this.refreshTokenName);
+		this.storageService.removeValue(this.accessTokenName);
+		this.storageService.removeValue(this.refreshTokenName);
 	}
 
 	/** Is user logged in. */
 	public isLoggedIn(): boolean {
-		if (localStorage.getItem(this.accessTokenName) === null && localStorage.getItem(this.refreshTokenName) === null) {
+		if (this.storageService.getValue(this.accessTokenName) === null &&
+		this.storageService.getValue(this.refreshTokenName) === null) {
 			return false;
 		}
 		return true;

@@ -18,8 +18,8 @@ export function getFieldErrors(formField: FormControl<string | null>): string[] 
 	return errorsArray;
 }
 
-/** Custom catch error for service requests. */
-export function errorCatchForService<T>(): OperatorFunction<T, T> {
+/** Custom catch error for domain. */
+export function errorCatchDomain<T>(): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof HttpErrorResponse) {
 			const authErrorArray = error.error.errors.map(
@@ -32,10 +32,10 @@ export function errorCatchForService<T>(): OperatorFunction<T, T> {
 }
 
 /**
-	* Custom catch error for components.
+	* Custom catch error for UI.
 	* @param formGroup Form group.
 	*/
-export function errorCatchForComponent<T>(formGroup: FormGroup): OperatorFunction<T, T> {
+export function errorCatchUI<T>(formGroup: FormGroup): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof AuthCustomError) {
 			setErrorsToFields(error.mappedErrorArray, formGroup);

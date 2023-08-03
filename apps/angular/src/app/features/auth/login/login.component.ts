@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
-import { errorCatchForComponent, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { errorCatchUI, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 
 /** Login. */
 @Component({
@@ -35,16 +35,17 @@ export class LoginComponent {
 
 	/** Login form submit. */
 	protected onSubmit(): void {
-		if (this.loginForm.invalid === false) {
-			const body = this.loginForm.getRawValue();
-			this.authService.login(body)
-				.pipe(
-					first(),
-					errorCatchForComponent(this.loginForm),
-				)
-				.subscribe(() => {
-					this.router.navigate(['/home/profile']);
-				});
+		if (this.loginForm.invalid) {
+			return;
 		}
+		const body = this.loginForm.getRawValue();
+		this.authService.login(body)
+			.pipe(
+				first(),
+				errorCatchUI(this.loginForm),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/home/profile']);
+			});
 	}
 }

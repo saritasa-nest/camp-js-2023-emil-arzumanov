@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { errorCatchForComponent, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { errorCatchUI, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
 import { first } from 'rxjs';
 
@@ -39,16 +39,17 @@ export class RegistrationComponent {
 
 	/** Registration form submit. */
 	protected onSubmit(): void {
-		if (this.registrationForm.invalid === false) {
-			const body = this.registrationForm.getRawValue();
-			this.authService.register(body)
-				.pipe(
-					first(),
-					errorCatchForComponent(this.registrationForm),
-				)
-				.subscribe(() => {
-					this.router.navigate(['/home/profile']);
-				});
+		if (this.registrationForm.invalid) {
+			return;
 		}
+		const body = this.registrationForm.getRawValue();
+		this.authService.register(body)
+			.pipe(
+				first(),
+				errorCatchUI(this.registrationForm),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/home/profile']);
+			});
 	}
 }
