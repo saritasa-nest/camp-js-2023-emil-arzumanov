@@ -3,8 +3,7 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
-import { AuthErrorType } from '@js-camp/core/models/auth-error';
-import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { getFieldErrors, setErrorsToFields } from '@js-camp/angular/core/utils/auth-error.util';
 import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
 
 /** Login. */
@@ -32,22 +31,6 @@ export class LoginComponent {
 		{ updateOn: 'submit' },
 	);
 
-	/**
-	 * Error handler for login request.
-	 * @param errorArray Array of mapped errors.
-	 */
-	private handleLoginError(errorArray: AuthErrorType[]): void {
-		errorArray.forEach((errorObject: AuthErrorType) => {
-			const control = this.loginForm.get(errorObject.attribute);
-			if (control) {
-				control.setErrors({
-					...(control.errors ?? {}),
-					[errorObject.code]: errorObject.detail,
-				});
-			}
-		});
-	}
-
 	/** Util returns errors array of form field. */
 	protected getFieldErrors = getFieldErrors;
 
@@ -60,7 +43,7 @@ export class LoginComponent {
 					first(),
 					catchError((error: unknown) => {
 						if (error instanceof AuthCustomError) {
-							this.handleLoginError(error.mappedErrorArray);
+							setErrorsToFields(error.mappedErrorArray, this.loginForm);
 						}
 						return throwError(() => error);
 					}),

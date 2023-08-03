@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
@@ -37,7 +37,7 @@ export class AuthService {
 	 * Login.
 	 * @param body Request body.
 	 */
-	public login(body: Login): Observable<void> {
+	public login(body: Login): Observable<TokenBody> {
 		return this.http
 			.post<TokenBody>(this.loginUrl, { ...body })
 			.pipe(
@@ -50,7 +50,7 @@ export class AuthService {
 					}
 					return throwError(() => error);
 				}),
-				map(res => this.setTokens(res)),
+				tap(res => this.setTokens(res)),
 			);
 	}
 
@@ -58,7 +58,7 @@ export class AuthService {
 	 * Register.
 	 * @param body Request body.
 	 */
-	public register(body: Registration): Observable<void> {
+	public register(body: Registration): Observable<TokenBody> {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(
@@ -71,15 +71,15 @@ export class AuthService {
 					}
 					return throwError(() => error);
 				}),
-				map(res => this.setTokens(res)),
+				tap(res => this.setTokens(res)),
 			);
 	}
 
 	/** Refresh token. */
-	public refreshToken(): Observable<void> {
+	public refreshToken(): Observable<TokenBody> {
 		return this.http
 			.post<TokenBody>(this.refreshTokenUrl, { refresh: localStorage.getItem(this.refreshTokenName) })
-			.pipe(map(res => this.setTokens(res)));
+			.pipe(tap(res => this.setTokens(res)));
 	}
 
 	/**
