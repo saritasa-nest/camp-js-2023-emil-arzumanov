@@ -40,7 +40,7 @@ export class RegistrationComponent {
 	/** Registration form submit. */
 	protected onSubmit(): void {
 		if (this.registrationForm.invalid) {
-			return;
+			return ;
 		}
 		const body = this.registrationForm.getRawValue();
 		this.authService.register(body)

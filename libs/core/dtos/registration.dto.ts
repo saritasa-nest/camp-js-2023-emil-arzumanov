@@ -2,14 +2,14 @@
 export interface RegistrationDto {
 
 	/** Email. */
-	readonly email: string | null;
+	readonly email: string;
 
 	/** First name. */
-	readonly first_name: string | null;
+	readonly first_name: string;
 
 	/** Last name. */
-	readonly last_name: string | null;
+	readonly last_name: string;
 
 	/** Password. */
-	readonly password: string | null;
+	readonly password: string;
 }

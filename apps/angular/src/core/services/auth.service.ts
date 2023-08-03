@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { Login } from '@js-camp/core/models/login';
-import { Registration } from '@js-camp/core/models/registrtion';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
+import { Login } from '@js-camp/core/models/login';
+import { LoginMapper } from '@js-camp/core/mappers/login.mapper';
+import { Registration } from '@js-camp/core/models/registrtion';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 import { environment } from '@js-camp/angular/environments/environment';
 
@@ -42,7 +43,7 @@ export class AuthService {
 	 */
 	public login(body: Login): Observable<TokenBody> {
 		return this.http
-			.post<TokenBody>(this.loginUrl, { ...body })
+			.post<TokenBody>(this.loginUrl, { ...LoginMapper.toDto(body) })
 			.pipe(
 				errorCatchDomain(),
 				tap(res => this.setTokens(res)),
