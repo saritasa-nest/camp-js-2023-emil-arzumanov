@@ -32,7 +32,7 @@ export function errorCatchForService<T>(): OperatorFunction<T, T> {
 }
 
 /**
-	* Custom catch error for component requests.
+	* Custom catch error for components.
 	* @param formGroup Form group.
 	*/
 export function errorCatchForComponent<T>(formGroup: FormGroup): OperatorFunction<T, T> {
