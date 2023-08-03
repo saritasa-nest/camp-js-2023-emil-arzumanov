@@ -49,8 +49,8 @@ export function errorCatchUI<T>(formGroup: FormGroup): OperatorFunction<T, T> {
 	* @param errorArray Array of mapped errors.
 	* @param formGroup Form group.
 	*/
-export function setErrorsToFields(errorArray: AuthErrorType[], formGroup: FormGroup): void {
-	errorArray.forEach((errorObject: AuthErrorType) => {
+export function setErrorsToFields<T extends AuthErrorType>(errorArray: T[], formGroup: FormGroup): void {
+	errorArray.forEach((errorObject: T) => {
 		const control = formGroup.get(errorObject.attribute);
 		if (control) {
 			control.setErrors({
