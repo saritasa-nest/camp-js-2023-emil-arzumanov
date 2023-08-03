@@ -71,7 +71,7 @@ export class AuthService {
 	}
 
 	/**
-	 * Saves tokens in local storage.
+	 * Saves tokens in ServiceStorage.
 	 * @param tokens JWT tokens.
 	 */
 	private setTokens(tokens: TokenBody): void {
@@ -79,7 +79,7 @@ export class AuthService {
 		this.storageService.setValue(this.refreshTokenName, tokens.refresh);
 	}
 
-	/** Logout. Delete tokens from local storage. */
+	/** Logout. Delete tokens from ServiceStorage. */
 	public logout(): void {
 		this.storageService.removeValue(this.accessTokenName);
 		this.storageService.removeValue(this.refreshTokenName);
