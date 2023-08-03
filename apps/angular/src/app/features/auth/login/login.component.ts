@@ -4,6 +4,8 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
 import { errorCatchUI, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { Login } from '@js-camp/core/models/login';
+import { CustomFormGroupType } from '@js-camp/core/models/validated-form';
 
 /** Login. */
 @Component({
@@ -22,7 +24,7 @@ export class LoginComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/** Form group for login. */
-	protected readonly loginForm = this.formBuilder.group(
+	protected readonly loginForm: CustomFormGroupType<Login> = this.formBuilder.group(
 		{
 			email: ['', Validators.required],
 			password: ['', Validators.required],

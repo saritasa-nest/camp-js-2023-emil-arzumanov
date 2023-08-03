@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { errorCatchUI, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
+import { Registration } from '@js-camp/core/models/registrtion';
+import { CustomFormGroupType } from '@js-camp/core/models/validated-form';
 import { first } from 'rxjs';
 
 /** Registration. */
@@ -23,7 +25,7 @@ export class RegistrationComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/** Form group for registration. */
-	protected readonly registrationForm = this.formBuilder.group(
+	protected readonly registrationForm: CustomFormGroupType<Registration> = this.formBuilder.group(
 		{
 			email: ['', Validators.required],
 			firstName: ['', Validators.required],
