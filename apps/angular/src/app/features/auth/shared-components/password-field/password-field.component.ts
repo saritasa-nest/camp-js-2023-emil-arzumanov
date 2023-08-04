@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 
 /** Password field component. */
 @Component({

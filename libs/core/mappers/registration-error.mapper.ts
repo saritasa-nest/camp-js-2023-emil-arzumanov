@@ -6,7 +6,7 @@ import { ErrorMapper } from './error.mapper';
 
 export type RegistrationAttribute = keyof Registration;
 
-/** */
+/** Registration Error Mapper class. */
 export class RegistrationErrorMapper implements ErrorMapper<RegistrationAttribute> {
 	/**
 	 * Maps AuthErrorDto dto to AuthErrorType model.
@@ -14,8 +14,8 @@ export class RegistrationErrorMapper implements ErrorMapper<RegistrationAttribut
 	 */
 	public fromDto(dto: ErrorDto): ErrorType<RegistrationAttribute> {
 		/**
-			* A.
-			* @param value A.
+			* Checks if value exists in array.
+			* @param value Value.
 			*/
 		function isOfType(value: string): value is RegistrationAttribute {
 			return ['email', 'password', 'first_name', 'last_name'].includes(value);

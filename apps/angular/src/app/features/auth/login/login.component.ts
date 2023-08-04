@@ -3,9 +3,9 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
-import { errorCatchUI, getFieldErrors } from '@js-camp/angular/core/utils/auth-error.util';
+import { catchErrorOnSubmit, getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 import { Login } from '@js-camp/core/models/login';
-import { CustomFormGroupType } from '@js-camp/core/models/validated-form';
+import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
 
 /** Login. */
 @Component({
@@ -24,7 +24,7 @@ export class LoginComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/** Form group for login. */
-	protected readonly loginForm: CustomFormGroupType<Login> = this.formBuilder.group(
+	protected readonly loginForm: ValidatedFormGroupType<Login> = this.formBuilder.group(
 		{
 			email: ['', Validators.required],
 			password: ['', Validators.required],
@@ -44,7 +44,7 @@ export class LoginComponent {
 		this.authService.login(body)
 			.pipe(
 				first(),
-				errorCatchUI(this.loginForm),
+				catchErrorOnSubmit(this.loginForm),
 			)
 			.subscribe(() => {
 				this.router.navigate(['/home/profile']);

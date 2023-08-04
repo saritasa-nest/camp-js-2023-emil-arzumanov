@@ -19,11 +19,10 @@ export function getFieldErrors(formField: FormControl<string | null>): string[] 
 }
 
 /**
-	* Custom catch error for domain.
+	* Custom catch error for request.
 	* @param errorMapper Mapper for error.
 	*/
-// eslint-disable-next-line max-len
-export function errorCatchDomain<T, TAttribute, TMapper extends ErrorMapper<TAttribute>>(errorMapper: TMapper): OperatorFunction<T, T> {
+export function catchErrorOnRequest<T, TAttribute, TMapper extends ErrorMapper<TAttribute>>(errorMapper: TMapper): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof HttpErrorResponse) {
 			const errorArray = error.error.errors.map(
@@ -36,10 +35,10 @@ export function errorCatchDomain<T, TAttribute, TMapper extends ErrorMapper<TAtt
 }
 
 /**
-	* Custom catch error for UI.
+	* Custom catch error for onSubmit.
 	* @param formGroup Form group.
 	*/
-export function errorCatchUI<T, TAttribute extends string>(formGroup: FormGroup): OperatorFunction<T, T> {
+export function catchErrorOnSubmit<T, TAttribute extends string>(formGroup: FormGroup): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof CustomError) {
 			setErrorsToFields<TAttribute>(error.mappedErrorArray, formGroup);

@@ -6,7 +6,7 @@ import { ErrorMapper } from './error.mapper';
 
 export type LoginAttribute = keyof Login;
 
-/** */
+/** Login Error Mapper class. */
 export class LoginErrorMapper implements ErrorMapper<LoginAttribute> {
 	/**
 	 * Maps AuthErrorDto dto to AuthErrorType model.
@@ -14,11 +14,11 @@ export class LoginErrorMapper implements ErrorMapper<LoginAttribute> {
 	 */
 	public fromDto(dto: ErrorDto): ErrorType<LoginAttribute> {
 		/**
-		 * A.
-		 * @param value A.
+		 * Checks if value exists in array.
+		 * @param value Value.
 		 */
 		function isOfType(value: string): value is LoginAttribute {
-			return ['email', 'password', 'first_name', 'last_name'].includes(value);
+			return ['email', 'password'].includes(value);
 		}
 
 		return {
