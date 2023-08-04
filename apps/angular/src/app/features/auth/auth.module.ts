@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { AuthGuard } from '@js-camp/angular/core/services/auth-guard.service';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -30,6 +29,6 @@ import { PasswordFieldComponent } from './shared-components/password-field/passw
 		MatFormFieldModule,
 		MatIconModule,
 	],
-	providers: [AuthService, AuthGuard],
+	providers: [AuthService],
 })
 export class AuthModule {}

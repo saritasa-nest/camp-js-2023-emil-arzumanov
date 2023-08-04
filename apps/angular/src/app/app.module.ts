@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from '@js-camp/angular/core/services/auth-guard.service';
 
 import { ApiKeyInterceptor } from '../core/interceptors/anime.interceptor';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
@@ -21,6 +22,6 @@ import { AppComponent } from './app.component';
 		{ provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 	],
-	bootstrap: [AppComponent],
+	bootstrap: [AppComponent, AuthGuard],
 })
 export class AppModule {}

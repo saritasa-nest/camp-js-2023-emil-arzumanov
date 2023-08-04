@@ -20,7 +20,8 @@ export class StorageService {
 		* @param key Item key.
 		*/
 	public getValue(key: string): string | null {
-		return localStorage.getItem(key);
+		const storageValue = localStorage.getItem(key);
+		return storageValue === null ? null : JSON.parse(storageValue);
 	}
 
 	/**
