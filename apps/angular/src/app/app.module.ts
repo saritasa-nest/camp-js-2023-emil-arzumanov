@@ -21,7 +21,8 @@ import { AppComponent } from './app.component';
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+		AuthGuard,
 	],
-	bootstrap: [AppComponent, AuthGuard],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}
