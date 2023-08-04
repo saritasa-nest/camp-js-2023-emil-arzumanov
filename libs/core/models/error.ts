@@ -1,5 +1,5 @@
 /** Authentication and registration error model. */
-export interface AuthErrorType {
+export interface ErrorType<TAttribute> {
 
 	/** Code. */
 	readonly code: string;
@@ -8,5 +8,5 @@ export interface AuthErrorType {
 	readonly detail: string;
 
 	/** Attribute. */
-	readonly attribute: string;
+	readonly attribute: TAttribute;
 }

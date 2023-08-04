@@ -7,6 +7,8 @@ import { LoginMapper } from '@js-camp/core/mappers/login.mapper';
 import { Registration } from '@js-camp/core/models/registrtion';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 import { environment } from '@js-camp/angular/environments/environment';
+import { loginErrorMapper } from '@js-camp/core/mappers/login-error-mapper';
+import { registrationErrorMapper } from '@js-camp/core/mappers/registration-error.mapper';
 
 import { errorCatchDomain } from '../utils/auth-error.util';
 
@@ -45,7 +47,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.loginUrl, { ...LoginMapper.toDto(body) })
 			.pipe(
-				errorCatchDomain(),
+				errorCatchDomain(loginErrorMapper),
 				tap(res => this.setTokens(res)),
 			);
 	}
@@ -58,7 +60,7 @@ export class AuthService {
 		return this.http
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(
-				errorCatchDomain(),
+				errorCatchDomain(registrationErrorMapper),
 				tap(res => this.setTokens(res)),
 			);
 	}

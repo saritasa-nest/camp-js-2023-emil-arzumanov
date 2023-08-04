@@ -1,5 +1,5 @@
 /** Authentication and registration error dto. */
-export interface AuthErrorDto {
+export interface ErrorDto {
 
 	/** Code. */
 	readonly code: string;

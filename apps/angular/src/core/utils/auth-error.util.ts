@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuthErrorDto } from '@js-camp/core/dtos/auth-error.dto';
-import { AuthErrorMapper } from '@js-camp/core/mappers/auth-error.mapper';
-import { AuthCustomError } from '@js-camp/core/models/auth-custom-error';
-import { AuthErrorType } from '@js-camp/core/models/auth-error';
+import { ErrorDto } from '@js-camp/core/dtos/error.dto';
+import { CustomError } from '@js-camp/core/models/custom-error';
 import { OperatorFunction, catchError, throwError } from 'rxjs';
+import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
+import { ErrorType } from '@js-camp/core/models/error';
 
 /**
  * Return errors array of form field.
@@ -18,14 +18,18 @@ export function getFieldErrors(formField: FormControl<string | null>): string[] 
 	return errorsArray;
 }
 
-/** Custom catch error for domain. */
-export function errorCatchDomain<T>(): OperatorFunction<T, T> {
+/**
+	* Custom catch error for domain.
+	* @param errorMapper Mapper for error.
+	*/
+// eslint-disable-next-line max-len
+export function errorCatchDomain<T, TAttribute, TMapper extends ErrorMapper<TAttribute>>(errorMapper: TMapper): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof HttpErrorResponse) {
-			const authErrorArray = error.error.errors.map(
-				(errorsElement: AuthErrorDto) => AuthErrorMapper.fromDto(errorsElement),
+			const errorArray = error.error.errors.map(
+				(errorsElement: ErrorDto) => errorMapper.fromDto(errorsElement),
 			);
-			return throwError(() => new AuthCustomError(authErrorArray));
+			return throwError(() => new CustomError<TAttribute>(errorArray));
 		}
 		return throwError(() => error);
 	});
@@ -35,10 +39,10 @@ export function errorCatchDomain<T>(): OperatorFunction<T, T> {
 	* Custom catch error for UI.
 	* @param formGroup Form group.
 	*/
-export function errorCatchUI<T>(formGroup: FormGroup): OperatorFunction<T, T> {
+export function errorCatchUI<T, TAttribute extends string>(formGroup: FormGroup): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
-		if (error instanceof AuthCustomError) {
-			setErrorsToFields(error.mappedErrorArray, formGroup);
+		if (error instanceof CustomError) {
+			setErrorsToFields<TAttribute>(error.mappedErrorArray, formGroup);
 		}
 		return throwError(() => error);
 	});
@@ -49,12 +53,11 @@ export function errorCatchUI<T>(formGroup: FormGroup): OperatorFunction<T, T> {
 	* @param errorArray Array of mapped errors.
 	* @param formGroup Form group.
 	*/
-export function setErrorsToFields<T extends AuthErrorType>(errorArray: T[], formGroup: FormGroup): void {
-	errorArray.forEach((errorObject: T) => {
+export function setErrorsToFields<TAttribute extends string>(errorArray: readonly ErrorType<TAttribute>[], formGroup: FormGroup): void {
+	errorArray.forEach((errorObject: ErrorType<TAttribute>) => {
 		const control = formGroup.get(errorObject.attribute);
 		if (control) {
 			control.setErrors({
-				...(control.errors ?? {}),
 				[errorObject.code]: errorObject.detail,
 			});
 		}
