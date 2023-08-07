@@ -5,10 +5,15 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 
-import { TableComponent } from './features/anime/table/table.component';
-
 const routes: Routes = [
-	{ path: 'anime', component: TableComponent },
+	{
+		path: 'anime',
+		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
+	},
+	{
+		path: 'home',
+		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
+	},
 	{ path: '', redirectTo: 'anime', pathMatch: 'full' },
 	{ path: '**', component: PageNotFoundComponent },
 ];

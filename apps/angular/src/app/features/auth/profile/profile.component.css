@@ -1,0 +1,5 @@
+.profile {
+  display: grid;
+  grid-row-gap: 30px;
+  text-align: center;
+}

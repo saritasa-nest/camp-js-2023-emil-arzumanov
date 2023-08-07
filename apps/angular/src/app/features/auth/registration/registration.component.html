@@ -1,0 +1,52 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form">
+
+	<mat-form-field *ngIf="registrationForm.controls.email as email">
+		<mat-label>Email:</mat-label>
+		<input matInput [formControl]="email" formControlName="email" />
+		<mat-error *ngIf="email.hasError('required')">
+			Email is required
+		</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(email); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.firstName as firstName">
+		<mat-label>First name:</mat-label>
+		<input matInput [formControl]="firstName" />
+		<mat-error *ngIf="firstName.hasError('required')">
+			First name is required
+		</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.lastName as lastName">
+		<mat-label>Last name:</mat-label>
+		<input matInput [formControl]="lastName" />
+		<mat-error *ngIf="lastName.hasError('required')">
+			Last name is required
+		</mat-error>
+	</mat-form-field>
+
+	<camp-password-field [passwordControl]="registrationForm.controls.password"></camp-password-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.confirmPassword as confirmPassword">
+		<mat-label>Repeat Password</mat-label>
+		<input matInput [formControl]="confirmPassword" [type]="hidePasswordRetype ? 'password' : 'text'">
+		<mat-error *ngIf="confirmPassword.hasError('required')">
+			Repeat password
+		</mat-error>
+		<mat-error *ngIf="confirmPassword.hasError('matching')">
+			Passwords do not match
+		</mat-error>
+		<button type="button" mat-icon-button matSuffix (click)="hidePasswordRetype = !hidePasswordRetype"
+			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordRetype">
+			<mat-icon>{{hidePasswordRetype ? 'visibility_off' : 'visibility'}}</mat-icon>
+		</button>
+	</mat-form-field>
+
+	<button mat-flat-button color="primary" type="submit">Sign up</button>
+</form>
+<nav class="navigation">
+	<a routerLink="/home/login" mat-raised-button>Sign in</a>
+	<a routerLink="/anime" mat-raised-button>Anime</a>
+</nav>
