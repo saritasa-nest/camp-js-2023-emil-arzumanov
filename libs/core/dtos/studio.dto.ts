@@ -1,11 +1,5 @@
-/** Genre DTO. */
-export interface GenreDto {
-
-	/** Id. */
+export interface StudioDto {
 	readonly id: number;
-
-	/** Name. */
-	readonly name: string;
 
 	/**
 		* Creation date.
@@ -19,6 +13,5 @@ export interface GenreDto {
 		*/
 	readonly modified: string | null;
 
-	/** DTO type. */
-	readonly type: 'GENRES';
+	readonly name: string;
 }
