@@ -28,7 +28,7 @@ export function catchErrorOnRequest<T, TAttribute, TMapper extends ErrorMapper<T
 			const errorArray = error.error.errors.map(
 				(errorsElement: ErrorDto) => errorMapper.fromDto(errorsElement),
 			);
-			return throwError(() => new CustomError<TAttribute>(errorArray));
+			return throwError(() => new CustomError<TAttribute>(errorArray, error.error.type));
 		}
 		return throwError(() => error);
 	});

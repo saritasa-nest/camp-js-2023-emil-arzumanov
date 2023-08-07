@@ -21,4 +21,13 @@ export class PasswordFieldComponent {
 	public constructor() {
 		this.passwordControl = new FormControl();
 	}
+
+	/**
+	 * Track by error type.
+	 * @param index Index.
+	 * @param type Error type.
+	 */
+	protected trackByErrorType(index: number, type: string): string {
+		return type;
+	}
 }

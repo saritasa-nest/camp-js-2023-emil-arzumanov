@@ -54,4 +54,13 @@ export class RegistrationComponent {
 				this.router.navigate(['/home/profile']);
 			});
 	}
+
+	/**
+	 * Track by error type.
+	 * @param index Index.
+	 * @param type Error type.
+	 */
+	protected trackByErrorType(index: number, type: string): string {
+		return type;
+	}
 }

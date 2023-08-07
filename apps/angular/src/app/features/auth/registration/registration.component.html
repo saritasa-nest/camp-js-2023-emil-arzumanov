@@ -6,7 +6,7 @@
 		<mat-error *ngIf="email.hasError('required')">
 			Email is required
 		</mat-error>
-		<mat-error *ngFor="let error of getFieldErrors(email)">
+		<mat-error *ngFor="let error of getFieldErrors(email); trackBy: trackByErrorType">
 			{{error}}
 		</mat-error>
 	</mat-form-field>
