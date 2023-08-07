@@ -14,10 +14,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { TableComponent } from './table/table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
+import { DetailsComponent } from './details/details.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [TableComponent],
+	declarations: [TableComponent, DetailsComponent],
 	imports: [
 		CommonModule,
 		MatTableModule,

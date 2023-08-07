@@ -196,4 +196,12 @@ export class TableComponent {
 	protected trackByAnimeType(index: number, type: AnimeType): AnimeType {
 		return type;
 	}
+
+	/**
+		* Navigate to anime details by id.
+		* @param id Anime id.
+		*/
+	protected navigateToDetails(id: number): void {
+		this.router.navigate([`/anime/details/${id}`]);
+	}
 }
