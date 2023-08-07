@@ -11,6 +11,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { SafePipe } from '@js-camp/angular/core/services/dom-sanitizer.service';
 
 import { TableComponent } from './table/table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
@@ -18,7 +20,7 @@ import { DetailsComponent } from './details/details.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [TableComponent, DetailsComponent],
+	declarations: [TableComponent, DetailsComponent, SafePipe],
 	imports: [
 		CommonModule,
 		MatTableModule,
@@ -33,6 +35,7 @@ import { DetailsComponent } from './details/details.component';
 		MatButtonModule,
 		MatIconModule,
 		AnimeRoutingModule,
+		MatCardModule,
 	],
 	providers: [AnimeService],
 })

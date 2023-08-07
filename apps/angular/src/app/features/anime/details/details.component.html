@@ -1,1 +1,59 @@
-<h1>Details work!</h1>
+<div class="heading">
+	<a routerLink="/anime" mat-raised-button>Table</a>
+	<a routerLink="/home/profile" mat-raised-button>Profile</a>
+	<button type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
+</div>
+<ng-container *ngIf="animeDetails$ | async as animeDetails">
+	<div class="image-box">
+		<img class="image-box__image" [src]="animeDetails.imageUrl" alt="Poster">
+	</div>
+	<div class="trailer-box" *ngIf="animeDetails.trailerYoutubeId as trailer">
+		<iframe class="trailer-box__trailer" [src]="trailer | safe"></iframe>
+	</div>
+	<div class="details">
+		<div class="details__row">
+			<mat-card>
+				<mat-card-title>Title English</mat-card-title>
+				<mat-card-content>{{animeDetails.titleEng}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Title Japanese</mat-card-title>
+				<mat-card-content>{{animeDetails.titleJpn}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Aired start</mat-card-title>
+				<mat-card-content>{{animeDetails.aired.start | date}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Aired end</mat-card-title>
+				<mat-card-content>{{animeDetails.aired.end | date}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Type</mat-card-title>
+				<mat-card-content>{{animeDetails.type}}</mat-card-content>
+			</mat-card>
+		</div>
+		<div class="details__row">
+			<mat-card>
+				<mat-card-title>Status</mat-card-title>
+				<mat-card-content>{{animeDetails.status}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Airing</mat-card-title>
+				<mat-card-content>{{animeDetails.airing}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Studios</mat-card-title>
+				<mat-card-content>{{animeDetails.studios[0]}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Genres</mat-card-title>
+				<mat-card-content>{{animeDetails.genres[0]}}</mat-card-content>
+			</mat-card>
+			<mat-card>
+				<mat-card-title>Synopsis</mat-card-title>
+				<mat-card-content>{{animeDetails.synopsis}}</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</ng-container>

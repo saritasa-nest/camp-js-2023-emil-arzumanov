@@ -55,7 +55,7 @@ export class AnimeService {
 		*/
 	public getAnimeDetails(id: number): Observable<AnimeDetails> {
 		return this.http
-			.get<AnimeDetailsDto>(`${this.animeDetailsUrl}${id}`)
-			.pipe(map(animeDetailsDto => AnimeDetailsMapper.fromDto(animeDetailsDto, 'https://www.youtube.com/')));
+			.get<AnimeDetailsDto>(`${this.animeDetailsUrl}${id}/`)
+			.pipe(map(animeDetailsDto => AnimeDetailsMapper.fromDto(animeDetailsDto, 'https://www.youtube.com/embed/')));
 	}
 }
