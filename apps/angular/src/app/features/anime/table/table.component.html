@@ -1,7 +1,7 @@
 <header class="heading">
-	<a *ngIf="isLoggedIn" routerLink="/home" mat-raised-button>Home Page</a>
-	<a *ngIf="isLoggedIn === false" routerLink="/home" mat-raised-button>Login</a>
-	<button *ngIf="isLoggedIn" type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
+	<a *ngIf="isLoggedIn$ | async" routerLink="/home" mat-raised-button>Home Page</a>
+	<a *ngIf="(isLoggedIn$ | async) === false" routerLink="/home" mat-raised-button>Login</a>
+	<button *ngIf="isLoggedIn$ | async" type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
 </header>
 <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="filter-form">
 	<mat-form-field>

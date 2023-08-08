@@ -183,12 +183,12 @@ export class TableComponent {
 	}
 
 	/** Check if user is logged in. */
-	protected isLoggedIn = this.authService.isLoggedIn();
+	protected isLoggedIn$ = new BehaviorSubject(this.authService.isLoggedIn());
 
 	/** Log out. */
 	protected logout(): void {
 		this.authService.logout();
-		window.location.replace('/anime/table');
+		this.isLoggedIn$.next(this.authService.isLoggedIn());
 	}
 
 	/**
