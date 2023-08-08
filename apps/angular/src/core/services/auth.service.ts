@@ -48,7 +48,10 @@ export class AuthService {
 			.post<TokenBody>(this.loginUrl, { ...LoginMapper.toDto(body) })
 			.pipe(
 				catchErrorOnRequest(loginErrorMapper),
-				tap(res => this.setTokens(res)),
+				tap(res => {
+					this.setTokens(res);
+					this.isLoggedInSubject$.next(this.isTokenInStorage());
+				}),
 			);
 	}
 
@@ -61,7 +64,10 @@ export class AuthService {
 			.post<TokenBody>(this.registrationUrl, { ...RegistrationMapper.toDto(body) })
 			.pipe(
 				catchErrorOnRequest(registrationErrorMapper),
-				tap(res => this.setTokens(res)),
+				tap(res => {
+					this.setTokens(res);
+					this.isLoggedInSubject$.next(this.isTokenInStorage());
+				}),
 			);
 	}
 
@@ -79,7 +85,6 @@ export class AuthService {
 	private setTokens(tokens: TokenBody): void {
 		this.storageService.setValue(this.accessTokenName, tokens.access);
 		this.storageService.setValue(this.refreshTokenName, tokens.refresh);
-		this.isLoggedInSubject$.next(this.isTokenInStorage());
 	}
 
 	/** Logout. Delete tokens from ServiceStorage. */
