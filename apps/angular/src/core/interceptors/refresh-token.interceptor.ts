@@ -15,7 +15,7 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		return next.handle(req).pipe(
 			catchError((error: unknown) => {
-				if (error instanceof HttpErrorResponse && error.status === 401) {
+				if (error instanceof HttpErrorResponse && (error.status === 401 || error.message.includes('401'))) {
 					return this.handleTokenError(req, next);
 				}
 
@@ -43,7 +43,7 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 					catchError((error: unknown) => {
 						this.isRefreshing = false;
 
-						if (error instanceof HttpErrorResponse && error.status === 403) {
+						if (error instanceof HttpErrorResponse && (error.status === 403 || error.message.includes('403'))) {
 							this.authService.logout();
 						}
 
