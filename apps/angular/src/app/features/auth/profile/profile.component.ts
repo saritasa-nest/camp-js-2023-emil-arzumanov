@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 
@@ -7,6 +7,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 	selector: 'camp-profile',
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
 	private readonly authService = inject(AuthService);

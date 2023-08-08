@@ -1,11 +1,12 @@
 import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 /** Poster popup. */
 @Component({
 	selector: 'camp-poster-popup',
 	templateUrl: './poster-popup.component.html',
 	styleUrls: ['./poster-popup.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PosterPopupComponent {
 	/** Dialog reference. */
