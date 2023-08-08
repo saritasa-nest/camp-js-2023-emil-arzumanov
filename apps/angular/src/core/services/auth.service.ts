@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TokenBody } from '@js-camp/core/dtos/token-responce.dto';
 import { Login } from '@js-camp/core/models/login';
 import { LoginMapper } from '@js-camp/core/mappers/login.mapper';
@@ -79,18 +79,26 @@ export class AuthService {
 	private setTokens(tokens: TokenBody): void {
 		this.storageService.setValue(this.accessTokenName, tokens.access);
 		this.storageService.setValue(this.refreshTokenName, tokens.refresh);
+		this.isLoggedInSubject$.next(this.isTokenInStorage());
 	}
 
 	/** Logout. Delete tokens from ServiceStorage. */
 	public logout(): void {
 		this.storageService.removeValue(this.accessTokenName);
 		this.storageService.removeValue(this.refreshTokenName);
+		this.isLoggedInSubject$.next(this.isTokenInStorage());
 	}
 
-	/** Is user logged in. */
-	public isLoggedIn(): boolean {
+	/** LAFAF. */
+	private readonly isLoggedInSubject$ = new BehaviorSubject<boolean>(this.isTokenInStorage());
+
+	/** L. */
+	public readonly isLoggedIn$ = this.isLoggedInSubject$.asObservable();
+
+	/** Is token is storage. */
+	private isTokenInStorage(): boolean {
 		if (this.storageService.getValue(this.accessTokenName) === null &&
-		this.storageService.getValue(this.refreshTokenName) === null) {
+			this.storageService.getValue(this.refreshTokenName) === null) {
 			return false;
 		}
 		return true;

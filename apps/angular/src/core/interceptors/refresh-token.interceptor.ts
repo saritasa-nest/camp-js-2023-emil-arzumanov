@@ -30,28 +30,29 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 		* @param next Next handler.
 		*/
 	private handleTokenError(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-		if (this.isRefreshing === false) {
-			this.isRefreshing = true;
-
-			if (this.authService.isLoggedIn()) {
-				return this.authService.refreshToken().pipe(
-					switchMap(() => {
-						this.isRefreshing = false;
-
-						return next.handle(request);
-					}),
-					catchError((error: unknown) => {
-						this.isRefreshing = false;
-
-						if (error instanceof HttpErrorResponse && (error.status === 403 || error.message.includes('403'))) {
-							this.authService.logout();
+		return this.authService.isLoggedIn$
+			.pipe(
+				switchMap(elem => {
+					if (this.isRefreshing === false) {
+						this.isRefreshing = true;
+						if (elem) {
+							return this.authService.refreshToken().pipe(
+								switchMap(() => {
+									this.isRefreshing = false;
+									return next.handle(request);
+								}),
+								catchError((error: unknown) => {
+									this.isRefreshing = false;
+									if (error instanceof HttpErrorResponse && (error.status === 403 || error.message.includes('403'))) {
+										this.authService.logout();
+									}
+									return throwError(() => error);
+								}),
+							);
 						}
-
-						return throwError(() => error);
-					}),
-				);
-			}
-		}
-		return next.handle(request);
+					}
+					return next.handle(request);
+				}),
+			);
 	}
 }

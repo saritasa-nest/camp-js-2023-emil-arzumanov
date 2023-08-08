@@ -1,5 +1,6 @@
 import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AnimePoster } from '@js-camp/core/models/anime-poster';
 
 /** Poster popup. */
 @Component({
@@ -13,5 +14,5 @@ export class PosterPopupComponent {
 	protected readonly dialogRef = inject(DialogRef);
 
 	/** Data from parent. */
-	protected readonly parentData: { posterUrl: string; } = inject(DIALOG_DATA);
+	protected readonly parentData: AnimePoster = inject(DIALOG_DATA);
 }

@@ -5,6 +5,7 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Studio } from '@js-camp/core/models/studio';
 import { Genre } from '@js-camp/core/models/genre';
+import { AnimePoster } from '@js-camp/core/models/anime-poster';
 
 import { PosterPopupComponent } from './poster-popup/poster-popup.component';
 
@@ -48,7 +49,7 @@ export class DetailsComponent {
 		* @param posterUrl Poster url.
 		*/
 	protected openPosterPopup(posterUrl: string): void {
-		this.dialog.open(PosterPopupComponent, {
+		this.dialog.open<PosterPopupComponent, AnimePoster>(PosterPopupComponent, {
 			data: { posterUrl },
 		});
 	}
@@ -56,16 +57,18 @@ export class DetailsComponent {
 	/**
 	 * Track by studio id.
 	 * @param studio Studio.
+		* @param index Index.
 	 */
-	protected trackByStudioId(studio: Studio): number {
+	protected trackByStudioId(index: number, studio: Studio): number {
 		return studio.id;
 	}
 
 	/**
 	 * Track by genre id.
 	 * @param genre Genre.
+		* @param index Index.
 	 */
-	protected trackByGenreId(genre: Genre): number {
+	protected trackByGenreId(index: number, genre: Genre): number {
 		return genre.id;
 	}
 }
