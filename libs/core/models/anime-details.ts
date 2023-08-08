@@ -2,7 +2,7 @@ import { Anime } from './anime';
 import { Genre } from './genre';
 import { Studio } from './studio';
 
-/** Anime details. */
+/** Model for anime details. */
 export interface AnimeDetails extends Anime {
 
 	/** Id of trailer on youtube. */

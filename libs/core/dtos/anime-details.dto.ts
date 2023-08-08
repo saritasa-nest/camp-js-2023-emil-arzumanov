@@ -2,28 +2,41 @@ import { AnimeDto } from './anime.dto';
 import { GenreDto } from './genre.dto';
 import { StudioDto } from './studio.dto';
 
+/** Dto for anime details. */
 export interface AnimeDetailsDto extends AnimeDto {
+
+	/** Id of trailer on youtube. */
 	readonly trailer_youtube_id: string | null;
 
+	/** Source. */
 	readonly source: AnimeSourceDto;
 
+	/** Is airing. */
 	readonly airing: boolean;
 
+	/** Rating. */
 	readonly rating: AnimeRatingDto;
 
+	/** Season of the year. */
 	readonly season: AnimeSeasonDto;
 
+	/** Synopsis. */
 	readonly synopsis: string;
 
+	/** Studios. */
 	readonly studios: readonly number[];
 
+	/** Studios data. */
 	readonly studios_data: readonly StudioDto[];
 
+	/** Genres. */
 	readonly genres: readonly number[];
 
+	/** Genres data. */
 	readonly genres_data: readonly GenreDto[];
 }
 
+/** Anime source. */
 export enum AnimeSourceDto {
 	FourKomaManga = 'FOUR_KOMA_MANGA',
 	Book = 'BOOK',
@@ -44,6 +57,7 @@ export enum AnimeSourceDto {
 	Unknown = 'UNKNOWN',
 }
 
+/** Anime rating. */
 export enum AnimeRatingDto {
 	G = 'G',
 	PG = 'PG',
@@ -54,6 +68,7 @@ export enum AnimeRatingDto {
 	Unknown = 'UNKNOWN',
 }
 
+/** Anime season. */
 export enum AnimeSeasonDto {
 	Winter = 'WINTER',
 	Spring = 'SPRING',

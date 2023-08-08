@@ -12,10 +12,10 @@ export namespace AnimeDetailsMapper {
 	 * @param dto AnimeDetailsDto.
 		* @param youtubeLink Link to youtube.
 	 */
-	export function fromDto(dto: AnimeDetailsDto, youtubeLink: string): AnimeDetails {
+	export function fromDto(dto: AnimeDetailsDto): AnimeDetails {
 		return ({
 			...AnimeMapper.fromDto(dto),
-			trailerYoutubeId: dto.trailer_youtube_id ? `${youtubeLink}${dto.trailer_youtube_id}` : null,
+			trailerYoutubeId: dto.trailer_youtube_id ? `https://www.youtube.com/embed/${dto.trailer_youtube_id}` : null,
 			source: ANIME_DETAILS_SOURCE_FROM_DTO_MAP[dto.source],
 			airing: dto.airing,
 			rating: ANIME_DETAILS_RATING_FROM_DTO_MAP[dto.rating],

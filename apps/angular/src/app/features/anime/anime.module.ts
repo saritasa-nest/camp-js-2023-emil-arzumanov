@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
@@ -40,6 +39,5 @@ import { PosterPopupComponent } from './details/poster-popup/poster-popup.compon
 		MatCardModule,
 		DialogModule,
 	],
-	providers: [AnimeService],
 })
 export class AnimeModule {}

@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { AnimeDetails } from '@js-camp/core/models/anime-details';
-import { Observable } from 'rxjs';
+import { Studio } from '@js-camp/core/models/studio';
+import { Genre } from '@js-camp/core/models/genre';
 
 import { PosterPopupComponent } from './poster-popup/poster-popup.component';
 
@@ -25,16 +25,12 @@ export class DetailsComponent {
 
 	private readonly animeService = inject(AnimeService);
 
-	private readonly animeId: number;
+	private readonly animeId = this.getIdFromParams();
+
+	private readonly dialog = inject(Dialog);
 
 	/** List of anime. */
-	protected readonly animeDetails$: Observable<AnimeDetails>;
-
-	public constructor() {
-		this.animeId = this.getIdFromParams();
-
-		this.animeDetails$ = this.animeService.getAnimeDetails(this.animeId);
-	}
+	protected readonly animeDetails$ = this.animeService.getAnimeDetails(this.animeId);
 
 	private getIdFromParams(): number {
 		const params = { ...this.route.snapshot.params };
@@ -47,9 +43,6 @@ export class DetailsComponent {
 		this.router.navigate(['/anime/table']);
 	}
 
-	/** Dialog. */
-	protected readonly dialog = inject(Dialog);
-
 	/**
 		* Opens poster popup.
 		* @param posterUrl Poster url.
@@ -58,5 +51,21 @@ export class DetailsComponent {
 		this.dialog.open(PosterPopupComponent, {
 			data: { posterUrl },
 		});
+	}
+
+	/**
+	 * Track by studio id.
+	 * @param studio Studio.
+	 */
+	protected trackByStudioId(studio: Studio): number {
+		return studio.id;
+	}
+
+	/**
+	 * Track by genre id.
+	 * @param genre Genre.
+	 */
+	protected trackByGenreId(genre: Genre): number {
+		return genre.id;
 	}
 }
