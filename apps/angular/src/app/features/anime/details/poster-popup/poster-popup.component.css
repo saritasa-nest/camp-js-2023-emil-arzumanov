@@ -18,8 +18,8 @@
 }
 
 .poster {
-  max-width: 600px;
-  max-height: 600px;
+  max-width: 300px;
+  max-height: 300px;
   border: 1px solid black;
   border-radius: 10px;
 }
