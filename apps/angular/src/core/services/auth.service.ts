@@ -89,13 +89,13 @@ export class AuthService {
 		this.isLoggedInSubject$.next(this.isTokenInStorage());
 	}
 
-	/** LAFAF. */
+	/** Is user logged in. Behavior subject. */
 	private readonly isLoggedInSubject$ = new BehaviorSubject<boolean>(this.isTokenInStorage());
 
-	/** L. */
+	/** Is user logged in. Observable. */
 	public readonly isLoggedIn$ = this.isLoggedInSubject$.asObservable();
 
-	/** Is token is storage. */
+	/** Is token in storage. */
 	private isTokenInStorage(): boolean {
 		if (this.storageService.getValue(this.accessTokenName) === null &&
 			this.storageService.getValue(this.refreshTokenName) === null) {
