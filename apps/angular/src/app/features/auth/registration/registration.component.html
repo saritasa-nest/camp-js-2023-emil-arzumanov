@@ -38,7 +38,7 @@
 		<mat-error *ngIf="confirmPassword.hasError('matching')">
 			Passwords do not match
 		</mat-error>
-		<button type="button" mat-icon-button matSuffix (click)="hidePasswordRetype = !hidePasswordRetype"
+		<button tabindex="-1" type="button" mat-icon-button matSuffix (click)="hidePasswordRetype = !hidePasswordRetype"
 			[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordRetype">
 			<mat-icon>{{hidePasswordRetype ? 'visibility_off' : 'visibility'}}</mat-icon>
 		</button>
@@ -48,5 +48,5 @@
 </form>
 <nav class="navigation">
 	<a routerLink="/home/login" mat-raised-button>Sign in</a>
-	<a routerLink="/anime" mat-raised-button>Anime</a>
+	<a routerLink="/anime" mat-raised-button>Anime Table</a>
 </nav>

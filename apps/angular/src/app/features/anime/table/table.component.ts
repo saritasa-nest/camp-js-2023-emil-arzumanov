@@ -11,6 +11,7 @@ import { Direction, SortField, SortParams } from '@js-camp/core/models/sorting-p
 import { FilterParams } from '@js-camp/core/models/filter-params';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { AuthService } from '@js-camp/angular/core/services/auth.service';
 
 /** Query parameters for snapshots. */
 enum Params {
@@ -35,6 +36,8 @@ export class TableComponent {
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly animeService = inject(AnimeService);
+
+	private readonly authService = inject(AuthService);
 
 	private readonly fb = inject(FormBuilder);
 
@@ -177,6 +180,15 @@ export class TableComponent {
 			type: params.filter.type ? params.filter.type.join(',') : '',
 		};
 		this.router.navigate([], { queryParams });
+	}
+
+	/** Check if user is logged in. */
+	protected isLoggedIn = this.authService.isLoggedIn();
+
+	/** Log out. */
+	protected logout(): void {
+		this.authService.logout();
+		window.location.replace('/anime/table');
 	}
 
 	/**

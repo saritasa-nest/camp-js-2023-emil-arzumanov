@@ -9,6 +9,7 @@ import { ApiKeyInterceptor } from '../core/interceptors/anime.interceptor';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
 import { RefreshTokenInterceptor } from '../core/interceptors/refresh-token.interceptor';
 import { SharedModule } from '../shared/shared.module';
+import { AuthService } from '../core/services/auth.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { AppComponent } from './app.component';
 		{ provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 		AuthGuard,
+		AuthService,
 	],
 	bootstrap: [AppComponent],
 })
