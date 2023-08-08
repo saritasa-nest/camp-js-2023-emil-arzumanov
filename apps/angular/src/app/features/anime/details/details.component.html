@@ -8,7 +8,7 @@
 		<img class="image-box__image" [src]="animeDetails.imageUrl" alt="Poster" (click)="openPosterPopup(animeDetails.imageUrl)">
 	</div>
 	<div class="trailer-box" *ngIf="animeDetails.trailerYoutubeId as trailer">
-		<iframe class="trailer-box__trailer" [src]="trailer | safe"></iframe>
+		<iframe title="Trailer" class="trailer-box__trailer" [src]="trailer | safe"></iframe>
 	</div>
 	<div class="details">
 		<div class="details__row">
