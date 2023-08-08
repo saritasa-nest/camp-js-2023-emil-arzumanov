@@ -18,10 +18,11 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { TableComponent } from './table/table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
 import { DetailsComponent } from './details/details.component';
+import { PosterPopupComponent } from './details/poster-popup/poster-popup.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [TableComponent, DetailsComponent, SafePipe],
+	declarations: [TableComponent, DetailsComponent, SafePipe, PosterPopupComponent],
 	imports: [
 		CommonModule,
 		MatTableModule,

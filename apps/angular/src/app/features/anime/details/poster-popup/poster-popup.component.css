@@ -1,0 +1,25 @@
+:host {
+  display: grid;
+  gap: 10px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  animation: custom-dialog-enter 1s ease;
+}
+
+@keyframes custom-dialog-enter {
+  from {
+    transform: scale(0) rotate(360deg);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.poster {
+  max-width: 600px;
+  max-height: 600px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
