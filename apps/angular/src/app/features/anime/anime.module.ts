@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { SafePipe } from '@js-camp/angular/core/services/dom-sanitizer.service';
+import { DialogModule } from '@angular/cdk/dialog';
 
 import { TableComponent } from './table/table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
@@ -36,6 +37,7 @@ import { DetailsComponent } from './details/details.component';
 		MatIconModule,
 		AnimeRoutingModule,
 		MatCardModule,
+		DialogModule,
 	],
 	providers: [AnimeService],
 })

@@ -36,19 +36,19 @@
 		<div class="details__row">
 			<mat-card>
 				<mat-card-title>Status</mat-card-title>
-				<mat-card-content>{{animeDetails.status}</mat-card-content>
+				<mat-card-content>{{animeDetails.status}}</mat-card-content>
 			</mat-card>
 			<mat-card>
 				<mat-card-title>Airing</mat-card-title>
-				<mat-card-content>{{animeDetails.airing}}</mat-card-content>
+				<mat-card-content>{{animeDetails.airing ? 'Yes' : 'No'}}</mat-card-content>
 			</mat-card>
 			<mat-card>
 				<mat-card-title>Studios</mat-card-title>
-				<mat-card-content>{{animeDetails.studios[0]}}</mat-card-content>
+				<mat-card-content *ngFor="let studio of animeDetails.studiosData">{{studio.name}}</mat-card-content>
 			</mat-card>
 			<mat-card>
 				<mat-card-title>Genres</mat-card-title>
-				<mat-card-content>{{animeDetails.genres[0]}}</mat-card-content>
+				<mat-card-content *ngFor="let genre of animeDetails.genresData">{{genre.name}}</mat-card-content>
 			</mat-card>
 			<mat-card>
 				<mat-card-title>Synopsis</mat-card-title>

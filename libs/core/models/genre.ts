@@ -20,5 +20,5 @@ export interface Genre {
 	readonly modified: Date | null;
 
 	/** DTO type. */
-	readonly type: 'GENRES';
+	readonly type: string;
 }

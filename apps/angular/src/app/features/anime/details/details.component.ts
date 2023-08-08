@@ -43,5 +43,4 @@ export class DetailsComponent {
 		this.authService.logout();
 		this.router.navigate(['/anime/table']);
 	}
-
 }
