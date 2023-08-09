@@ -1,6 +1,7 @@
 .header {
   display: grid;
-  padding-bottom: 22px;
+  gap: 5px;
+  padding-bottom: 10px;
 }
 
 .active-link {

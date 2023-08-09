@@ -19,10 +19,18 @@ import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsComponent } from './anime-details/anime-details.component';
 import { PosterPopupComponent } from './components/poster-popup/poster-popup.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [AnimeTableComponent, AnimeDetailsComponent, SafePipe, PosterPopupComponent, HeaderComponent],
+	declarations: [
+		AnimeTableComponent,
+		AnimeDetailsComponent,
+		SafePipe,
+		PosterPopupComponent,
+		HeaderComponent,
+		ConfirmDeleteComponent,
+	],
 	imports: [
 		CommonModule,
 		MatTableModule,

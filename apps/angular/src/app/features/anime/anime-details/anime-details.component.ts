@@ -3,9 +3,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
+import { ConfirmAnimeDelete } from '@js-camp/core/models/anime-delete-confirm';
 import { switchMap } from 'rxjs';
 
 import { PosterPopupComponent } from '../components/poster-popup/poster-popup.component';
+import { ConfirmDeleteComponent } from '../components/confirm-delete/confirm-delete.component';
 
 /** Details of anime. */
 @Component({
@@ -34,6 +36,16 @@ export class AnimeDetailsComponent {
 	protected openPosterPopup(posterUrl: string): void {
 		this.dialog.open<PosterPopupComponent, AnimePoster>(PosterPopupComponent, {
 			data: { posterUrl },
+		});
+	}
+
+	/**
+	 * Opens anime delete confirm.
+	 * @param animeId Id of anime.
+	 */
+	protected openDeleteConfirm(animeId: number): void {
+		this.dialog.open<ConfirmDeleteComponent, ConfirmAnimeDelete>(ConfirmDeleteComponent, {
+			data: { animeId },
 		});
 	}
 

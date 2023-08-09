@@ -3,6 +3,12 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 10px;
+}
+
 .image-box,
 .trailer-box {
   padding: 10px 0;

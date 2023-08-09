@@ -1,5 +1,9 @@
 <camp-header></camp-header>
 <ng-container *ngIf="animeDetails$ | async as animeDetails">
+	<div class="buttons">
+		<a routerLink="/anime/table" mat-raised-button>Edit</a>
+		<button type="button" mat-raised-button color="primary" (click)="openDeleteConfirm(animeDetails.id)">Delete</button>
+	</div>
 	<div class="image-box">
 		<img class="image-box__image" [src]="animeDetails.imageUrl" alt="" (click)="openPosterPopup(animeDetails.imageUrl)">
 	</div>
