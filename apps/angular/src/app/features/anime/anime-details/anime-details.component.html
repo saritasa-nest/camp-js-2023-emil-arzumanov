@@ -1,7 +1,7 @@
 <camp-header></camp-header>
 <ng-container *ngIf="animeDetails$ | async as animeDetails">
 	<div class="buttons">
-		<a routerLink="/anime/table" mat-raised-button>Edit</a>
+		<button type="button" mat-raised-button (click)="navigateToEdit(animeDetails.id)">Edit</button>
 		<button type="button" mat-raised-button color="primary" (click)="openDeleteConfirm(animeDetails.id)">Delete</button>
 	</div>
 	<div class="image-box">

@@ -1,6 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
 import { ConfirmAnimeDelete } from '@js-camp/core/models/anime-delete-confirm';
@@ -23,7 +23,9 @@ export class AnimeDetailsComponent {
 
 	private readonly animeService = inject(AnimeService);
 
-	/** List of anime. */
+	private readonly router = inject(Router);
+
+	/** Anime details. */
 	protected readonly animeDetails$ = this.route.params.pipe(
 		switchMap(params => this.animeService.getAnimeDetails(params['id'])),
 	);
@@ -48,6 +50,14 @@ export class AnimeDetailsComponent {
 		this.dialog.open<ConfirmDeleteComponent, ConfirmAnimeDelete>(ConfirmDeleteComponent, {
 			data: { animeId },
 		});
+	}
+
+	/**
+	 * Navigate to anime edit by id.
+	 * @param id Anime id.
+	 */
+	protected navigateToEdit(id: number): void {
+		this.router.navigate([`/anime/edit/${id}`]);
 	}
 
 	/** Track by id. */
