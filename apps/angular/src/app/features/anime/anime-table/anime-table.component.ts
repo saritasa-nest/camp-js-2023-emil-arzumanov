@@ -11,6 +11,7 @@ import { Direction, SortField, SortParams } from '@js-camp/core/models/sorting-p
 import { FilterParams } from '@js-camp/core/models/filter-params';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 
 /** Query parameters for snapshots. */
 enum Params {
@@ -179,14 +180,8 @@ export class AnimeTableComponent {
 		this.router.navigate([], { queryParams });
 	}
 
-	/**
-	 * Track by anime id.
-	 * @param index Index.
-	 * @param anime Anime.
-	 */
-	protected trackById(index: number, anime: Anime): number {
-		return anime.id;
-	}
+	/** Track by id. */
+	protected trackById = trackById;
 
 	/**
 	 * Track by anime type.

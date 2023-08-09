@@ -26,5 +26,5 @@ export class ConfirmDeleteComponent {
 	protected readonly dialogRef = inject(DialogRef);
 
 	/** Data from parent. */
-	protected readonly parentData: ConfirmAnimeDelete = inject(DIALOG_DATA);
+	protected readonly parentData = inject<ConfirmAnimeDelete>(DIALOG_DATA);
 }

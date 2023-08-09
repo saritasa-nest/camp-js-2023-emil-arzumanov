@@ -4,6 +4,6 @@
   padding-bottom: 10px;
 }
 
-.active-link {
-  color: #6d42ba !important;
+.mat-mdc-raised-button.active-link {
+  color: #6d42ba;
 }

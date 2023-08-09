@@ -5,6 +5,7 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
 import { ConfirmAnimeDelete } from '@js-camp/core/models/anime-delete-confirm';
 import { switchMap } from 'rxjs';
+import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 
 import { PosterPopupComponent } from '../components/poster-popup/poster-popup.component';
 import { ConfirmDeleteComponent } from '../components/confirm-delete/confirm-delete.component';
@@ -49,12 +50,6 @@ export class AnimeDetailsComponent {
 		});
 	}
 
-	/**
-	 * Track by item id.
-	 * @param index Index.
-	 * @param item Item.
-	 */
-	protected trackById<T extends { id: number; }>(index: number, item: T): number {
-		return item.id;
-	}
+	/** Track by id. */
+	protected trackById = trackById;
 }

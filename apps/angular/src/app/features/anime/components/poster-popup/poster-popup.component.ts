@@ -14,5 +14,5 @@ export class PosterPopupComponent {
 	protected readonly dialogRef = inject(DialogRef);
 
 	/** Data from parent. */
-	protected readonly parentData: AnimePoster = inject(DIALOG_DATA);
+	protected readonly parentData = inject<AnimePoster>(DIALOG_DATA);
 }
