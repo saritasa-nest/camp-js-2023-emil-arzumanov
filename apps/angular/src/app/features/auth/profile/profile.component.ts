@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 
 /** User profile. */
@@ -7,15 +6,13 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 	selector: 'camp-profile',
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
 	private readonly authService = inject(AuthService);
 
-	private readonly router = inject(Router);
-
 	/** Log out and redirect to anime. */
 	protected logout(): void {
 		this.authService.logout();
-		this.router.navigate(['/anime/table']);
 	}
 }

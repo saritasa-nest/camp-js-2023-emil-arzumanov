@@ -10,7 +10,7 @@ export namespace AnimeMapper {
 	 * @param dto Anime.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
-		return new Anime({
+		return ({
 			id: dto.id,
 			created: new Date(dto.created),
 			modified: new Date(dto.modified),
@@ -26,10 +26,10 @@ export namespace AnimeMapper {
 	}
 
 	/**
-		* Anime type mapper.
-		* From dto to model.
-		*/
-	const ANIME_TYPES_FROM_DTO_MAP = {
+	 * Anime type mapper.
+	 * From dto to model.
+	 */
+	export const ANIME_TYPES_FROM_DTO_MAP = {
 		[AnimeTypeDto.TV]: AnimeType.TV,
 		[AnimeTypeDto.OVA]: AnimeType.OVA,
 		[AnimeTypeDto.Movie]: AnimeType.Movie,
@@ -40,9 +40,9 @@ export namespace AnimeMapper {
 	};
 
 	/**
-		* Anime type mapper.
-		* From model to dto.
-		*/
+	 * Anime type mapper.
+	 * From model to dto.
+	 */
 	export const ANIME_TYPES_TO_DTO_MAP = {
 		[AnimeType.TV]: AnimeTypeDto.TV,
 		[AnimeType.OVA]: AnimeTypeDto.OVA,
@@ -54,10 +54,10 @@ export namespace AnimeMapper {
 	};
 
 	/**
-		* Anime statuses mapper.
-		* From dto to model.
-		*/
-	const ANIME_STATUSES_FROM_DTO_MAP = {
+	 * Anime statuses mapper.
+	 * From dto to model.
+	 */
+	export const ANIME_STATUSES_FROM_DTO_MAP = {
 		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
 		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,

@@ -7,7 +7,6 @@ import { AuthService } from '../services/auth.service';
 /** Auth interceptor. Intercepts request and adds JWT token to headers. */
 @Injectable()
 export class RefreshTokenInterceptor<T> implements HttpInterceptor {
-	private isRefreshing = false;
 
 	private readonly authService = inject(AuthService);
 
@@ -15,7 +14,7 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		return next.handle(req).pipe(
 			catchError((error: unknown) => {
-				if (error instanceof HttpErrorResponse && error.status === 401) {
+				if (error instanceof HttpErrorResponse && (error.status === 401 || error.message.includes('401'))) {
 					return this.handleTokenError(req, next);
 				}
 
@@ -25,33 +24,27 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 	}
 
 	/**
-		* Refresh token or logout, if refresh doesn't work.
-		* @param request Request.
-		* @param next Next handler.
-		*/
+	 * Refresh token or logout, if refresh doesn't work.
+	 * @param request Request.
+	 * @param next Next handler.
+	 */
 	private handleTokenError(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-		if (this.isRefreshing === false) {
-			this.isRefreshing = true;
-
-			if (this.authService.isLoggedIn()) {
-				return this.authService.refreshToken().pipe(
-					switchMap(() => {
-						this.isRefreshing = false;
-
-						return next.handle(request);
-					}),
-					catchError((error: unknown) => {
-						this.isRefreshing = false;
-
-						if (error instanceof HttpErrorResponse && error.status === 403) {
-							this.authService.logout();
-						}
-
-						return throwError(() => error);
-					}),
-				);
-			}
-		}
-		return next.handle(request);
+		return this.authService.isLoggedIn$
+			.pipe(
+				switchMap(elem => {
+					if (elem) {
+						return this.authService.refreshToken().pipe(
+							switchMap(() => next.handle(request)),
+							catchError((error: unknown) => {
+								if (error instanceof HttpErrorResponse && (error.status === 403 || error.message.includes('403'))) {
+									this.authService.logout();
+								}
+								return throwError(() => error);
+							}),
+						);
+					}
+					return next.handle(request);
+				}),
+			);
 	}
 }

@@ -8,7 +8,7 @@ export namespace AiredDateMapper {
 	 * @param dto AiredDateDto dto.
 	 */
 	export function fromDto(dto: AiredDateDto): AiredDate {
-		return new AiredDate({
+		return ({
 			start: dto.start ? new Date(dto.start) : null,
 			end: dto.end ? new Date(dto.end) : null,
 		});

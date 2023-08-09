@@ -7,15 +7,15 @@ export interface AnimeDto {
 	readonly id: number;
 
 	/**
-		* Creation date.
-		* @example 2023-07-14T08:26:42.842112Z
-		*/
+	 * Creation date.
+	 * @example 2023-07-14T08:26:42.842112Z
+	 */
 	readonly created: string;
 
 	/**
-		* Modification date.
-		* @example 2023-07-14T08:26:42.842112Z
-		*/
+	 * Modification date.
+	 * @example 2023-07-14T08:26:42.842112Z
+	 */
 	readonly modified: string;
 
 	/** Title on english. */

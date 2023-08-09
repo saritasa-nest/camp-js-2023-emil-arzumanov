@@ -1,0 +1,15 @@
+:host {
+  display: grid;
+  gap: 10px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  animation: custom-dialog-enter 1s ease;
+}
+
+.poster {
+  max-width: 300px;
+  max-height: 300px;
+  border: 1px solid black;
+  border-radius: 10px;
+}

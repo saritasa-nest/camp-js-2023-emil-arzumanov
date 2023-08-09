@@ -25,11 +25,11 @@ enum Params {
 /** Table of anime. */
 @Component({
 	selector: 'camp-table',
-	templateUrl: './table.component.html',
-	styleUrls: ['./table.component.css'],
+	templateUrl: './anime-table.component.html',
+	styleUrls: ['./anime-table.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent {
+export class AnimeTableComponent {
 	private readonly router = inject(Router);
 
 	private readonly route = inject(ActivatedRoute);
@@ -94,8 +94,8 @@ export class TableComponent {
 	}
 
 	/**
-		* Makes snapshot of query params.
-		* Saves the value of the parameters if the parameters exist.
+	 * Makes snapshot of query params.
+	 * Saves the value of the parameters if the parameters exist.
 	 */
 	private makeAndSaveSnapshots(): void {
 		const snapshot = this.route.snapshot.queryParams;
@@ -164,8 +164,8 @@ export class TableComponent {
 	}
 
 	/**
-		* Sets query parameters in URL.
-		* @param params Query parameters that will be added to URL.
+	 * Sets query parameters in URL.
+	 * @param params Query parameters that will be added to URL.
 	 */
 	private setQueryParams(params: AnimeParams): void {
 		const queryParams = {
@@ -195,5 +195,13 @@ export class TableComponent {
 	 */
 	protected trackByAnimeType(index: number, type: AnimeType): AnimeType {
 		return type;
+	}
+
+	/**
+	 * Navigate to anime details by id.
+	 * @param id Anime id.
+	 */
+	protected navigateToDetails(id: number): void {
+		this.router.navigate([`/anime/details/${id}`]);
 	}
 }

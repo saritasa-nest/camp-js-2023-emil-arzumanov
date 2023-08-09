@@ -1,0 +1,70 @@
+<camp-header></camp-header>
+<ng-container *ngIf="animeDetails$ | async as animeDetails">
+	<div class="image-box">
+		<img class="image-box__image" [src]="animeDetails.imageUrl" alt="" (click)="openPosterPopup(animeDetails.imageUrl)">
+	</div>
+	<div class="trailer-box" *ngIf="animeDetails.trailerYoutubeId as trailer">
+		<iframe title="Trailer" class="trailer-box__trailer" [src]="trailer | campSafe"></iframe>
+	</div>
+	<mat-card class="details">
+
+		<mat-card-content class="details__row">
+			<mat-card-content>
+				<mat-card-title>Title English</mat-card-title>
+				<mat-card-content>{{animeDetails.titleEng}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Title Japanese</mat-card-title>
+				<mat-card-content>{{animeDetails.titleJpn}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Aired start</mat-card-title>
+				<mat-card-content>{{animeDetails.aired.start | date}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Aired end</mat-card-title>
+				<mat-card-content>{{animeDetails.aired.end | date}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Type</mat-card-title>
+				<mat-card-content>{{animeDetails.type}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Rating</mat-card-title>
+				<mat-card-content>{{animeDetails.rating}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Source</mat-card-title>
+				<mat-card-content>{{animeDetails.source}}</mat-card-content>
+			</mat-card-content>
+		</mat-card-content>
+
+		<mat-card-content class="details__row">
+			<mat-card-content>
+				<mat-card-title>Status</mat-card-title>
+				<mat-card-content>{{animeDetails.status}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Season</mat-card-title>
+				<mat-card-content>{{animeDetails.season}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Airing</mat-card-title>
+				<mat-card-content>{{animeDetails.airing ? 'Yes' : 'No'}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Studios</mat-card-title>
+				<mat-card-content *ngFor="let studio of animeDetails.studiosData; trackBy: trackById">{{studio.name}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Genres</mat-card-title>
+				<mat-card-content *ngFor="let genre of animeDetails.genresData; trackBy: trackById">{{genre.name}}</mat-card-content>
+			</mat-card-content>
+			<mat-card-content>
+				<mat-card-title>Synopsis</mat-card-title>
+				<mat-card-content>{{animeDetails.synopsis}}</mat-card-content>
+			</mat-card-content>
+		</mat-card-content>
+
+	</mat-card>
+</ng-container>

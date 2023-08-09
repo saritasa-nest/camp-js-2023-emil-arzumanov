@@ -1,6 +1,4 @@
-<header class="heading">
-	<a routerLink="/home" mat-raised-button>Home Page</a>
-</header>
+<camp-header></camp-header>
 <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="filter-form">
 	<mat-form-field>
 		<mat-label>Type</mat-label>
@@ -18,7 +16,7 @@
 	<mat-paginator
 		[length]="animeList.count"
 		[pageSizeOptions]="pageSizeOptions"
-		*ngIf="pagination$ | async as pagination"
+	 *ngIf="pagination$ | async as pagination"
 		[pageSize]="pagination.pageSize"
 		[pageIndex]="pagination.pageIndex"
 		aria-label="Select page"
@@ -28,7 +26,7 @@
 		mat-table
 		[dataSource]="animeList.results"
 		matSort
-		*ngIf="sorting$ | async as sorting"
+	 *ngIf="sorting$ | async as sorting"
 		[matSortActive]="sorting.field"
 		[matSortDirection]="sorting.direction"
 		(matSortChange)="sortHandler($event)"
@@ -68,6 +66,6 @@
 		</ng-container>
 
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="navigateToDetails(row.id)"></tr>
 	</table>
 </ng-container>

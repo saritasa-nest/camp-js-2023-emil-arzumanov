@@ -11,9 +11,9 @@ export class AppUrlsConfig {
 	public readonly baseUrl = environment.apiUrl;
 
 	/**
-		* Creates API url based on arguments.
-		* @param args Array of strings that will be added to URL.
-		*/
+	 * Creates API url based on arguments.
+	 * @param args Array of strings that will be added to URL.
+	 */
 	public toApi(...args: readonly string[]): string {
 		const path = args.join('/');
 		const concatenatedUrl = new URL(path, this.baseUrl).toString();

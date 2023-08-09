@@ -4,9 +4,9 @@ import { Direction, SortField, SortParams } from '../models/sorting-params';
 export namespace SortParamsMapper {
 
 	/**
-		* Maps model to dto.
-		* @param model SortParams model.
-		*/
+	 * Maps model to dto.
+	 * @param model SortParams model.
+	 */
 	export function toDto(model: SortParams): SortParamsDto {
 		const direction = model.direction === Direction.Descending ? '-' : '';
 		const sortParamsDto = SORT_PARAMS_TO_DTO_MAP[model.field];
@@ -17,9 +17,9 @@ export namespace SortParamsMapper {
 }
 
 /**
-	* Sort field type mapper.
-	* From model to dto.
-	*/
+ * Sort field type mapper.
+ * From model to dto.
+ */
 const SORT_PARAMS_TO_DTO_MAP = {
 	[SortField.AiredStart]: SortFieldDto.AiredStart,
 	[SortField.TitleEnglish]: SortFieldDto.TitleEnglish,

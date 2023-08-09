@@ -1,5 +1,5 @@
 import { first } from 'rxjs';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
 	selector: 'camp-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
 	/** Show password retype or not. */
