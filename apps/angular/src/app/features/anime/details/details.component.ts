@@ -3,8 +3,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { Studio } from '@js-camp/core/models/studio';
-import { Genre } from '@js-camp/core/models/genre';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
 
 import { PosterPopupComponent } from './poster-popup/poster-popup.component';
@@ -16,7 +14,7 @@ import { PosterPopupComponent } from './poster-popup/poster-popup.component';
 	styleUrls: ['./details.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailsComponent {
+export class AnimeDetailsComponent {
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -26,7 +24,7 @@ export class DetailsComponent {
 
 	private readonly animeService = inject(AnimeService);
 
-	private readonly animeId = this.getIdFromParams();
+	private readonly animeId = this.route.snapshot.params['id'];
 
 	private readonly dialog = inject(Dialog);
 
@@ -34,8 +32,8 @@ export class DetailsComponent {
 	protected readonly animeDetails$ = this.animeService.getAnimeDetails(this.animeId);
 
 	private getIdFromParams(): number {
-		const params = { ...this.route.snapshot.params };
-		return params['id'];
+		const { id } = this.route.snapshot.params;
+		return id;
 	}
 
 	/** Log out and redirect to anime. */
@@ -55,20 +53,11 @@ export class DetailsComponent {
 	}
 
 	/**
-	 * Track by studio id.
-	 * @param studio Studio.
-		* @param index Index.
+	 * Track by item id.
+	 * @param index Index.
+		* @param item Item.
 	 */
-	protected trackByStudioId(index: number, studio: Studio): number {
-		return studio.id;
-	}
-
-	/**
-	 * Track by genre id.
-	 * @param genre Genre.
-		* @param index Index.
-	 */
-	protected trackByGenreId(index: number, genre: Genre): number {
-		return genre.id;
+	protected trackById<T extends { id: number; }>(index: number, item: T): number {
+		return item.id;
 	}
 }

@@ -81,9 +81,6 @@ export class TableComponent {
 	/** Mapped filter valueChanges. */
 	protected readonly filter$: Observable<FilterParams>;
 
-	/** Check if user is logged in. */
-	protected readonly isLoggedIn$ = this.authService.isLoggedIn$;
-
 	public constructor() {
 		this.makeAndSaveSnapshots();
 		this.filter$ = this.createFiltersStream();
@@ -183,11 +180,6 @@ export class TableComponent {
 			type: params.filter.type ? params.filter.type.join(',') : '',
 		};
 		this.router.navigate([], { queryParams });
-	}
-
-	/** Log out. */
-	protected logout(): void {
-		this.authService.logout();
 	}
 
 	/**

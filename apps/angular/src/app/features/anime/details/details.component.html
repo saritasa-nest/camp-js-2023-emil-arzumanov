@@ -1,14 +1,10 @@
-<div class="header">
-	<a routerLink="/anime" mat-raised-button>Table</a>
-	<a routerLink="/home/profile" mat-raised-button>Profile</a>
-	<button type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
-</div>
+<camp-header></camp-header>
 <ng-container *ngIf="animeDetails$ | async as animeDetails">
 	<div class="image-box">
 		<img class="image-box__image" [src]="animeDetails.imageUrl" alt="" (click)="openPosterPopup(animeDetails.imageUrl)">
 	</div>
 	<div class="trailer-box" *ngIf="animeDetails.trailerYoutubeId as trailer">
-		<iframe title="Trailer" class="trailer-box__trailer" [src]="trailer | safe"></iframe>
+		<iframe title="Trailer" class="trailer-box__trailer" [src]="trailer | campSafe"></iframe>
 	</div>
 	<mat-card class="details">
 
@@ -58,11 +54,11 @@
 			</mat-card-content>
 			<mat-card-content>
 				<mat-card-title>Studios</mat-card-title>
-				<mat-card-content *ngFor="let studio of animeDetails.studiosData; trackBy: trackByStudioId">{{studio.name}}</mat-card-content>
+				<mat-card-content *ngFor="let studio of animeDetails.studiosData; trackBy: trackById">{{studio.name}}</mat-card-content>
 			</mat-card-content>
 			<mat-card-content>
 				<mat-card-title>Genres</mat-card-title>
-				<mat-card-content *ngFor="let genre of animeDetails.genresData; trackBy: trackByGenreId">{{genre.name}}</mat-card-content>
+				<mat-card-content *ngFor="let genre of animeDetails.genresData; trackBy: trackById">{{genre.name}}</mat-card-content>
 			</mat-card-content>
 			<mat-card-content>
 				<mat-card-title>Synopsis</mat-card-title>

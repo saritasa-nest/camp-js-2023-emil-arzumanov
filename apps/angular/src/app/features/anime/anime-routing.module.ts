@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@js-camp/angular/core/services/auth-guard.service';
 
 import { TableComponent } from './table/table.component';
-import { DetailsComponent } from './details/details.component';
+import { AnimeDetailsComponent } from './details/details.component';
 
 const routes: Routes = [
 	{
@@ -12,7 +12,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'details/:id',
-		component: DetailsComponent,
+		component: AnimeDetailsComponent,
 		canActivate: [AuthGuard],
 	},
 	{ path: '', redirectTo: 'table', pathMatch: 'full' },

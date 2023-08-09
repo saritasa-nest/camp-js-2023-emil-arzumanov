@@ -102,10 +102,6 @@ export class AuthService {
 
 	/** Is token in storage. */
 	private isTokenInStorage(): boolean {
-		if (this.storageService.getValue(this.accessTokenName) === null &&
-			this.storageService.getValue(this.refreshTokenName) === null) {
-			return false;
-		}
-		return true;
+		return this.storageService.getValue(this.accessTokenName) !== null && this.storageService.getValue(this.refreshTokenName) !== null;
 	}
 }

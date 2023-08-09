@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable, map } from 'rxjs';
 
 import { AuthService } from './auth.service';
@@ -17,13 +17,12 @@ export class LoggedAuthGuard implements CanActivate {
 	private readonly authService = inject(AuthService);
 
 	/** @inheritdoc */
-	public canActivate(): Observable<boolean> {
+	public canActivate(): Observable<boolean | UrlTree> {
 		return this.authService.isLoggedIn$
 			.pipe(
 				map(elem => {
 					if (elem) {
-						this.router.navigate(['/home/profile']);
-						return false;
+						return this.router.createUrlTree(['/home/profile']);
 					}
 					return true;
 				}),

@@ -1,4 +1,6 @@
 export interface StudioDto {
+
+	/** Id. */
 	readonly id: number;
 
 	/**
@@ -13,5 +15,6 @@ export interface StudioDto {
 		*/
 	readonly modified: string | null;
 
+	/** Name. */
 	readonly name: string;
 }
