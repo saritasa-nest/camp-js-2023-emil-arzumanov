@@ -19,9 +19,9 @@ export function getFieldErrors(formField: FormControl<string | null>): string[] 
 }
 
 /**
-	* Custom catch error for request.
-	* @param errorMapper Mapper for error.
-	*/
+ * Custom catch error for request.
+ * @param errorMapper Mapper for error.
+ */
 export function catchErrorOnRequest<T, TAttribute, TMapper extends ErrorMapper<TAttribute>>(errorMapper: TMapper): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof HttpErrorResponse) {
@@ -35,9 +35,9 @@ export function catchErrorOnRequest<T, TAttribute, TMapper extends ErrorMapper<T
 }
 
 /**
-	* Custom catch error for onSubmit.
-	* @param formGroup Form group.
-	*/
+ * Custom catch error for onSubmit.
+ * @param formGroup Form group.
+ */
 export function catchErrorOnSubmit<T, TAttribute extends string>(formGroup: FormGroup): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof CustomError) {
@@ -48,10 +48,10 @@ export function catchErrorOnSubmit<T, TAttribute extends string>(formGroup: Form
 }
 
 /**
-	* Sets errors to fields of form group.
-	* @param errorArray Array of mapped errors.
-	* @param formGroup Form group.
-	*/
+ * Sets errors to fields of form group.
+ * @param errorArray Array of mapped errors.
+ * @param formGroup Form group.
+ */
 export function setErrorsToFields<TAttribute extends string>(errorArray: readonly ErrorType<TAttribute>[], formGroup: FormGroup): void {
 	errorArray.forEach((errorObject: ErrorType<TAttribute>) => {
 		const control = formGroup.get(errorObject.attribute);

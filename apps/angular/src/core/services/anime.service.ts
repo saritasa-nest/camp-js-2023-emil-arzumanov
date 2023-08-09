@@ -34,9 +34,9 @@ export class AnimeService {
 	private readonly animeDetailsUrl = this.appUrlsConfig.toApi('anime', 'anime');
 
 	/**
-		* Sends get request on list of all anime to API and maps receives data.
-		* @param params Request parameters.
-		*/
+	 * Sends get request on list of all anime to API and maps receives data.
+	 * @param params Request parameters.
+	 */
 	public getAnimeList(params: AnimeParams): Observable<Pagination<Anime>> {
 		return this.http
 			.get<PaginationDto<AnimeDto>>(this.animeListUrl, {
@@ -50,9 +50,9 @@ export class AnimeService {
 	}
 
 	/**
-		* Sends get request on details of anime to API and maps receives data.
-		* @param id Anime id.
-		*/
+	 * Sends get request on details of anime to API and maps receives data.
+	 * @param id Anime id.
+	 */
 	public getAnimeDetails(id: number): Observable<AnimeDetails> {
 		return this.http
 			.get<AnimeDetailsDto>(`${this.animeDetailsUrl}${id}/`)

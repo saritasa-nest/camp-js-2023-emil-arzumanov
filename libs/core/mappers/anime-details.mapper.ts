@@ -10,7 +10,7 @@ export namespace AnimeDetailsMapper {
 	/**
 	 * Maps AnimeDetailsDto dto to AnimeDetails model.
 	 * @param dto AnimeDetailsDto.
-		* @param youtubeLink Link to youtube.
+	 * @param youtubeLink Link to youtube.
 	 */
 	export function fromDto(dto: AnimeDetailsDto): AnimeDetails {
 		return ({
@@ -29,9 +29,9 @@ export namespace AnimeDetailsMapper {
 	}
 
 	/**
-		* Anime details source mapper.
-		* From dto to model.
-		*/
+	 * Anime details source mapper.
+	 * From dto to model.
+	 */
 	export const ANIME_DETAILS_SOURCE_FROM_DTO_MAP = {
 		[AnimeSourceDto.FourKomaManga]: AnimeSource.FourKomaManga,
 		[AnimeSourceDto.Book]: AnimeSource.Book,
@@ -53,9 +53,9 @@ export namespace AnimeDetailsMapper {
 	};
 
 	/**
-		* Anime details rating mapper.
-		* From dto to model.
-		*/
+	 * Anime details rating mapper.
+	 * From dto to model.
+	 */
 	export const ANIME_DETAILS_RATING_FROM_DTO_MAP = {
 		[AnimeRatingDto.G]: AnimeRating.G,
 		[AnimeRatingDto.PG]: AnimeRating.PG,
@@ -67,9 +67,9 @@ export namespace AnimeDetailsMapper {
 	};
 
 	/**
-		* Anime details season mapper.
-		* From dto to model.
-		*/
+	 * Anime details season mapper.
+	 * From dto to model.
+	 */
 	export const ANIME_DETAILS_SEASON_FROM_DTO_MAP = {
 		[AnimeSeasonDto.Winter]: AnimeSeason.Winter,
 		[AnimeSeasonDto.Spring]: AnimeSeason.Spring,

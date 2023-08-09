@@ -24,10 +24,10 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 	}
 
 	/**
-		* Refresh token or logout, if refresh doesn't work.
-		* @param request Request.
-		* @param next Next handler.
-		*/
+	 * Refresh token or logout, if refresh doesn't work.
+	 * @param request Request.
+	 * @param next Next handler.
+	 */
 	private handleTokenError(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		return this.authService.isLoggedIn$
 			.pipe(

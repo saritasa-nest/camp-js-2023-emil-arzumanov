@@ -10,10 +10,10 @@ export class SafePipe implements PipeTransform {
 	private readonly sanitizer = inject(DomSanitizer);
 
 	/**
-		* Url transform.
-		* @param url Url.
-		* @param args Arguments.
-		*/
+	 * Url transform.
+	 * @param url Url.
+	 * @param args Arguments.
+	 */
 	public transform(url: string): SafeResourceUrl {
 		return this.sanitizer.bypassSecurityTrustResourceUrl(url);
 	}

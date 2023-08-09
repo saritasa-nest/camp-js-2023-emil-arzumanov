@@ -43,9 +43,9 @@ export class AnimeDetailsComponent {
 	}
 
 	/**
-		* Opens poster popup.
-		* @param posterUrl Poster url.
-		*/
+	 * Opens poster popup.
+	 * @param posterUrl Poster url.
+	 */
 	protected openPosterPopup(posterUrl: string): void {
 		this.dialog.open<PosterPopupComponent, AnimePoster>(PosterPopupComponent, {
 			data: { posterUrl },
@@ -55,7 +55,7 @@ export class AnimeDetailsComponent {
 	/**
 	 * Track by item id.
 	 * @param index Index.
-		* @param item Item.
+	 * @param item Item.
 	 */
 	protected trackById<T extends { id: number; }>(index: number, item: T): number {
 		return item.id;

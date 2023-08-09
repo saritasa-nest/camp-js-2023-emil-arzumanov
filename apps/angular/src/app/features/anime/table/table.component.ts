@@ -97,8 +97,8 @@ export class TableComponent {
 	}
 
 	/**
-		* Makes snapshot of query params.
-		* Saves the value of the parameters if the parameters exist.
+	 * Makes snapshot of query params.
+	 * Saves the value of the parameters if the parameters exist.
 	 */
 	private makeAndSaveSnapshots(): void {
 		const snapshot = this.route.snapshot.queryParams;
@@ -167,8 +167,8 @@ export class TableComponent {
 	}
 
 	/**
-		* Sets query parameters in URL.
-		* @param params Query parameters that will be added to URL.
+	 * Sets query parameters in URL.
+	 * @param params Query parameters that will be added to URL.
 	 */
 	private setQueryParams(params: AnimeParams): void {
 		const queryParams = {
@@ -201,9 +201,9 @@ export class TableComponent {
 	}
 
 	/**
-		* Navigate to anime details by id.
-		* @param id Anime id.
-		*/
+	 * Navigate to anime details by id.
+	 * @param id Anime id.
+	 */
 	protected navigateToDetails(id: number): void {
 		this.router.navigate([`/anime/details/${id}`]);
 	}

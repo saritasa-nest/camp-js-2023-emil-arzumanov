@@ -8,15 +8,15 @@ export interface GenreDto {
 	readonly name: string;
 
 	/**
-		* Creation date.
-		* @example 2023-08-07T08:15:29.084Z
-		*/
+	 * Creation date.
+	 * @example 2023-08-07T08:15:29.084Z
+	 */
 	readonly created: string | null;
 
 	/**
-		* Modification date.
-		* @example 2023-08-07T08:15:29.084Z
-		*/
+	 * Modification date.
+	 * @example 2023-08-07T08:15:29.084Z
+	 */
 	readonly modified: string | null;
 
 	/** DTO type. */
