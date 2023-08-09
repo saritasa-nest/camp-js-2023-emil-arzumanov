@@ -10,8 +10,8 @@ import { PosterPopupComponent } from '../components/poster-popup/poster-popup.co
 /** Details of anime. */
 @Component({
 	selector: 'camp-details',
-	templateUrl: './details.component.html',
-	styleUrls: ['./details.component.css'],
+	templateUrl: './anime-details.component.html',
+	styleUrls: ['./anime-details.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDetailsComponent {

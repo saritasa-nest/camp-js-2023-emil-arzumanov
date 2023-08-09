@@ -14,15 +14,15 @@ import { MatCardModule } from '@angular/material/card';
 import { SafePipe } from '@js-camp/angular/core/services/dom-sanitizer.service';
 import { DialogModule } from '@angular/cdk/dialog';
 
-import { TableComponent } from './table/table.component';
+import { AnimeTableComponent } from './table/anime-table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
-import { AnimeDetailsComponent } from './details/details.component';
+import { AnimeDetailsComponent } from './details/anime-details.component';
 import { PosterPopupComponent } from './components/poster-popup/poster-popup.component';
 import { HeaderComponent } from './components/header/header.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [TableComponent, AnimeDetailsComponent, SafePipe, PosterPopupComponent, HeaderComponent],
+	declarations: [AnimeTableComponent, AnimeDetailsComponent, SafePipe, PosterPopupComponent, HeaderComponent],
 	imports: [
 		CommonModule,
 		MatTableModule,

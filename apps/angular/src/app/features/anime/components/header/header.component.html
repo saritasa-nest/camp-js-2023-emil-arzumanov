@@ -1,6 +1,11 @@
 <header class="header">
-	<a *ngIf="isLoggedIn$ | async" routerLink="/home" mat-raised-button>Home Page</a>
-	<a *ngIf="(isLoggedIn$ | async)" routerLink="/anime/table" routerLinkActive="active-link" mat-raised-button>Anime table</a>
-	<a *ngIf="(isLoggedIn$ | async) === false" routerLink="/home" mat-raised-button>Login</a>
-	<button *ngIf="isLoggedIn$ | async" type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
+	<ng-container *ngIf="isLoggedIn$ | async; else notAuthorized">
+		<a routerLink="/home" mat-raised-button>Home Page</a>
+		<a routerLink="/anime/table" routerLinkActive="active-link" mat-raised-button>Anime table</a>
+		<button *ngIf="isLoggedIn$ | async" type="button" mat-raised-button color="primary" (click)="logout()">Log out</button>
+	</ng-container>
+
+	<ng-template #notAuthorized>
+		<a routerLink="/home" mat-raised-button>Login</a>
+	</ng-template>
 </header>
