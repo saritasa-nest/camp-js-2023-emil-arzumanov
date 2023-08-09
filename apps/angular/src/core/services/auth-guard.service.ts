@@ -10,8 +10,6 @@ import { AuthService } from './auth.service';
 })
 export class AuthGuard implements CanActivate {
 
-	private readonly auth = inject(AuthService);
-
 	private readonly router = inject(Router);
 
 	private readonly authService = inject(AuthService);

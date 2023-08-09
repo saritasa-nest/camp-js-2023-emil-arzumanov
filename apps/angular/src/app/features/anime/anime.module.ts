@@ -17,7 +17,7 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { TableComponent } from './table/table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsComponent } from './details/details.component';
-import { PosterPopupComponent } from './details/poster-popup/poster-popup.component';
+import { PosterPopupComponent } from './components/poster-popup/poster-popup.component';
 import { HeaderComponent } from './components/header/header.component';
 
 /** Anime module. */

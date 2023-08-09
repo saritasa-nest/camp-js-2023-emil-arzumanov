@@ -2,3 +2,7 @@
   display: grid;
   padding-bottom: 22px;
 }
+
+.active-link {
+  color: #6d42ba !important;
+}
