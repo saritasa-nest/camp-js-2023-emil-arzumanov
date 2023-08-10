@@ -5,7 +5,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { map } from 'rxjs';
+import { map, startWith, tap } from 'rxjs';
 
 /** Chips form field. */
 @Component({
@@ -29,6 +29,9 @@ export class ChipsFormFieldComponent {
 	/** Filtered fruits. */
 	protected readonly filteredFruits$ = this.animeService.getStudiosList({ pageIndex: 0, pageSize: 15 })
 		.pipe(
+			tap(studiosPage => {
+				this.allFruits = studiosPage.results.map(studio => studio.name);
+			}),
 			map(studiosPage => studiosPage.results.map(studio => studio.name)),
 		);
 
@@ -38,6 +41,17 @@ export class ChipsFormFieldComponent {
 	/** Fruits. */
 	protected fruits: string[] = [];
 
+	/** All fruits. */
+	protected allFruits: string[] = ['Lime', 'Lemon', 'Apple'];
+
+	/*
+	public constructor() {
+		this.filteredFruits$ = this.fruitControl.valueChanges.pipe(
+			startWith(null),
+			map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+		);
+	}
+*/
 	/**
 	 * Create and add studio.
 	 * @param event Event.
