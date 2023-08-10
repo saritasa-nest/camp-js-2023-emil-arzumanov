@@ -15,6 +15,10 @@ import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
+import { Studio } from '@js-camp/core/models/studio';
+import { StudioDto } from '@js-camp/core/dtos/studio.dto';
+import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -32,6 +36,9 @@ export class AnimeService {
 
 	/** URL to get details of anime. */
 	private readonly animeDetailsUrl = this.appUrlsConfig.toApi('anime', 'anime');
+
+	/** URL to get list of all studios. */
+	private readonly animeStudiosUrl = this.appUrlsConfig.toApi('anime', 'studios');
 
 	/**
 	 * Sends get request on list of all anime to API and maps receives data.
@@ -66,5 +73,19 @@ export class AnimeService {
 	public deleteAnimeById(id: number): Observable<void> {
 		return this.http
 			.delete<undefined>(`${this.animeDetailsUrl}${id}/`);
+	}
+
+	/**
+	 * Get all studios.
+	 * @param pagination Pagination param.
+	 */
+	public getStudiosList(pagination: PaginationParams): Observable<Pagination<Studio>> {
+		return this.http
+			.get<PaginationDto<StudioDto>>(this.animeStudiosUrl, {
+			params: {
+				...PaginationParamsMapper.toDto(pagination),
+			},
+		})
+			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, studioDto => StudioMapper.fromDto(studioDto))));
 	}
 }
