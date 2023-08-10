@@ -52,9 +52,9 @@
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerUrl">
-		<mat-label>Youtube embed trailer url:</mat-label>
-		<input matInput [formControl]="trailerUrl"/>
+	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerId">
+		<mat-label>Youtube embed trailer id:</mat-label>
+		<input matInput [formControl]="trailerId"/>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.source as source">

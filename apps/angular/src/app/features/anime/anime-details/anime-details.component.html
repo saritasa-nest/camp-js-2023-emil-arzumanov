@@ -8,7 +8,7 @@
 		<img class="image-box__image" [src]="animeDetails.imageUrl" alt="" (click)="openPosterPopup(animeDetails.imageUrl)">
 	</div>
 	<div class="trailer-box" *ngIf="animeDetails.trailerYoutubeId as trailer">
-		<iframe title="Trailer" class="trailer-box__trailer" [src]="trailer | campSafe"></iframe>
+		<iframe title="Trailer" class="trailer-box__trailer" [src]="'https://www.youtube.com/embed/'+trailer | campSafe"></iframe>
 	</div>
 	<mat-card class="details">
 
