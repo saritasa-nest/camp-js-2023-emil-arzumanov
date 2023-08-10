@@ -13,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { SafePipe } from '@js-camp/angular/core/services/dom-sanitizer.service';
 import { DialogModule } from '@angular/cdk/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AnimeTableComponent } from './anime-table/anime-table.component';
 import { AnimeRoutingModule } from './anime-routing.module';
@@ -53,6 +56,9 @@ import { AnimeFormComponent } from './anime-managers/anime-form/anime-form.compo
 		AnimeRoutingModule,
 		MatCardModule,
 		DialogModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		MatCheckboxModule,
 	],
 })
 export class AnimeModule {}

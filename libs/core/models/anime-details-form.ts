@@ -37,7 +37,7 @@ export interface AnimeDetailsForm {
 	readonly source: AnimeSource | null;
 
 	/** Is airing. */
-	readonly airing: boolean;
+	readonly airing: boolean | null;
 
 	/** Rating. */
 	readonly rating: AnimeRating | null;

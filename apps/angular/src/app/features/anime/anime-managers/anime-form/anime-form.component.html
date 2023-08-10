@@ -1,1 +1,91 @@
-<p>anime-form works!</p>
+<form [formGroup]="animeDetailsForm" (ngSubmit)="onSubmit()" class="form">
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.titleEng as titleEng">
+		<mat-label>English title:</mat-label>
+		<input matInput [formControl]="titleEng"/>
+		<mat-error *ngIf="titleEng.hasError('required')">English title is required</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.titleJpn as titleJpn">
+		<mat-label>Japanese title:</mat-label>
+		<input matInput [formControl]="titleJpn"/>
+		<mat-error *ngIf="titleJpn.hasError('required')">Japanese title is required</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.imageUrl as imageUrl">
+		<mat-label>Image url:</mat-label>
+		<input matInput [formControl]="imageUrl"/>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.imageFile as imageFile">
+		<mat-label>Image file:</mat-label>
+		<input type="file" matInput [formControl]="imageFile"/>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
+		<mat-label>Aired start:</mat-label>
+		<input [formControl]="airedStart" matInput [matDatepicker]="picker">
+		<mat-hint>MM/DD/YYYY</mat-hint>
+		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-datepicker #picker></mat-datepicker>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.airedEnd as airedEnd">
+		<mat-label>Aired end:</mat-label>
+		<input [formControl]="airedEnd" matInput [matDatepicker]="picker">
+		<mat-hint>MM/DD/YYYY</mat-hint>
+		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-datepicker #picker></mat-datepicker>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.type as type">
+		<mat-label>Type</mat-label>
+		<mat-select [formControl]="type">
+			<mat-option *ngFor="let option of typeOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.status as status">
+		<mat-label>Status</mat-label>
+		<mat-select [formControl]="status">
+			<mat-option *ngFor="let option of statusOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerUrl">
+		<mat-label>Youtube embed trailer url:</mat-label>
+		<input matInput [formControl]="trailerUrl"/>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.source as source">
+		<mat-label>Source</mat-label>
+		<mat-select [formControl]="source">
+			<mat-option *ngFor="let option of sourceOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<div *ngIf="animeDetailsForm.controls.airing as airing">
+		<mat-checkbox [formControl]="airing" color="primary">Is airing ?</mat-checkbox>
+	</div>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.rating as rating">
+		<mat-label>Rating</mat-label>
+		<mat-select [formControl]="rating">
+			<mat-option *ngFor="let option of ratingOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.season as season">
+		<mat-label>Season</mat-label>
+		<mat-select [formControl]="season">
+			<mat-option *ngFor="let option of seasonOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.synopsis as synopsis">
+		<mat-label>Synopsis:</mat-label>
+		<input matInput [formControl]="synopsis"/>
+	</mat-form-field>
+
+	<button mat-flat-button color="primary" type="submit">Confirm</button>
+</form>
