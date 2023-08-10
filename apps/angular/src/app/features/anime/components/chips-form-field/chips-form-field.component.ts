@@ -1,12 +1,11 @@
 import { FormControl } from '@angular/forms';
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Studio } from '@js-camp/core/models/studio';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
+import { map } from 'rxjs';
 
 /** Chips form field. */
 @Component({
@@ -18,64 +17,51 @@ export class ChipsFormFieldComponent {
 	private readonly animeService = inject(AnimeService);
 
 	/** Anime studios. */
-	@Input() public studiosData: FormControl<readonly Studio[]> = new FormControl();
+	@Input() public set studios(studios: readonly Studio[] | []) {
+		if (studios.length > 0) {
+			this.fruits = studios.map(studio => studio.name);
+		}
+	}
 
 	/** Separator keys. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	/** Filtered fruits. */
-	protected readonly filteredFruits$: Observable<string[]>;
+	protected readonly filteredFruits$ = this.animeService.getStudiosList({ pageIndex: 0, pageSize: 15 })
+		.pipe(
+			map(studiosPage => studiosPage.results.map(studio => studio.name)),
+		);
 
 	/** Fruit control. */
 	protected fruitControl = new FormControl('');
 
 	/** Fruits. */
-	protected fruits: string[] = this.studiosData.getRawValue() !== null ?
-		this.studiosData.getRawValue().map(studio => studio.name) : [];
-
-	/** All fruits. */
-	protected allFruits: string[] = ['Mine', 'Limon'];
-
-	/** Fruit input. */
-	@ViewChild('fruitInput') public fruitInput = ElementRef<HTMLInputElement>;
-
-	private readonly announcer = inject(LiveAnnouncer);
-
-	public constructor() {
-		this.filteredFruits$ = this.fruitControl.valueChanges.pipe(
-			startWith(null),
-			map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-		);
-	}
+	protected fruits: string[] = [];
 
 	/**
-	 * Add studio.
+	 * Create and add studio.
 	 * @param event Event.
 	 */
 	protected add(event: MatChipInputEvent): void {
 		const value = (event.value || '').trim();
-
-		// Add our fruit
 		if (value) {
-			this.fruits.push(value);
+			this.animeService.createStudio(value).subscribe(studio => {
+				this.fruits.push(studio.name);
+			});
 		}
-
-		// Clear the input value
 		event.chipInput.clear();
-
-		this.studiosData.setValue([]);
+		this.fruitControl.setValue(null);
 	}
 
 	/**
-	 * Remove fruit.
-	 * @param fruit Fruit.
+	 * Remove studio.
+	 * @param fruit Studio.
 	 */
 	protected remove(fruit: string): void {
 		const index = this.fruits.indexOf(fruit);
 
 		if (index >= 0) {
 			this.fruits.splice(index, 1);
-			this.announcer.announce(`Removed ${fruit}`);
 		}
 	}
 
@@ -84,12 +70,15 @@ export class ChipsFormFieldComponent {
 	 * @param event Event.
 	 */
 	protected selected(event: MatAutocompleteSelectedEvent): void {
-		this.fruits.push(event.option.viewValue);
-		this.studiosData.setValue([]);
+		this.animeService.createStudio(event.option.viewValue).subscribe(studio => {
+			this.fruits.push(studio.name);
+		});
+		this.fruitControl.setValue(null);
 	}
 
+/*
 	private _filter(value: string): string[] {
 		const filterValue = value.toLowerCase();
 		return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
-	}
+	}*/
 }

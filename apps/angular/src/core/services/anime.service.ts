@@ -88,4 +88,13 @@ export class AnimeService {
 		})
 			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, studioDto => StudioMapper.fromDto(studioDto))));
 	}
+
+	/**
+	 * Create studio.
+	 * @param name Name.
+	 */
+	public createStudio(name: string): Observable<Studio> {
+		return this.http.post<StudioDto>(this.animeStudiosUrl, { name })
+			.pipe(map(studioDto => StudioMapper.fromDto(studioDto)));
+	}
 }
