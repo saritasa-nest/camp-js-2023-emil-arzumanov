@@ -84,6 +84,14 @@ export class AnimeFormComponent {
 	}
 
 	/**
+	 * Update studiosData value.
+	 * @param newStudios New studios.
+	 */
+	protected updateStudios(newStudios: Studio[]): void {
+		this.animeDetailsForm.controls.studiosData.setValue(newStudios);
+	}
+
+	/**
 	 * Track by anime type.
 	 * @param index Index.
 	 * @param item Item.

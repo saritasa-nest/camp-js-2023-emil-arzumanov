@@ -78,12 +78,14 @@ export class AnimeService {
 	/**
 	 * Get all studios.
 	 * @param pagination Pagination param.
+	 * @param search Search param.
 	 */
-	public getStudiosList(pagination: PaginationParams): Observable<Pagination<Studio>> {
+	public getStudiosList(pagination: PaginationParams, search: string | null): Observable<Pagination<Studio>> {
 		return this.http
 			.get<PaginationDto<StudioDto>>(this.animeStudiosUrl, {
 			params: {
 				...PaginationParamsMapper.toDto(pagination),
+				...FilterParamsMapper.toDto({ search, type: null }),
 			},
 		})
 			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, studioDto => StudioMapper.fromDto(studioDto))));

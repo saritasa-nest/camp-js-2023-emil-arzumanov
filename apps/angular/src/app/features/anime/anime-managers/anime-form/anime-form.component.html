@@ -87,7 +87,7 @@
 		<input matInput [formControl]="synopsis"/>
 	</mat-form-field>
 
-	<camp-chips-form-field *ngIf="animeDetailsForm.controls.studiosData as studios" [studios]="studios.getRawValue()"></camp-chips-form-field>
+	<camp-chips-form-field *ngIf="animeDetailsForm.controls.studiosData as studios" [studios]="studios.getRawValue()" (itemEvent)="updateStudios($event)"></camp-chips-form-field>
 
 	<button mat-flat-button color="primary" type="submit">Confirm</button>
 </form>

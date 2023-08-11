@@ -1,22 +1,24 @@
-<mat-form-field *ngIf="filteredFruits$ | async as studioNames" class="example-chip-list">
+<mat-form-field *ngIf="filteredFruits$ | async as studios" class="example-chip-list">
 	<mat-label>Favorite Fruits</mat-label>
 	<mat-chip-grid #chipGrid aria-label="Fruit selection">
 		<mat-chip-row *ngFor="let fruit of fruits" (removed)="remove(fruit)">
-			{{fruit}}
+			{{fruit.name}}
 			<button type="button" matChipRemove [attr.aria-label]="'remove ' + fruit">
 				<mat-icon>cancel</mat-icon>
 			</button>
 		</mat-chip-row>
 	</mat-chip-grid>
 	<input placeholder="New Fruit..."
-		[formControl]="fruitControl"
+		[formControl]="searchControl"
 		[matChipInputFor]="chipGrid"
 		[matAutocomplete]="auto"
 		[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-		(matChipInputTokenEnd)="add($event)"/>
+		(matChipInputTokenEnd)="add($event, studios)"/>
 	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-		<mat-option *ngFor="let studioName of studioNames">
-			{{studioName}}
-		</mat-option>
+		<div *ngIf="scrollPagination$ | async as pagination" class="options-wrapper" #scrollContainer (scroll)="divScroll(pagination)">
+			<mat-option *ngFor="let studio of studios" [value]="studio">
+				{{studio.name}}
+			</mat-option>
+		</div>
 	</mat-autocomplete>
 </mat-form-field>
