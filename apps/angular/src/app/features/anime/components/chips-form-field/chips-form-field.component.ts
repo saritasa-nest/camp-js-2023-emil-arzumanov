@@ -1,54 +1,93 @@
-import { FormControl } from '@angular/forms';
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, inject } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, ElementRef, HostListener, Input, ViewChild, forwardRef, inject } from '@angular/core';
 import { Studio } from '@js-camp/core/models/studio';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, tap, debounceTime } from 'rxjs';
+import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, debounceTime, of } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { Pagination } from '@js-camp/core/models/pagination';
 
 const DEFAULT_PAGINATION = {
 	pageSize: 15,
 	pageIndex: 0,
 };
 
+type Item<T> = { -readonly [P in keyof T]: T[P] };
+
+type CreateItem<TItem> = (name: string) => Observable<TItem>;
+
+type CheckIfInArray<TItem> = (item: readonly TItem[], id: number | null, name: string | null) => boolean;
+
+type GetItems<TItem> = (pagination: PaginationParams, searchControl: string | null) => Observable<Pagination<TItem>>;
+
 /** Chips form field. */
 @Component({
 	selector: 'camp-chips-form-field',
 	templateUrl: './chips-form-field.component.html',
 	styleUrls: ['./chips-form-field.component.css'],
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: forwardRef(() => ChipsFormFieldComponent),
+			multi: true,
+		},
+	],
 })
-export class ChipsFormFieldComponent {
+export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements ControlValueAccessor {
 	private readonly animeService = inject(AnimeService);
 
-	/** Anime studios. */
-	@Input() public set studios(studios: readonly Studio[] | []) {
-		if (studios.length > 0) {
-			this.fruits = studios.map(studio => studio);
-		}
+	/** Creation method. */
+	@Input() public createItem: CreateItem<Studio> | null = null;
+
+	/** Check if in array. */
+	@Input() public checkIfInArray: CheckIfInArray<Studio> | null = null;
+
+	/** Get all items. */
+	@Input() public getItems: GetItems<Studio> | null = null;
+
+	/** @inheritdoc */
+	public get value(): Studio[] {
+		return this.chosenItems;
 	}
 
-	/** Item event output. */
-	@Output() public itemEvent = new EventEmitter<Studio[]>();
+	/** @inheritdoc */
+	@Input()
+	public set value(val) {
+		this.chosenItems = val;
+	}
+
+	/** @inheritdoc */
+	public writeValue(value: Studio[]): void {
+		this.chosenItems = value;
+	}
+
+	/** @inheritdoc */
+	// eslint-disable-next-line no-empty-function
+	public registerOnChange(): void {}
+
+	/** @inheritdoc */
+	// eslint-disable-next-line no-empty-function
+	public registerOnTouched(): void {}
 
 	/** Separator keys. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-	/** Filtered fruits. */
-	protected readonly filteredFruits$: Observable<Studio[]>;
+	/** Filtered items. */
+	protected readonly filteredItems$: Observable<readonly Studio[]>;
 
 	/** Scroll pagination. */
 	protected readonly scrollPagination$ = new BehaviorSubject<PaginationParams>(DEFAULT_PAGINATION);
 
-	/** Fruit control. */
+	/** Item search control. */
 	protected searchControl = new FormControl('');
 
-	/** Fruits. */
-	protected fruits: Studio[] = [];
+	/** Chosen items. */
+	protected chosenItems: Studio[] = [];
 
 	public constructor() {
-		this.filteredFruits$ = combineLatest([
+		this.filteredItems$ = combineLatest([
 			this.scrollPagination$,
 			this.searchControl.valueChanges.pipe(startWith('')),
 		]).pipe(
@@ -57,16 +96,24 @@ export class ChipsFormFieldComponent {
 				pagination,
 				searchControl,
 			})),
-			switchMap(params => this.animeService.getStudiosList(params.pagination, params.searchControl)),
-			map(studiosPage => studiosPage.results.map(studio => studio)),
+			switchMap(params => {
+				if (this.getItems !== null) {
+					return this.mapPaginationToItems(this.getItems(params.pagination, params.searchControl));
+				}
+				return of([]);
+			}),
 		);
+	}
+
+	private mapPaginationToItems(paginationStream$: Observable<Pagination<Studio>>): Observable<readonly Studio[]> {
+		return paginationStream$.pipe(map(pagination => pagination.results));
 	}
 
 	/** Scroll container. */
 	@ViewChild('scrollContainer') protected scrollContainer: ElementRef | null = null;
 
 	/**
-	 * Host listener.
+	 * Scroll host listener.
 	 * @param event Event.
 	 * @param pagination Pagination.
 	 */
@@ -86,78 +133,63 @@ export class ChipsFormFieldComponent {
 	}
 
 	/**
-	 * Create and add studio.
+	 * Add item to chosenItems.
 	 * @param event Event.
-	 * @param studios Studios.
+	 * @param items Items.
 	 */
-	protected add(event: MatChipInputEvent, studios: Studio[]): void {
+	protected addToChosenItems(event: MatChipInputEvent, items: readonly Studio[]): void {
 		const value = (event.value || '').trim();
 
 		event.chipInput.clear();
 		this.searchControl.setValue(null);
 
-		if (this.checkIfInArrayBy(this.fruits, null, value)) {
+		if (this.checkIfInArray === null || this.createItem === null || this.checkIfInArray(this.chosenItems, null, value)) {
 			return;
 		}
 
-		if (this.checkIfInArrayBy(studios, null, value) === false) {
-			this.animeService.createStudio(value).subscribe(newStudio => {
-				this.fruits.push(newStudio);
-				this.itemEvent.emit(this.fruits);
+		if (this.checkIfInArray(items, null, value) === false) {
+			this.createItem(value).subscribe(newStudio => {
+				this.chosenItems.push(newStudio);
 			});
 			return;
 		}
 
-		for (let i = 0; i < studios.length; i++) {
-			if (studios[i].name === value) {
-				this.fruits.push(studios[i]);
+		for (let i = 0; i < items.length; i++) {
+			if (items[i].name === value) {
+				this.chosenItems.push(items[i]);
 				break;
 			}
 		}
-		this.itemEvent.emit(this.fruits);
 	}
 
 	/**
-	 * Remove studio.
-	 * @param fruit Studio.
+	 * Remove item from chosenItems.
+	 * @param item Item.
 	 */
-	protected remove(fruit: Studio): void {
-		if (this.checkIfInArrayBy(this.fruits, fruit.id, null)) {
-			this.fruits.splice(this.fruits.indexOf(fruit), 1);
-			this.itemEvent.emit(this.fruits);
+	protected removeFromChosenItems(item: Studio): void {
+		if (this.checkIfInArray === null) {
+			return;
+		}
+
+		if (this.checkIfInArray(this.chosenItems, item.id, null)) {
+			this.chosenItems.splice(this.chosenItems.indexOf(item), 1);
 		}
 	}
 
 	/**
-	 * Selected.
+	 * Add selected to chosen items.
 	 * @param event Event.
 	 */
-	protected selected(event: MatAutocompleteSelectedEvent): void {
+	protected addSelectedToChosenItems(event: MatAutocompleteSelectedEvent): void {
 		this.searchControl.setValue(null);
-		const itemValue: Studio = event.option.value;
-		if (itemValue && this.checkIfInArrayBy(this.fruits, itemValue.id, null) === false) {
-			this.fruits.push(itemValue);
-			this.itemEvent.emit(this.fruits);
-		}
-	}
+		const itemValue = event.option.value;
 
-	/**
-	 * Check if value in array.
-	 * @param item Item.
-	 * @param id Id.
-	 * @param name Name.
-	 */
-	protected checkIfInArrayBy<T extends { id: number; name: string; }>(
-		item: T[], id: number | null, name: string | null,
-	): boolean {
-		for (let i = 0; i < item.length; i++) {
-			if (item[i].id === id) {
-				return true;
-			}
-			if (item[i].name === name) {
-				return true;
-			}
+		if (this.checkIfInArray === null) {
+			return;
 		}
-		return false;
+
+		if (itemValue && this.checkIfInArray(this.chosenItems, itemValue.id, null) === false) {
+			this.chosenItems.push(itemValue);
+		}
 	}
 }

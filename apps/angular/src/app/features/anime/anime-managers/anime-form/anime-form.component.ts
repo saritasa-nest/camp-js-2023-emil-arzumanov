@@ -1,11 +1,15 @@
 import { Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeStatus, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeDetails, AnimeRating, AnimeSeason, AnimeSource } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsForm } from '@js-camp/core/models/anime-details-form';
 import { Genre } from '@js-camp/core/models/genre';
+import { Pagination } from '@js-camp/core/models/pagination';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
 import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
+import { Observable } from 'rxjs';
 
 /** Anime form component for anime editing or creation. */
 @Component({
@@ -15,6 +19,8 @@ import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
 })
 export class AnimeFormComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	private readonly animeService = inject(AnimeService);
 
 	/** Type filter options for layout.  */
 	protected readonly typeOptions = Object.values(AnimeType);
@@ -84,19 +90,46 @@ export class AnimeFormComponent {
 	}
 
 	/**
-	 * Update studiosData value.
-	 * @param newStudios New studios.
-	 */
-	protected updateStudios(newStudios: Studio[]): void {
-		this.animeDetailsForm.controls.studiosData.setValue(newStudios);
-	}
-
-	/**
 	 * Track by anime type.
 	 * @param index Index.
 	 * @param item Item.
 	 */
 	protected trackByItem<T>(index: number, item: T): T {
 		return item;
+	}
+
+	/**
+	 * Get studios.
+	 * @param pagination Pagination request parameters.
+		* @param searchControl Search request parameters.
+	 */
+	protected getStudios(pagination: PaginationParams, searchControl: string | null): Observable<Pagination<Studio>> {
+		return this.animeService.getStudiosList(pagination, searchControl);
+	}
+
+	/**
+	 * Create studio.
+	 * @param name Studio name.
+	 */
+	protected createStudio(name: string): Observable<Studio> {
+		return this.animeService.createStudio(name);
+	}
+
+	/**
+	 * Check if value in array.
+	 * @param item Item.
+	 * @param id Id.
+	 * @param name Name.
+	 */
+	protected checkIfInStudioArray(item: readonly Studio[], id: number | null, name: string | null): boolean {
+		for (let i = 0; i < item.length; i++) {
+			if (item[i].id === id) {
+				return true;
+			}
+			if (item[i].name === name) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
