@@ -8,6 +8,8 @@ import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, 
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 
+const DEBOUNCE_TIME = 300;
+
 const DEFAULT_PAGINATION = {
 	pageSize: 15,
 	pageIndex: 0,
@@ -86,7 +88,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			this.scrollPagination$,
 			this.searchControl.valueChanges.pipe(startWith('')),
 		]).pipe(
-			debounceTime(300),
+			debounceTime(DEBOUNCE_TIME),
 			map(([pagination, searchControl]) => ({
 				pagination,
 				searchControl,
