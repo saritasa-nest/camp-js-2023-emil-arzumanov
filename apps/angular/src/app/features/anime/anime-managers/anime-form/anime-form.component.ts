@@ -116,24 +116,6 @@ export class AnimeFormComponent {
 	}
 
 	/**
-	 * Check if value in array.
-	 * @param item Item.
-	 * @param id Id.
-	 * @param name Name.
-	 */
-	protected checkIfInStudioArray(item: readonly Studio[], id: number | null, name: string | null): boolean {
-		for (let i = 0; i < item.length; i++) {
-			if (item[i].id === id) {
-				return true;
-			}
-			if (item[i].name === name) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Get genres.
 	 * @param pagination Pagination request parameters.
 		* @param searchControl Search request parameters.
@@ -148,23 +130,5 @@ export class AnimeFormComponent {
 		*/
 	protected createGenres(name: string): Observable<Genre> {
 		return this.animeService.createGenre(name);
-	}
-
-	/**
-		* Check if value in array.
-		* @param item Item.
-		* @param id Id.
-		* @param name Name.
-		*/
-	protected checkIfInGenreArray(item: readonly Genre[], id: number | null, name: string | null): boolean {
-		for (let i = 0; i < item.length; i++) {
-			if (item[i].id === id) {
-				return true;
-			}
-			if (item[i].name === name) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

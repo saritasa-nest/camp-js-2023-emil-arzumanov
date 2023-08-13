@@ -4,7 +4,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, debounceTime, of } from 'rxjs';
+import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, debounceTime } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 
@@ -14,8 +14,6 @@ const DEFAULT_PAGINATION = {
 };
 
 type CreateItem<TItem> = (name: string) => Observable<TItem>;
-
-type CheckIfInArray<TItem> = (item: readonly TItem[], id: number | null, name: string | null) => boolean;
 
 type GetItems<TItem> = (pagination: PaginationParams, searchControl: string | null) => Observable<Pagination<TItem>>;
 
@@ -37,9 +35,6 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 	/** Creation method. */
 	@Input() public createItem: CreateItem<TItem> | null = null;
-
-	/** Check if in array. */
-	@Input() public checkIfInArray: CheckIfInArray<TItem> | null = null;
 
 	/** Get all items. */
 	@Input() public getItems: GetItems<TItem> | null = null;
@@ -140,11 +135,11 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		event.chipInput.clear();
 		this.searchControl.setValue(null);
 
-		if (this.checkIfInArray === null || this.createItem === null || this.checkIfInArray(this.chosenItems, null, value)) {
+		if (this.checkIfInItemsArray === null || this.createItem === null || this.checkIfInItemsArray(this.chosenItems, null, value)) {
 			return;
 		}
 
-		if (this.checkIfInArray(items, null, value) === false) {
+		if (this.checkIfInItemsArray(items, null, value) === false) {
 			this.createItem(value).subscribe(newStudio => {
 				this.chosenItems.push(newStudio);
 			});
@@ -164,11 +159,11 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 	 * @param item Item.
 	 */
 	protected removeFromChosenItems(item: TItem): void {
-		if (this.checkIfInArray === null) {
+		if (this.checkIfInItemsArray === null) {
 			return;
 		}
 
-		if (this.checkIfInArray(this.chosenItems, item.id, null)) {
+		if (this.checkIfInItemsArray(this.chosenItems, item.id, null)) {
 			this.chosenItems.splice(this.chosenItems.indexOf(item), 1);
 		}
 	}
@@ -181,12 +176,32 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		this.searchControl.setValue(null);
 		const itemValue = event.option.value;
 
-		if (this.checkIfInArray === null) {
+		if (this.checkIfInItemsArray === null) {
 			return;
 		}
 
-		if (itemValue && this.checkIfInArray(this.chosenItems, itemValue.id, null) === false) {
+		if (itemValue && this.checkIfInItemsArray(this.chosenItems, itemValue.id, null) === false) {
 			this.chosenItems.push(itemValue);
 		}
+	}
+
+	/**
+		* Check if value in array.
+		* @param item Item.
+		* @param id Id.
+		* @param name Name.
+		*/
+	protected checkIfInItemsArray(
+		item: readonly TItem[], id: number | null, name: string | null,
+	): boolean {
+		for (let i = 0; i < item.length; i++) {
+			if (item[i].id === id) {
+				return true;
+			}
+			if (item[i].name === name) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
