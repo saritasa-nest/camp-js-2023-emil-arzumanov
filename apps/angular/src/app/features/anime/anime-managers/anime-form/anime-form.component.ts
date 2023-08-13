@@ -132,4 +132,39 @@ export class AnimeFormComponent {
 		}
 		return false;
 	}
+
+	/**
+	 * Get genres.
+	 * @param pagination Pagination request parameters.
+		* @param searchControl Search request parameters.
+	 */
+	protected getGenres(pagination: PaginationParams, searchControl: string | null): Observable<Pagination<Genre>> {
+		return this.animeService.getGenresList(pagination, searchControl);
+	}
+
+	/**
+		* Create genre.
+		* @param name Genre name.
+		*/
+	protected createGenres(name: string): Observable<Genre> {
+		return this.animeService.createGenre(name);
+	}
+
+	/**
+		* Check if value in array.
+		* @param item Item.
+		* @param id Id.
+		* @param name Name.
+		*/
+	protected checkIfInGenreArray(item: readonly Genre[], id: number | null, name: string | null): boolean {
+		for (let i = 0; i < item.length; i++) {
+			if (item[i].id === id) {
+				return true;
+			}
+			if (item[i].name === name) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

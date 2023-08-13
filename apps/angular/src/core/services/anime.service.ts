@@ -21,6 +21,9 @@ import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 
 import { AppUrlsConfig } from './url-config.service';
+import { GenreMapper } from '@js-camp/core/mappers/genre.mapper';
+import { Genre } from '@js-camp/core/models/genre';
+import { GenreDto } from '@js-camp/core/dtos/genre.dto';
 
 /** Service for requests to Anime API. */
 @Injectable({
@@ -39,6 +42,9 @@ export class AnimeService {
 
 	/** URL to get list of all studios. */
 	private readonly animeStudiosUrl = this.appUrlsConfig.toApi('anime', 'studios');
+
+	/** URL to get list of all genres. */
+	private readonly animeGenresUrl = this.appUrlsConfig.toApi('anime', 'genres');
 
 	/**
 	 * Sends get request on list of all anime to API and maps receives data.
@@ -98,5 +104,30 @@ export class AnimeService {
 	public createStudio(name: string): Observable<Studio> {
 		return this.http.post<StudioDto>(this.animeStudiosUrl, { name })
 			.pipe(map(studioDto => StudioMapper.fromDto(studioDto)));
+	}
+
+	/**
+	 * Get all studios.
+	 * @param pagination Pagination param.
+	 * @param search Search param.
+	 */
+	public getGenresList(pagination: PaginationParams, search: string | null): Observable<Pagination<Genre>> {
+		return this.http
+			.get<PaginationDto<GenreDto>>(this.animeGenresUrl, {
+			params: {
+				...PaginationParamsMapper.toDto(pagination),
+				...FilterParamsMapper.toDto({ search, type: null }),
+			},
+		})
+			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, genreDto => GenreMapper.fromDto(genreDto))));
+	}
+
+	/**
+	 * Create studio.
+	 * @param name Name.
+	 */
+	public createGenre(name: string): Observable<Genre> {
+		return this.http.post<GenreDto>(this.animeGenresUrl, { name })
+			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
 	}
 }

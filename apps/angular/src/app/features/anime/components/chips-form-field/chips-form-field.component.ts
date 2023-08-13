@@ -1,6 +1,5 @@
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Component, ElementRef, HostListener, Input, ViewChild, forwardRef, inject } from '@angular/core';
-import { Studio } from '@js-camp/core/models/studio';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -13,8 +12,6 @@ const DEFAULT_PAGINATION = {
 	pageSize: 15,
 	pageIndex: 0,
 };
-
-type Item<T> = { -readonly [P in keyof T]: T[P] };
 
 type CreateItem<TItem> = (name: string) => Observable<TItem>;
 
@@ -35,20 +32,23 @@ type GetItems<TItem> = (pagination: PaginationParams, searchControl: string | nu
 		},
 	],
 })
-export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements ControlValueAccessor {
+export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> implements ControlValueAccessor {
 	private readonly animeService = inject(AnimeService);
 
 	/** Creation method. */
-	@Input() public createItem: CreateItem<Studio> | null = null;
+	@Input() public createItem: CreateItem<TItem> | null = null;
 
 	/** Check if in array. */
-	@Input() public checkIfInArray: CheckIfInArray<Studio> | null = null;
+	@Input() public checkIfInArray: CheckIfInArray<TItem> | null = null;
 
 	/** Get all items. */
-	@Input() public getItems: GetItems<Studio> | null = null;
+	@Input() public getItems: GetItems<TItem> | null = null;
+
+	/** Value for mat label. */
+	@Input() public labelValue = '';
 
 	/** @inheritdoc */
-	public get value(): Studio[] {
+	public get value(): TItem[] {
 		return this.chosenItems;
 	}
 
@@ -59,7 +59,7 @@ export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements Contr
 	}
 
 	/** @inheritdoc */
-	public writeValue(value: Studio[]): void {
+	public writeValue(value: TItem[]): void {
 		this.chosenItems = value;
 	}
 
@@ -75,7 +75,7 @@ export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements Contr
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	/** Filtered items. */
-	protected readonly filteredItems$: Observable<readonly Studio[]>;
+	protected readonly filteredItems$: Observable<readonly TItem[]>;
 
 	/** Scroll pagination. */
 	protected readonly scrollPagination$ = new BehaviorSubject<PaginationParams>(DEFAULT_PAGINATION);
@@ -84,7 +84,7 @@ export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements Contr
 	protected searchControl = new FormControl('');
 
 	/** Chosen items. */
-	protected chosenItems: Studio[] = [];
+	protected chosenItems: TItem[] = [];
 
 	public constructor() {
 		this.filteredItems$ = combineLatest([
@@ -97,16 +97,13 @@ export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements Contr
 				searchControl,
 			})),
 			switchMap(params => {
-				if (this.getItems !== null) {
-					return this.mapPaginationToItems(this.getItems(params.pagination, params.searchControl));
+				if (this.getItems === null) {
+					return [];
 				}
-				return of([]);
+				return this.getItems(params.pagination, params.searchControl);
 			}),
+			map(itemsPagination => itemsPagination.results),
 		);
-	}
-
-	private mapPaginationToItems(paginationStream$: Observable<Pagination<Studio>>): Observable<readonly Studio[]> {
-		return paginationStream$.pipe(map(pagination => pagination.results));
 	}
 
 	/** Scroll container. */
@@ -137,7 +134,7 @@ export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements Contr
 	 * @param event Event.
 	 * @param items Items.
 	 */
-	protected addToChosenItems(event: MatChipInputEvent, items: readonly Studio[]): void {
+	protected addToChosenItems(event: MatChipInputEvent, items: readonly TItem[]): void {
 		const value = (event.value || '').trim();
 
 		event.chipInput.clear();
@@ -166,7 +163,7 @@ export class ChipsFormFieldComponent<TItem extends Item<TItem>> implements Contr
 	 * Remove item from chosenItems.
 	 * @param item Item.
 	 */
-	protected removeFromChosenItems(item: Studio): void {
+	protected removeFromChosenItems(item: TItem): void {
 		if (this.checkIfInArray === null) {
 			return;
 		}
