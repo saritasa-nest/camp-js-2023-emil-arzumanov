@@ -96,23 +96,25 @@
 
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.studiosData as studios">
+		<mat-label>Studios:</mat-label>
 		<camp-chips-form-field
 			[formControl]="studios"
 			[createItem]="createStudio"
 			[getItems]="getStudios"
-			labelValue="Studios"
 		></camp-chips-form-field>
+		<mat-error *ngIf="studios.hasError('required')">Studios required</mat-error>
 	</mat-form-field>
 
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.genresData as genres">
+		<mat-label>Genres:</mat-label>
 		<camp-chips-form-field
 			[formControl]="genres"
 			[createItem]="createGenres"
 			[getItems]="getGenres"
 			[getItemsCount]="getGenreCount"
-			labelValue="Genres"
 		></camp-chips-form-field>
+		<mat-error *ngIf="genres.hasError('required')">Genres required</mat-error>
 	</mat-form-field>
 
 	<button mat-flat-button color="primary" type="submit">Confirm</button>

@@ -4,53 +4,74 @@ import { Genre } from './genre';
 import { Studio } from './studio';
 
 /** Anime details form.	*/
-export interface AnimeDetailsForm {
+export class AnimeDetailsForm {
 
 	/** Title on english. */
-	readonly titleEng: string;
+	public readonly titleEng: string;
 
 	/** Title on japanese. */
-	readonly titleJpn: string;
+	public readonly titleJpn: string;
 
 	/** Link on image. */
-	readonly imageUrl: string;
+	public readonly imageUrl: string;
 
 	/** Image file. */
-	readonly imageFile: File | null;
+	public readonly imageFile: File | null;
 
 	/** When was aired first time. */
-	readonly airedStart: Date | null;
+	public readonly airedStart: Date | null;
 
 	/** When was aired last time. */
-	readonly airedEnd: Date | null;
+	public readonly airedEnd: Date | null;
 
 	/** Type. */
-	readonly type: AnimeType | null;
+	public readonly type: AnimeType | null;
 
 	/** Status. */
-	readonly status: AnimeStatus | null;
+	public readonly status: AnimeStatus | null;
 
 	/** Id of trailer on youtube. */
-	readonly trailerYoutubeId: string | null;
+	public readonly trailerYoutubeId: string | null;
 
 	/** Source. */
-	readonly source: AnimeSource | null;
+	public readonly source: AnimeSource | null;
 
 	/** Is airing. */
-	readonly airing: boolean | null;
+	public readonly airing: boolean | null;
 
 	/** Rating. */
-	readonly rating: AnimeRating | null;
+	public readonly rating: AnimeRating | null;
 
 	/** Season of the year. */
-	readonly season: AnimeSeason | null;
+	public readonly season: AnimeSeason | null;
 
 	/** Synopsis. */
-	readonly synopsis: string;
+	public readonly synopsis: string;
 
 	/** Studios data. */
-	readonly studiosData: readonly Studio[];
+	public readonly studiosData: readonly Studio[];
 
 	/** Genres data. */
-	readonly genresData: readonly Genre[];
+	public readonly genresData: readonly Genre[];
+
+	public constructor(data: InitAnimeDetailsForm) {
+		this.titleEng = data.titleEng;
+		this.titleJpn = data.titleJpn;
+		this.imageUrl = data.imageUrl;
+		this.imageFile = data.imageFile;
+		this.airedStart = data.airedStart;
+		this.airedEnd = data.airedEnd;
+		this.type = data.type;
+		this.status = data.status;
+		this.trailerYoutubeId = data.trailerYoutubeId;
+		this.source = data.source;
+		this.airing = data.airing;
+		this.rating = data.rating;
+		this.season = data.season;
+		this.synopsis = data.synopsis;
+		this.studiosData = data.studiosData;
+		this.genresData = data.genresData;
+	}
 }
+
+type InitAnimeDetailsForm = AnimeDetailsForm;

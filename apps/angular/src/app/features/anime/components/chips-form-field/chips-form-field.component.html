@@ -1,7 +1,6 @@
 <ng-container *ngIf="filteredItems$ | async as items" class="example-chip-list">
-	<mat-label>{{labelValue}}</mat-label>
 	<mat-chip-grid #chipGrid aria-label="Item selection">
-		<mat-chip-row *ngFor="let item of chosenItems" (removed)="removeFromChosenItems(item)">
+		<mat-chip-row *ngFor="let item of value" (removed)="removeFromChosenItems(item)">
 			{{item.name}}
 			<button type="button" matChipRemove [attr.aria-label]="'remove ' + item">
 				<mat-icon>cancel</mat-icon>
@@ -12,6 +11,9 @@
 		[formControl]="searchControl"
 		[matChipInputFor]="chipGrid"
 		[matAutocomplete]="auto"
+		(focusin)="onFocusIn($event)"
+		(focusout)="onFocusOut($event)"
+		matChipInputAddOnBlur="false"
 		[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
 		(matChipInputTokenEnd)="addToChosenItems($event, items)"/>
 	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="addSelectedToChosenItems($event)">

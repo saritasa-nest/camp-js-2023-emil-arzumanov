@@ -1,5 +1,5 @@
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Component, ElementRef, HostListener, Input, ViewChild, forwardRef, inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Component, ElementRef, HostListener, Input, ViewChild, inject } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -7,6 +7,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, debounceTime } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
+import { MatFormFieldControl } from '@angular/material/form-field';
+
+import { CustomFormField } from '../custom-form-field/custom-form-field.component';
 
 const DEBOUNCE_TIME = 300;
 
@@ -26,16 +29,9 @@ type GetItemsCount = (name: string) => Observable<number>;
 	selector: 'camp-chips-form-field',
 	templateUrl: './chips-form-field.component.html',
 	styleUrls: ['./chips-form-field.component.css'],
-	providers: [
-		{
-			provide: NG_VALUE_ACCESSOR,
-			useExisting: forwardRef(() => ChipsFormFieldComponent),
-			multi: true,
-		},
-	],
+	providers: [{ provide: MatFormFieldControl, useExisting: ChipsFormFieldComponent }],
 })
-export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> implements ControlValueAccessor {
-	private readonly animeService = inject(AnimeService);
+export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> extends CustomFormField<TItem> {
 
 	/** Creation method. */
 	@Input() public createItem: CreateItem<TItem> | null = null;
@@ -46,32 +42,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 	/** Get count of this item. */
 	@Input() public getItemsCount: GetItemsCount | null = null;
 
-	/** Value for mat label. */
-	@Input() public labelValue = '';
-
-	/** @inheritdoc */
-	public get value(): TItem[] {
-		return this.chosenItems;
-	}
-
-	/** @inheritdoc */
-	@Input()
-	public set value(val) {
-		this.chosenItems = val;
-	}
-
-	/** @inheritdoc */
-	public writeValue(value: TItem[]): void {
-		this.chosenItems = value;
-	}
-
-	/** @inheritdoc */
-	// eslint-disable-next-line no-empty-function
-	public registerOnChange(): void {}
-
-	/** @inheritdoc */
-	// eslint-disable-next-line no-empty-function
-	public registerOnTouched(): void {}
+	private readonly animeService = inject(AnimeService);
 
 	/** Separator keys. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -85,10 +56,8 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 	/** Item search control. */
 	protected searchControl = new FormControl('');
 
-	/** Chosen items. */
-	protected chosenItems: TItem[] = [];
-
 	public constructor() {
+		super();
 		this.filteredItems$ = combineLatest([
 			this.scrollPagination$,
 			this.searchControl.valueChanges.pipe(startWith('')),
@@ -106,6 +75,11 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			}),
 			map(itemsPagination => itemsPagination.results),
 		);
+	}
+
+	/** @inheritdoc */
+	protected override checkValueIsEmpty(value: TItem[]): boolean {
+		return value.length === 0 && this.value.length === 0;
 	}
 
 	/** Scroll container. */
@@ -142,20 +116,20 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		event.chipInput.clear();
 		this.searchControl.setValue(null);
 
-		if (this.checkIfInItemsArray === null || this.createItem === null || this.checkIfInItemsArray(this.chosenItems, null, value)) {
+		if (this.checkIfInItemsArray === null || this.createItem === null || this.checkIfInItemsArray(this.value, null, value)) {
 			return;
 		}
 
 		if (this.checkIfInItemsArray(items, null, value) === false) {
 			this.createItem(value).subscribe(newStudio => {
-				this.chosenItems.push(newStudio);
+				this.value.push(newStudio);
 			});
 			return;
 		}
 
 		for (let i = 0; i < items.length; i++) {
 			if (items[i].name === value) {
-				this.chosenItems.push(items[i]);
+				this.value.push(items[i]);
 				break;
 			}
 		}
@@ -170,8 +144,8 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			return;
 		}
 
-		if (this.checkIfInItemsArray(this.chosenItems, item.id, null)) {
-			this.chosenItems.splice(this.chosenItems.indexOf(item), 1);
+		if (this.checkIfInItemsArray(this.value, item.id, null)) {
+			this.value.splice(this.value.indexOf(item), 1);
 		}
 	}
 
@@ -187,8 +161,8 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			return;
 		}
 
-		if (itemValue && this.checkIfInItemsArray(this.chosenItems, itemValue.id, null) === false) {
-			this.chosenItems.push(itemValue);
+		if (itemValue && this.checkIfInItemsArray(this.value, itemValue.id, null) === false) {
+			this.value.push(itemValue);
 		}
 	}
 

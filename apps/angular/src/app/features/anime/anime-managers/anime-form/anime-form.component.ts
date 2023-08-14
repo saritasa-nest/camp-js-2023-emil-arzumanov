@@ -40,7 +40,7 @@ export class AnimeFormComponent {
 	/** Anime details. */
 	@Input() public set animeDetails(animeDetails: AnimeDetails | null) {
 		if (animeDetails !== null) {
-			this.animeDetailsForm.patchValue({
+			this.animeDetailsForm.patchValue(new AnimeDetailsForm({
 				titleEng: animeDetails.titleEng,
 				titleJpn: animeDetails.titleJpn,
 				imageUrl: animeDetails.imageUrl,
@@ -57,7 +57,7 @@ export class AnimeFormComponent {
 				synopsis: animeDetails.synopsis,
 				studiosData: animeDetails.studiosData,
 				genresData: animeDetails.genresData,
-			});
+			}));
 		}
 	}
 
@@ -70,22 +70,31 @@ export class AnimeFormComponent {
 			imageFile: this.formBuilder.control<File | null>(null),
 			airedStart: this.formBuilder.control<Date | null>(null),
 			airedEnd: this.formBuilder.control<Date | null>(null),
-			type: [this.formBuilder.control<AnimeType | null>(null), [Validators.required]],
-			status: [this.formBuilder.control<AnimeStatus | null>(null), [Validators.required]],
+			type: this.formBuilder.control<AnimeType | null>(null, [Validators.required]),
+			status: this.formBuilder.control<AnimeStatus | null>(null, [Validators.required]),
 			trailerYoutubeId: this.formBuilder.control<string | null>(null),
-			source: [this.formBuilder.control<AnimeSource | null>(null), [Validators.required]],
-			airing: [this.formBuilder.control<boolean | null>(null), [Validators.required]],
-			rating: [this.formBuilder.control<AnimeRating | null>(null), [Validators.required]],
-			season: [this.formBuilder.control<AnimeSeason | null>(null), [Validators.required]],
+			source: this.formBuilder.control<AnimeSource | null>(null, [Validators.required]),
+			airing: this.formBuilder.control<boolean | null>(null, [Validators.required]),
+			rating: this.formBuilder.control<AnimeRating | null>(null, [Validators.required]),
+			season: this.formBuilder.control<AnimeSeason | null>(null, [Validators.required]),
 			synopsis: ['', [Validators.required]],
-			studiosData: [this.formBuilder.control<readonly Studio[]>([]), [Validators.required]],
-			genresData: [this.formBuilder.control<readonly Genre[]>([]), [Validators.required]],
+			studiosData: this.formBuilder.control<readonly Studio[]>([], [Validators.required]),
+			genresData: this.formBuilder.control<readonly Genre[]>([], [Validators.required]),
 		},
 		{ updateOn: 'submit' },
 	);
 
 	/** On submit. */
 	protected onSubmit(): void {
+		if (this.animeDetailsForm.invalid === true) {
+			Object.keys(this.animeDetailsForm.controls).forEach(key => {
+				console.log(key);
+				console.log(this.animeDetailsForm.get(key)?.errors);
+			});
+			console.log('form', this.animeDetailsForm.errors);
+			console.log('form invalid', this.animeDetailsForm.invalid);
+			return;
+		}
 		console.log(this.animeDetailsForm.getRawValue());
 	}
 
