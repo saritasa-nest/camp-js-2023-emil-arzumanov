@@ -118,17 +118,25 @@ export class AnimeFormComponent {
 	/**
 	 * Get genres.
 	 * @param pagination Pagination request parameters.
-		* @param searchControl Search request parameters.
+	 * @param searchControl Search request parameters.
 	 */
 	protected getGenres(pagination: PaginationParams, searchControl: string | null): Observable<Pagination<Genre>> {
 		return this.animeService.getGenresList(pagination, searchControl);
 	}
 
 	/**
-		* Create genre.
-		* @param name Genre name.
-		*/
+	 * Create genre.
+	 * @param name Genre name.
+	 */
 	protected createGenres(name: string): Observable<Genre> {
 		return this.animeService.createGenre(name);
+	}
+
+	/**
+	 * Get genre count.
+	 * @param name Genre name.
+	 */
+	protected getGenreCount(name: string): Observable<number> {
+		return this.animeService.getGenreCount(name);
 	}
 }

@@ -43,6 +43,7 @@
 		<mat-select [formControl]="type">
 			<mat-option *ngFor="let option of typeOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
 		</mat-select>
+		<mat-error *ngIf="type.hasError('required')">Type is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.status as status">
@@ -50,6 +51,7 @@
 		<mat-select [formControl]="status">
 			<mat-option *ngFor="let option of statusOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
 		</mat-select>
+		<mat-error *ngIf="status.hasError('required')">Status is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerId">
@@ -62,10 +64,12 @@
 		<mat-select [formControl]="source">
 			<mat-option *ngFor="let option of sourceOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
 		</mat-select>
+		<mat-error *ngIf="source.hasError('required')">Source is required</mat-error>
 	</mat-form-field>
 
 	<div *ngIf="animeDetailsForm.controls.airing as airing">
 		<mat-checkbox [formControl]="airing" color="primary">Is airing ?</mat-checkbox>
+		<mat-error *ngIf="airing.hasError('required')">Airing is required</mat-error>
 	</div>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.rating as rating">
@@ -73,6 +77,7 @@
 		<mat-select [formControl]="rating">
 			<mat-option *ngFor="let option of ratingOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
 		</mat-select>
+		<mat-error *ngIf="rating.hasError('required')">Rating is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.season as season">
@@ -80,28 +85,35 @@
 		<mat-select [formControl]="season">
 			<mat-option *ngFor="let option of seasonOptions; trackBy: trackByItem" [value]="option">{{ option }}</mat-option>
 		</mat-select>
+		<mat-error *ngIf="season.hasError('required')">Season is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.synopsis as synopsis">
 		<mat-label>Synopsis:</mat-label>
 		<input matInput [formControl]="synopsis"/>
+		<mat-error *ngIf="synopsis.hasError('required')">Synopsis is required</mat-error>
 	</mat-form-field>
 
-	<camp-chips-form-field
-		*ngIf="animeDetailsForm.controls.studiosData as studios"
-		[formControl]="studios"
-		[createItem]="createStudio"
-		[getItems]="getStudios"
-		labelValue="Studios"
-	></camp-chips-form-field>
 
-	<camp-chips-form-field
-		*ngIf="animeDetailsForm.controls.genresData as genres"
-		[formControl]="genres"
-		[createItem]="createGenres"
-		[getItems]="getGenres"
-		labelValue="Genres"
-	></camp-chips-form-field>
+	<mat-form-field *ngIf="animeDetailsForm.controls.studiosData as studios">
+		<camp-chips-form-field
+			[formControl]="studios"
+			[createItem]="createStudio"
+			[getItems]="getStudios"
+			labelValue="Studios"
+		></camp-chips-form-field>
+	</mat-form-field>
+
+
+	<mat-form-field *ngIf="animeDetailsForm.controls.genresData as genres">
+		<camp-chips-form-field
+			[formControl]="genres"
+			[createItem]="createGenres"
+			[getItems]="getGenres"
+			[getItemsCount]="getGenreCount"
+			labelValue="Genres"
+		></camp-chips-form-field>
+	</mat-form-field>
 
 	<button mat-flat-button color="primary" type="submit">Confirm</button>
 </form>

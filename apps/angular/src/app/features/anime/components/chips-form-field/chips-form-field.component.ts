@@ -19,6 +19,8 @@ type CreateItem<TItem> = (name: string) => Observable<TItem>;
 
 type GetItems<TItem> = (pagination: PaginationParams, searchControl: string | null) => Observable<Pagination<TItem>>;
 
+type GetItemsCount = (name: string) => Observable<number>;
+
 /** Chips form field. */
 @Component({
 	selector: 'camp-chips-form-field',
@@ -40,6 +42,9 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 	/** Get all items. */
 	@Input() public getItems: GetItems<TItem> | null = null;
+
+	/** Get count of this item. */
+	@Input() public getItemsCount: GetItemsCount | null = null;
 
 	/** Value for mat label. */
 	@Input() public labelValue = '';

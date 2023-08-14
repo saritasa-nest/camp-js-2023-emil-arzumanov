@@ -130,4 +130,17 @@ export class AnimeService {
 		return this.http.post<GenreDto>(this.animeGenresUrl, { name })
 			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
 	}
+
+	/**
+	 * Get all studios.
+	 * @param name Genre name.
+	 * @param search Search param.
+	 */
+	public getGenreCount(name: string): Observable<number> {
+		return this.http
+			.get<PaginationDto<GenreDto>>(this.animeGenresUrl, {
+			params: { name },
+		})
+			.pipe(map(paginationDto => paginationDto.count));
+	}
 }

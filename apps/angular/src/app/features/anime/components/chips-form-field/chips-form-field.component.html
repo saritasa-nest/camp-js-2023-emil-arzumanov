@@ -1,4 +1,4 @@
-<mat-form-field *ngIf="filteredItems$ | async as items" class="example-chip-list">
+<ng-container *ngIf="filteredItems$ | async as items" class="example-chip-list">
 	<mat-label>{{labelValue}}</mat-label>
 	<mat-chip-grid #chipGrid aria-label="Item selection">
 		<mat-chip-row *ngFor="let item of chosenItems" (removed)="removeFromChosenItems(item)">
@@ -21,4 +21,4 @@
 			</mat-option>
 		</div>
 	</mat-autocomplete>
-</mat-form-field>
+</ng-container>
