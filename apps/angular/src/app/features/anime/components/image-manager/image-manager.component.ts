@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { catchError, throwError } from 'rxjs';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { S3DirectService } from '@js-camp/angular/core/services/s3direct.service';
 
 import { CustomFormField } from '../custom-form-field/custom-form-field.component';
 
@@ -19,7 +19,7 @@ export class ImageManagerComponent extends CustomFormField<string> {
 		return false;
 	}
 
-	private readonly animeService = inject(AnimeService);
+	private readonly s3directService = inject(S3DirectService);
 
 	/** File store. */
 	protected storedFile: File | null = null;
@@ -36,7 +36,7 @@ export class ImageManagerComponent extends CustomFormField<string> {
 			return;
 		}
 		this.storedFile = fileList[0];
-		this.animeService.getS3DirectParams(this.storedFile)
+		this.s3directService.getS3DirectParams(this.storedFile)
 			.pipe(
 				catchError((error: unknown) => {
 					this.formControl.setValue('');

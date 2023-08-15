@@ -1,4 +1,7 @@
 <form [formGroup]="animeDetailsForm" (ngSubmit)="onSubmit()" class="form">
+	<div class="form__header">
+		<h1>{{title}}</h1>
+	</div>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleEng as titleEng">
 		<mat-label>English title:</mat-label>
@@ -15,6 +18,7 @@
 	<mat-form-field *ngIf="animeDetailsForm.controls.imageUrl as imageUrl">
 		<mat-label>Image file:</mat-label>
 		<camp-image-manager [formControl]="imageUrl" />
+		<mat-error *ngIf="imageUrl.hasError('required')">Image is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
@@ -107,7 +111,6 @@
 			[formControl]="genres"
 			[createItem]="createGenres"
 			[getItems]="getGenres"
-			[getItemsCount]="getGenreCount"
 		></camp-chips-form-field>
 		<mat-error *ngIf="genres.hasError('required')">Genres required</mat-error>
 	</mat-form-field>

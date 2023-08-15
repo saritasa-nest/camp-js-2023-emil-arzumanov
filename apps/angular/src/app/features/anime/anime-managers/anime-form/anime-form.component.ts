@@ -1,5 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeStatus, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeDetails, AnimeRating, AnimeSeason, AnimeSource } from '@js-camp/core/models/anime-details';
@@ -22,6 +23,10 @@ export class AnimeFormComponent {
 
 	private readonly animeService = inject(AnimeService);
 
+	private readonly activatedRoute = inject(ActivatedRoute);
+
+	private readonly router = inject(Router);
+
 	/** Type filter options for layout.  */
 	protected readonly typeOptions = Object.values(AnimeType);
 
@@ -36,6 +41,14 @@ export class AnimeFormComponent {
 
 	/** Type filter options for season.  */
 	protected readonly seasonOptions = Object.values(AnimeSeason);
+
+	private readonly animeId = this.activatedRoute.snapshot.params['id'];
+
+	/** Type of submit. */
+	@Input() public submitType = '';
+
+	/** Title. */
+	@Input() public title = '';
 
 	/** Anime details. */
 	@Input() public set animeDetails(animeDetails: AnimeDetails | null) {
@@ -65,7 +78,7 @@ export class AnimeFormComponent {
 		{
 			titleEng: ['', [Validators.required]],
 			titleJpn: ['', [Validators.required]],
-			imageUrl: '',
+			imageUrl: ['', [Validators.required]],
 			airedStart: this.formBuilder.control<Date | null>(null),
 			airedEnd: this.formBuilder.control<Date | null>(null),
 			type: this.formBuilder.control<AnimeType | null>(null, [Validators.required]),
@@ -85,10 +98,17 @@ export class AnimeFormComponent {
 	/** On submit. */
 	protected onSubmit(): void {
 		if (this.animeDetailsForm.invalid === true) {
-			console.log('form group invalid');
 			return;
 		}
-		console.log(this.animeDetailsForm.getRawValue());
+		if (this.submitType === 'editAnime') {
+			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).subscribe(animDetails => {
+				this.router.navigate([`/anime/details/${animDetails.id}`]);
+			});
+		} else {
+			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).subscribe(animDetails => {
+				this.router.navigate([`/anime/details/${animDetails.id}`]);
+			});
+		}
 	}
 
 	/**
@@ -132,13 +152,5 @@ export class AnimeFormComponent {
 	 */
 	protected createGenres(name: string): Observable<Genre> {
 		return this.animeService.createGenre(name);
-	}
-
-	/**
-	 * Get genre count.
-	 * @param name Genre name.
-	 */
-	protected getGenreCount(name: string): Observable<number> {
-		return this.animeService.getGenreCount(name);
 	}
 }

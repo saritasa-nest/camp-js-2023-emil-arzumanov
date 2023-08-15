@@ -13,4 +13,15 @@ export namespace AiredDateMapper {
 			end: dto.end ? new Date(dto.end) : null,
 		});
 	}
+
+	/**
+	 * Maps AiredDate dto to AiredDateDto model.
+	 * @param model AiredDate model.
+	 */
+	export function toDto(model: AiredDate): AiredDateDto {
+		return ({
+			start: model.start !== null ? model.start.toISOString() : null,
+			end: model.end !== null ? model.end.toISOString() : null,
+		});
+	}
 }

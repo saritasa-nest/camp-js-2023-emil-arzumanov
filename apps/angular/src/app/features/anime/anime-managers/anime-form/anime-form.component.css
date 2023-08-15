@@ -2,3 +2,9 @@
   display: grid;
   padding: 30px;
 }
+
+.form__header {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+}
