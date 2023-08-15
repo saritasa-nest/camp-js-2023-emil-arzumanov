@@ -4,4 +4,6 @@
 </button>
 <input type="text" readonly matInput [value]="imageUrl$ | async"/>
 <input type="file" hidden #fileInput accept=".jpg, .png, .webp" (change)="handleFileInputChange(fileInput.files)"/>
-<img class="poster" [src]="imageUrl$ | async" alt="image">
+<ng-container *ngIf="imageUrl$ | async as imageUrl">
+	<img class="poster" [src]="imageUrl" alt="image">
+</ng-container>

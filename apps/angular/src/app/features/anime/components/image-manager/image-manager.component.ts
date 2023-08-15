@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 import { CustomFormField } from '../custom-form-field/custom-form-field.component';
@@ -28,14 +28,11 @@ export class ImageManagerComponent extends CustomFormField<string> {
 	protected fileList: string[] = [];
 
 	/** Default image url. */
-	protected _defaultImageUrl: string | null = null;
-
-	/** Default image url. */
 	@Input() public set defaultImageUrl(value: string | null) {
 		if (value !== null) {
 			this.imageUrl$.next(value);
+			this.formControl.patchValue(value);
 		}
-		this._defaultImageUrl = value;
 	}
 
 	/** Image url subject. */
@@ -50,11 +47,19 @@ export class ImageManagerComponent extends CustomFormField<string> {
 			return;
 		}
 		this.storedFile = fileList[0];
-		this.animeService.getS3DirectParams(this.storedFile);
-		if (fileList.length) {
-			this.formControl.patchValue(`${this.storedFile}`);
-		} else {
-			this.formControl.patchValue('');
-		}
+		this.animeService.getS3DirectParams(this.storedFile)
+			.pipe(
+				catchError((error: unknown) => {
+					this.formControl.setValue('');
+					this.imageUrl$.next('');
+					this.formControl.setErrors({ wrongImage: true });
+					return throwError(() => error);
+				}),
+			)
+			.subscribe(imageUrl => {
+				this.imageUrl$.next(imageUrl);
+				this.defaultImageUrl = imageUrl;
+				this.formControl.patchValue(imageUrl);
+			});
 	}
 }

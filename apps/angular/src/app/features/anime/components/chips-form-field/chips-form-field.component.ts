@@ -4,7 +4,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, debounceTime, tap } from 'rxjs';
+import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, debounceTime } from 'rxjs';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { MatFormFieldControl } from '@angular/material/form-field';

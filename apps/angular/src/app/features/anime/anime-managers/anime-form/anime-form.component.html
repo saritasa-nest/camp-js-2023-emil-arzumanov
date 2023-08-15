@@ -18,6 +18,7 @@
 			[formControl]="imageFile"
 			[defaultImageUrl]="animeDetailsForm.controls.imageUrl.value"
 		/>
+		<mat-error *ngIf="imageFile.hasError('wrongImage')">Try different image</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
