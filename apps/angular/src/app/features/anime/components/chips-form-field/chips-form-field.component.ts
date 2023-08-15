@@ -79,7 +79,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 	/** @inheritdoc */
 	protected override checkValueIsEmpty(value: TItem[]): boolean {
-		return value.length === 0 && this.value.length === 0;
+		return (value === null || value.length === 0) && (this.searchControl.value === null || this.searchControl.value.length === 0);
 	}
 
 	/** Scroll container. */
@@ -120,7 +120,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			return;
 		}
 
-		if (this.checkIfInItemsArray(items, null, value) === false && this.getItemsCount !== null) {
+		if (this.checkIfInItemsArray(items, null, value) === false) {
 			this.createItem(value).subscribe(newStudio => {
 				this.value = this.value.concat(newStudio);
 				this.formControl.patchValue(this.value);
