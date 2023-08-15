@@ -122,14 +122,16 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 		if (this.checkIfInItemsArray(items, null, value) === false) {
 			this.createItem(value).subscribe(newStudio => {
-				this.value.push(newStudio);
+				this.value = this.value.concat(newStudio);
+				this.formControl.patchValue(this.value);
 			});
 			return;
 		}
 
 		for (let i = 0; i < items.length; i++) {
 			if (items[i].name === value) {
-				this.value.push(items[i]);
+				this.value = this.value.concat(items[i]);
+				this.formControl.patchValue(this.value);
 				break;
 			}
 		}
@@ -146,6 +148,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 		if (this.checkIfInItemsArray(this.value, item.id, null)) {
 			this.value.splice(this.value.indexOf(item), 1);
+			this.formControl.patchValue(this.value);
 		}
 	}
 
@@ -162,7 +165,8 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		}
 
 		if (itemValue && this.checkIfInItemsArray(this.value, itemValue.id, null) === false) {
-			this.value.push(itemValue);
+			this.value = this.value.concat(itemValue);
+			this.formControl.patchValue(this.value);
 		}
 	}
 

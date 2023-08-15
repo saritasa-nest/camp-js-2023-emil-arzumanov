@@ -1,13 +1,13 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Input, inject, Optional, Self, ElementRef, OnDestroy, Directive } from '@angular/core';
-import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { Input, inject, Optional, Self, ElementRef, OnDestroy, Directive, DoCheck } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 
 /** Base mat form field component. */
 @Directive()
 export abstract class CustomFormField<TValue>
-implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
+implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** @inheritdoc */
 	public static nextId = 0;
@@ -41,8 +41,7 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
 	}
 
 	/** @inheritdoc */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public onFocusIn(event: FocusEvent): void {
+	public onFocusIn(): void {
 		if (!this.focused) {
 			this.focused = true;
 			this.stateChanges.next();
@@ -61,6 +60,11 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
 
 	@Optional()	private readonly formGroup = inject(FormGroupDirective);
 
+	/** Form control. */
+	public get formControl(): FormControl<TValue[] | null> {
+		return this.ngControl.control as FormControl<TValue[] | null>;
+	}
+
 	/** @inheritdoc */
 	public get errorState(): boolean {
 		return this._errorState;
@@ -74,26 +78,21 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
 
 	/** @inheritdoc */
 	public ngDoCheck(): void {
-		this.updateErrorState();
+		if (this.ngControl) {
+			this.updateErrorState();
+		}
 	}
 
 	/** Update error state. */
 	private updateErrorState(): void {
-		if (this.value === null) {
-			return;
-		}
 		const oldState = this.errorState;
-		const newState = this.ngControl.errors && this.formGroup.submitted;
+		const newState = this.ngControl.control?.errors && (this.formGroup.submitted || this.formControl.touched);
 
 		if (oldState !== newState) {
 			this._errorState = newState ?? false;
 			this.stateChanges.next();
 		}
 	}
-
-	/** @inheritdoc */
-	// eslint-disable-next-line @angular-eslint/no-input-rename
-	@Input('aria-describedby') public userAriaDescribedBy = '';
 
 	/** @inheritdoc */
 	@Input()
@@ -162,7 +161,7 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
 
 	/** @inheritdoc */
 	// eslint-disable-next-line no-empty-function, @typescript-eslint/no-explicit-any
-	public onChange = (_: any): void => {};
+	public onChange = (_value: TValue[]): void => {};
 
 	/** @inheritdoc */
 	// eslint-disable-next-line no-empty-function
@@ -185,13 +184,13 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
 	}
 
 	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.stateChanges.complete();
+	public writeValue(value: TValue[]): void {
+		this.value = value;
 	}
 
 	/** @inheritdoc */
-	public writeValue(value: TValue[]): void {
-		this.value = value;
+	public ngOnDestroy(): void {
+		this.stateChanges.complete();
 	}
 
 	/** @inheritdoc */

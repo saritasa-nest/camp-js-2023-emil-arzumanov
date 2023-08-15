@@ -87,12 +87,7 @@ export class AnimeFormComponent {
 	/** On submit. */
 	protected onSubmit(): void {
 		if (this.animeDetailsForm.invalid === true) {
-			Object.keys(this.animeDetailsForm.controls).forEach(key => {
-				console.log(key);
-				console.log(this.animeDetailsForm.get(key)?.errors);
-			});
-			console.log('form', this.animeDetailsForm.errors);
-			console.log('form invalid', this.animeDetailsForm.invalid);
+			console.log('form group invalid');
 			return;
 		}
 		console.log(this.animeDetailsForm.getRawValue());
