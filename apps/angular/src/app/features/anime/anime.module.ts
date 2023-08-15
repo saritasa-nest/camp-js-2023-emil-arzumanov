@@ -29,6 +29,7 @@ import { AnimeEditComponent } from './anime-managers/anime-edit/anime-edit.compo
 import { AnimeCreateComponent } from './anime-managers/anime-create/anime-create.component';
 import { AnimeFormComponent } from './anime-managers/anime-form/anime-form.component';
 import { ChipsFormFieldComponent } from './components/chips-form-field/chips-form-field.component';
+import { ImageManagerComponent } from './components/image-manager/image-manager.component';
 
 /** Anime module. */
 @NgModule({
@@ -43,6 +44,7 @@ import { ChipsFormFieldComponent } from './components/chips-form-field/chips-for
 		AnimeCreateComponent,
 		AnimeFormComponent,
 		ChipsFormFieldComponent,
+		ImageManagerComponent,
 	],
 	imports: [
 		CommonModule,

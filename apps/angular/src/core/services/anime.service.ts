@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -19,11 +19,12 @@ import { Studio } from '@js-camp/core/models/studio';
 import { StudioDto } from '@js-camp/core/dtos/studio.dto';
 import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-
-import { AppUrlsConfig } from './url-config.service';
 import { GenreMapper } from '@js-camp/core/mappers/genre.mapper';
 import { Genre } from '@js-camp/core/models/genre';
 import { GenreDto } from '@js-camp/core/dtos/genre.dto';
+import { s3DirectDto } from '@js-camp/core/dtos/s3direct.dto';
+
+import { AppUrlsConfig } from './url-config.service';
 
 /** Service for requests to Anime API. */
 @Injectable({
@@ -45,6 +46,8 @@ export class AnimeService {
 
 	/** URL to get list of all genres. */
 	private readonly animeGenresUrl = this.appUrlsConfig.toApi('anime', 'genres');
+
+	private readonly s3DirectParamsUrl = this.appUrlsConfig.toApi('s3direct', 'get_params');
 
 	/**
 	 * Sends get request on list of all anime to API and maps receives data.
@@ -142,5 +145,27 @@ export class AnimeService {
 			params: { name },
 		})
 			.pipe(map(paginationDto => paginationDto.count));
+	}
+
+	/**
+	 * Get s3direct params.
+	 * @param imageFile Image file.
+	 */
+	public getS3DirectParams(imageFile: File): void {
+		this.http.post<s3DirectDto>(this.s3DirectParamsUrl, { filename: imageFile.name })
+			.pipe(
+				map(s3dto => this.createS3FormData(s3dto, imageFile)),
+				switchMap(({ formAction, formData }) => this.http.post(formAction, formData, { responseType: 'text' })),
+				map(s3Data => console.log(s3Data)),
+			)
+			.subscribe();
+	}
+
+	private createS3FormData(s3dto: s3DirectDto, imageFile: File): { formAction: string; formData: FormData; } {
+		const s3FormData = new FormData();
+		Object.keys(s3dto).forEach(s3dtoElem => s3FormData.append(s3dtoElem, s3dto[s3dtoElem as keyof s3DirectDto]));
+		s3FormData.append('file', imageFile);
+		s3FormData.delete('form_action');
+		return { formAction: s3dto.form_action, formData: s3FormData };
 	}
 }

@@ -33,7 +33,7 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoChe
 		return this.checkValueIsEmpty(this.value);
 	}
 
-	protected abstract checkValueIsEmpty(value: TValue[]): boolean;
+	protected abstract checkValueIsEmpty(value: TValue[] | null): boolean;
 
 	/** @inheritdoc */
 	public get shouldLabelFloat(): boolean {
@@ -61,8 +61,8 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoChe
 	@Optional()	private readonly formGroup = inject(FormGroupDirective);
 
 	/** Form control. */
-	public get formControl(): FormControl<TValue[] | null> {
-		return this.ngControl.control as FormControl<TValue[] | null>;
+	public get formControl(): FormControl<TValue[] | TValue | null> {
+		return this.ngControl.control as FormControl<TValue[] | TValue | null>;
 	}
 
 	/** @inheritdoc */

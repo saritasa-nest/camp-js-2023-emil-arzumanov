@@ -1,0 +1,7 @@
+<mat-label>File matInput</mat-label>
+<button mat-icon-button matPrefix type="button" (click)="fileInput.click()">
+	<mat-icon>attach_file</mat-icon>
+</button>
+<input type="text" readonly matInput [value]="imageUrl$ | async"/>
+<input type="file" hidden #fileInput accept=".jpg, .png, .webp" (change)="handleFileInputChange(fileInput.files)"/>
+<img class="poster" [src]="imageUrl$ | async" alt="image">
