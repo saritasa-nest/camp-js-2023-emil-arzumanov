@@ -1,7 +1,8 @@
+<div class="header">
+	<button type="button" mat-raised-button color="primary" (click)="navigateBack()">Back</button>
+	<h1 class="header__heading">{{title}}</h1>
+</div>
 <form [formGroup]="animeDetailsForm" (ngSubmit)="onSubmit()" class="form">
-	<div class="form__header">
-		<h1>{{title}}</h1>
-	</div>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleEng as titleEng">
 		<mat-label>English title:</mat-label>

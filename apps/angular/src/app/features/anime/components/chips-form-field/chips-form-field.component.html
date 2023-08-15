@@ -1,6 +1,6 @@
 <ng-container *ngIf="filteredItems$ | async as items" class="example-chip-list">
 	<mat-chip-grid #chipGrid aria-label="Item selection">
-		<mat-chip-row *ngFor="let item of value" (removed)="removeFromChosenItems(item)">
+		<mat-chip-row *ngFor="let item of value; trackBy: trackById" (removed)="removeFromChosenItems(item)">
 			{{item.name}}
 			<button type="button" matChipRemove [attr.aria-label]="'remove ' + item">
 				<mat-icon>cancel</mat-icon>
@@ -18,7 +18,7 @@
 		(matChipInputTokenEnd)="addToChosenItems($event, items)"/>
 	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="addSelectedToChosenItems($event)">
 		<div *ngIf="scrollPagination$ | async as pagination" class="options-wrapper" #scrollContainer (scroll)="divScroll(pagination)">
-			<mat-option *ngFor="let item of items" [value]="item">
+			<mat-option *ngFor="let item of items; trackBy: trackById" [value]="item">
 				{{item.name}}
 			</mat-option>
 		</div>

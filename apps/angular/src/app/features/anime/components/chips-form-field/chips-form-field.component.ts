@@ -8,6 +8,7 @@ import { Observable, map, switchMap, combineLatest, BehaviorSubject, startWith, 
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 
 import { CustomFormField } from '../custom-form-field/custom-form-field.component';
 
@@ -189,4 +190,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		}
 		return false;
 	}
+
+	/** Track by id. */
+	protected trackById = trackById;
 }

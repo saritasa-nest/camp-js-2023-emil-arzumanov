@@ -42,7 +42,8 @@ export class AnimeFormComponent {
 	/** Type filter options for season.  */
 	protected readonly seasonOptions = Object.values(AnimeSeason);
 
-	private readonly animeId = this.activatedRoute.snapshot.params['id'];
+	/** Id of anime. */
+	protected readonly animeId = this.activatedRoute.snapshot.params['id'];
 
 	/** Type of submit. */
 	@Input() public submitType = '';
@@ -152,5 +153,14 @@ export class AnimeFormComponent {
 	 */
 	protected createGenres(name: string): Observable<Genre> {
 		return this.animeService.createGenre(name);
+	}
+
+	/** Navigates back to details or table. */
+	protected navigateBack(): void {
+		if (this.submitType === 'editAnime') {
+			this.router.navigate([`/anime/details/${this.animeId}`]);
+		} else {
+			this.router.navigate([`/anime/table`]);
+		}
 	}
 }
