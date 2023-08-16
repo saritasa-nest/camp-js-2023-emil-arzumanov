@@ -107,6 +107,5 @@ export namespace AnimeDetailsFormMapper {
 		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
 		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
 		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
-		[AnimeStatus.Unknown]: AnimeStatusDto.Unknown,
 	};
 }

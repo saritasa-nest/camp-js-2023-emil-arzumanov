@@ -62,15 +62,16 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 	public constructor() {
 		super();
-		this.filteredItems$ = combineLatest([
+		this.filteredItems$ = this.createFilteredItemsStream();
+	}
+
+	private createFilteredItemsStream(): Observable<readonly TItem[]> {
+		return combineLatest([
 			this.scrollPagination$,
 			this.searchControl.valueChanges.pipe(startWith('')),
 		]).pipe(
 			debounceTime(DEBOUNCE_TIME),
-			map(([pagination, searchControl]) => ({
-				pagination,
-				searchControl,
-			})),
+			map(([pagination, searchControl]) => ({ pagination, searchControl })),
 			switchMap(params => {
 				if (this.getItems === null) {
 					return [];

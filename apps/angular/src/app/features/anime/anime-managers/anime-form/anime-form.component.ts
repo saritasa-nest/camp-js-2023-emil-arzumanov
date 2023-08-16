@@ -117,15 +117,6 @@ export class AnimeFormComponent {
 	}
 
 	/**
-	 * Track by anime type.
-	 * @param index Index.
-	 * @param item Item.
-	 */
-	protected trackByItem<T>(index: number, item: T): T {
-		return item;
-	}
-
-	/**
 	 * Get studios.
 	 * @param pagination Pagination request parameters.
 		* @param searchControl Search request parameters.
