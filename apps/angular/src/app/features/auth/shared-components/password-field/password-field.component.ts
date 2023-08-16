@@ -17,7 +17,8 @@ export class PasswordFieldComponent {
 	protected getFieldErrors = getFieldErrors;
 
 	/** Password form control. */
-	@Input() public passwordControl: FormControl;
+	@Input()
+	public passwordControl: FormControl;
 
 	public constructor() {
 		this.passwordControl = new FormControl();

@@ -181,7 +181,7 @@ export class AnimeTableComponent {
 	}
 
 	/** Track by id. */
-	protected trackById = trackById;
+	protected readonly trackById = trackById;
 
 	/**
 	 * Track by anime type.

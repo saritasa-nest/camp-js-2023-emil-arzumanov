@@ -61,5 +61,5 @@ export class AnimeDetailsComponent {
 	}
 
 	/** Track by id. */
-	protected trackById = trackById;
+	protected readonly trackById = trackById;
 }

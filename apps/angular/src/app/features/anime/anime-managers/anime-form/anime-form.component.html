@@ -1,5 +1,6 @@
+<camp-header></camp-header>
 <div class="header">
-	<button type="button" mat-raised-button color="primary" (click)="navigateBack()">Back</button>
+	<a *ngIf="animeId" routerLink="/anime/details/{{animeId}}" mat-raised-button>Back to anime details</a>
 	<h1 class="header__heading">{{title}}</h1>
 </div>
 <form [formGroup]="animeDetailsForm" (ngSubmit)="onSubmit()" class="form">

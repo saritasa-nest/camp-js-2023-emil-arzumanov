@@ -35,13 +35,16 @@ type GetItemsCount = (name: string) => Observable<number>;
 export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> extends CustomFormField<TItem> {
 
 	/** Creation method. */
-	@Input() public createItem: CreateItem<TItem> | null = null;
+	@Input()
+	public createItem: CreateItem<TItem> | null = null;
 
 	/** Get all items. */
-	@Input() public getItems: GetItems<TItem> | null = null;
+	@Input()
+	public getItems: GetItems<TItem> | null = null;
 
 	/** Get count of this item. */
-	@Input() public getItemsCount: GetItemsCount | null = null;
+	@Input()
+	public getItemsCount: GetItemsCount | null = null;
 
 	private readonly animeService = inject(AnimeService);
 
@@ -192,5 +195,5 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 	}
 
 	/** Track by id. */
-	protected trackById = trackById;
+	protected readonly trackById = trackById;
 }

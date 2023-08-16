@@ -46,13 +46,16 @@ export class AnimeFormComponent {
 	protected readonly animeId = this.activatedRoute.snapshot.params['id'];
 
 	/** Type of submit. */
-	@Input() public submitType = '';
+	@Input()
+	public submitType = '';
 
 	/** Title. */
-	@Input() public title = '';
+	@Input()
+	public title = '';
 
 	/** Anime details. */
-	@Input() public set animeDetails(animeDetails: AnimeDetails | null) {
+	@Input()
+	public set animeDetails(animeDetails: AnimeDetails | null) {
 		if (animeDetails !== null) {
 			this.animeDetailsForm.patchValue(new AnimeDetailsForm({
 				titleEng: animeDetails.titleEng,
@@ -153,14 +156,5 @@ export class AnimeFormComponent {
 	 */
 	protected createGenres(name: string): Observable<Genre> {
 		return this.animeService.createGenre(name);
-	}
-
-	/** Navigates back to details or table. */
-	protected navigateBack(): void {
-		if (this.submitType === 'editAnime') {
-			this.router.navigate([`/anime/details/${this.animeId}`]);
-		} else {
-			this.router.navigate([`/anime/table`]);
-		}
 	}
 }
