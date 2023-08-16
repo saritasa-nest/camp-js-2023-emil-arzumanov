@@ -1,11 +1,12 @@
-.header {
+.form__header {
   display: grid;
   text-align: center;
   gap: 10px;
 }
 
-.header__heading {
+.form__heading {
   padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 .form {

@@ -1,9 +1,10 @@
 <camp-header></camp-header>
-<div class="header">
-	<a *ngIf="animeId" routerLink="/anime/details/{{animeId}}" mat-raised-button>Back to anime details</a>
-	<h1 class="header__heading">{{title}}</h1>
-</div>
 <form [formGroup]="animeDetailsForm" (ngSubmit)="onSubmit()" class="form">
+
+	<div class="form__header">
+		<a *ngIf="animeId" routerLink="/anime/details/{{animeId}}" mat-raised-button>Back to anime details</a>
+		<h1 class="form__heading">{{title}}</h1>
+	</div>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleEng as titleEng">
 		<mat-label>English title:</mat-label>
