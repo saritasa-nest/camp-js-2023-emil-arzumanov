@@ -2,7 +2,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { s3DirectDto } from '@js-camp/core/dtos/s3direct.dto';
+import { S3DirectDto } from '@js-camp/core/dtos/s3direct.dto';
 import { xml2js } from 'xml-js';
 
 import { AppUrlsConfig } from './url-config.service';
@@ -40,7 +40,7 @@ export class S3DirectService {
 	 * @param imageFile Image file.
 	 */
 	public getS3DirectParams(imageFile: File): Observable<string> {
-		return this.http.post<s3DirectDto>(this.s3DirectParamsUrl, { filename: imageFile.name })
+		return this.http.post<S3DirectDto>(this.s3DirectParamsUrl, { filename: imageFile.name })
 			.pipe(
 				map(s3dto => this.createS3FormData(s3dto, imageFile)),
 				switchMap(({ formAction, formData }) => this.http.post(formAction, formData, { responseType: 'text' })),
@@ -54,9 +54,9 @@ export class S3DirectService {
 	 * @param s3dto S3 Dto.
 		* @param imageFile Image file.
 	 */
-	private createS3FormData(s3dto: s3DirectDto, imageFile: File): { formAction: string; formData: FormData; } {
+	private createS3FormData(s3dto: S3DirectDto, imageFile: File): { formAction: string; formData: FormData; } {
 		const s3FormData = new FormData();
-		Object.keys(s3dto).forEach(s3dtoElem => s3FormData.append(s3dtoElem, s3dto[s3dtoElem as keyof s3DirectDto]));
+		Object.keys(s3dto).forEach(s3dtoElem => s3FormData.append(s3dtoElem, s3dto[s3dtoElem as keyof S3DirectDto]));
 		s3FormData.append('file', imageFile);
 		s3FormData.delete('form_action');
 		return { formAction: s3dto.form_action, formData: s3FormData };

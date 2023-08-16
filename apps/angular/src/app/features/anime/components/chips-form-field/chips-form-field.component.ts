@@ -133,9 +133,9 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			return;
 		}
 
-		for (let i = 0; i < items.length; i++) {
-			if (items[i].name === value) {
-				this.value = this.value.concat(items[i]);
+		for (const item of items) {
+			if (item.name === value) {
+				this.value = this.value.concat(item);
 				this.formControl.patchValue(this.value);
 				break;
 			}

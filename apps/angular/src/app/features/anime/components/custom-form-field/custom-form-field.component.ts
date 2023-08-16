@@ -194,12 +194,15 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoChe
 	}
 
 	/** @inheritdoc */
-	// eslint-disable-next-line no-empty-function
-	public registerOnChange(): void {}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public registerOnChange(fn: any): void {
+		this.onChange = fn;
+	}
 
 	/** @inheritdoc */
-	// eslint-disable-next-line no-empty-function
-	public registerOnTouched(): void {}
+	public registerOnTouched(fn: VoidFunction): void {
+		this.onTouched = fn;
+	}
 
 	/** @inheritdoc */
 	@Optional() @Self() public readonly ngControl = inject(NgControl);
