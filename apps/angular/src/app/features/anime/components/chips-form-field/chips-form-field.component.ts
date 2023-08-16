@@ -177,18 +177,18 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 	/**
 		* Check if value in array.
-		* @param item Item.
+		* @param items Items.
 		* @param id Id.
 		* @param name Name.
 		*/
 	protected checkIfInItemsArray(
-		item: readonly TItem[], id: number | null, name: string | null,
+		items: readonly TItem[], id: number | null, name: string | null,
 	): boolean {
-		for (let i = 0; i < item.length; i++) {
-			if (item[i].id === id) {
+		for (const item of items) {
+			if (item.id === id) {
 				return true;
 			}
-			if (item[i].name === name) {
+			if (item.name === name) {
 				return true;
 			}
 		}
