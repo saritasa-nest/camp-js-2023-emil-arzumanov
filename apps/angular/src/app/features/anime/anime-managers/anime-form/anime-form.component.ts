@@ -5,6 +5,7 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeStatus, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeDetails, AnimeRating, AnimeSeason, AnimeSource } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsForm } from '@js-camp/core/models/anime-details-form';
+import { SubmitType } from '@js-camp/core/models/anime-managers';
 import { Genre } from '@js-camp/core/models/genre';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
@@ -47,7 +48,7 @@ export class AnimeFormComponent {
 
 	/** Type of submit. */
 	@Input()
-	public submitType = '';
+	public submitType: SubmitType | null = null;
 
 	/** Title. */
 	@Input()
@@ -108,7 +109,7 @@ export class AnimeFormComponent {
 			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).subscribe(animDetails => {
 				this.router.navigate([`/anime/details/${animDetails.id}`]);
 			});
-		} else {
+		} else if (this.submitType === 'createAnime') {
 			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).subscribe(animDetails => {
 				this.router.navigate([`/anime/details/${animDetails.id}`]);
 			});
