@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
@@ -13,7 +13,6 @@ import { first } from 'rxjs';
 	selector: 'camp-registration',
 	templateUrl: './registration.component.html',
 	styleUrls: ['./registration.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent {
 	/** Show password retype or not. */
