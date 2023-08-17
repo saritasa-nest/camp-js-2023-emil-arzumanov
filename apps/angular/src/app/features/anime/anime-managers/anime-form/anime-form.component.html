@@ -18,10 +18,10 @@
 		<mat-error *ngIf="titleJpn.hasError('required')">Japanese title is required</mat-error>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="animeDetailsForm.controls.imageUrl as imageUrl">
-		<mat-label>Image file:</mat-label>
-		<camp-image-manager [formControl]="imageUrl" />
-		<mat-error *ngIf="imageUrl.hasError('required')">Image is required</mat-error>
+	<mat-form-field *ngIf="animeDetailsForm.controls.imageFile as imageFile">
+		<mat-label>Image:</mat-label>
+		<camp-image-manager [formControl]="imageFile" [imageUrl]="animeDetailsForm.controls.imageUrl.getRawValue()" />
+		<mat-error *ngIf="imageFile.hasError('required')">Image is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">

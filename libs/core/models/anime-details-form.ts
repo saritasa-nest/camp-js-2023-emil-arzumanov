@@ -15,6 +15,9 @@ export class AnimeDetailsForm {
 	/** Link on image. */
 	public readonly imageUrl: string;
 
+	/** Image file. */
+	public readonly imageFile: File | null;
+
 	/** When was aired first time. */
 	public readonly airedStart: Date | null;
 
@@ -55,6 +58,7 @@ export class AnimeDetailsForm {
 		this.titleEng = data.titleEng;
 		this.titleJpn = data.titleJpn;
 		this.imageUrl = data.imageUrl;
+		this.imageFile = data.imageFile;
 		this.airedStart = data.airedStart;
 		this.airedEnd = data.airedEnd;
 		this.type = data.type;

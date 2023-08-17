@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { catchError, throwError } from 'rxjs';
-import { S3DirectService } from '@js-camp/angular/core/services/s3direct.service';
+import { BehaviorSubject } from 'rxjs';
 
 import { CustomFormField } from '../custom-form-field/custom-form-field.component';
 
@@ -12,14 +11,12 @@ import { CustomFormField } from '../custom-form-field/custom-form-field.componen
 	styleUrls: ['./image-manager.component.css'],
 	providers: [{ provide: MatFormFieldControl, useExisting: ImageManagerComponent }],
 })
-export class ImageManagerComponent extends CustomFormField<string> {
+export class ImageManagerComponent extends CustomFormField<File> {
 
 	/** @inheritdoc */
 	protected override checkValueIsEmpty(): boolean {
 		return false;
 	}
-
-	private readonly s3directService = inject(S3DirectService);
 
 	/** File store. */
 	protected storedFile: File | null = null;
@@ -27,25 +24,28 @@ export class ImageManagerComponent extends CustomFormField<string> {
 	/** File list. */
 	protected fileList: string[] = [];
 
+	/** Set url of stored file. */
+	@Input() public set imageUrl(imageUrl: string | null) {
+		if (imageUrl !== null) {
+			this.imageUrl$.next(imageUrl);
+		}
+	}
+
+	/** Url of stored file. */
+	protected imageUrl$ = new BehaviorSubject<string | null>(null);
+
 	/**
 	 * Handle file input change.
 	 * @param fileList File list.
+	 * @param event Event.
 	 */
 	public handleFileInputChange(fileList: FileList | null): void {
 		if (fileList === null) {
 			return;
 		}
+
 		this.storedFile = fileList[0];
-		this.s3directService.getS3DirectParams(this.storedFile)
-			.pipe(
-				catchError((error: unknown) => {
-					this.formControl.setValue('');
-					this.formControl.setErrors({ wrongImage: true });
-					return throwError(() => error);
-				}),
-			)
-			.subscribe(imageUrl => {
-				this.formControl.patchValue(imageUrl);
-			});
+		this.formControl.patchValue(this.storedFile);
+		this.imageUrl$.next(URL.createObjectURL(this.storedFile));
 	}
 }

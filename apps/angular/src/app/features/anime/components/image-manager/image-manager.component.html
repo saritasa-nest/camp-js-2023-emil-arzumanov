@@ -2,9 +2,10 @@
 <button mat-icon-button matPrefix type="button" (click)="fileInput.click()">
 	<mat-icon>attach_file</mat-icon>
 </button>
-<input type="text" readonly matInput [value]="value"/>
+<input *ngIf="storedFile" type="text" readonly matInput [value]="storedFile.name"/>
+<input *ngIf="storedFile === null" type="text" readonly matInput [value]="imageUrl$ | async"/>
 <input type="file" hidden #fileInput accept=".jpg, .png, .webp" (change)="handleFileInputChange(fileInput.files)"/>
-<ng-container *ngIf="value as imageUrl">
+<ng-container *ngIf="imageUrl$ | async as imageUrl">
 	<img class="poster" [src]="imageUrl" alt="image">
 </ng-container>
 <mat-error *ngIf="formControl.hasError('wrongImage')">Try different image</mat-error>

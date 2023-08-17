@@ -3,6 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
+import { S3DirectService } from '@js-camp/angular/core/services/s3direct.service';
 import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 import { AnimeStatus, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeDetails, AnimeRating, AnimeSeason, AnimeSource } from '@js-camp/core/models/anime-details';
@@ -12,7 +13,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
 import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
-import { Observable, first } from 'rxjs';
+import { Observable, catchError, first, tap, throwError } from 'rxjs';
 
 /** Anime form component for anime editing or creation. */
 @Component({
@@ -30,6 +31,8 @@ export class AnimeFormComponent {
 	private readonly studiosService = inject(StudiosService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
+
+	private readonly s3directService = inject(S3DirectService);
 
 	private readonly router = inject(Router);
 
@@ -67,6 +70,7 @@ export class AnimeFormComponent {
 				titleEng: animeDetails.titleEng,
 				titleJpn: animeDetails.titleJpn,
 				imageUrl: animeDetails.imageUrl,
+				imageFile: null,
 				airedStart: animeDetails.aired.start,
 				airedEnd: animeDetails.aired.end,
 				type: animeDetails.type,
@@ -88,7 +92,8 @@ export class AnimeFormComponent {
 		{
 			titleEng: ['', [Validators.required]],
 			titleJpn: ['', [Validators.required]],
-			imageUrl: ['', [Validators.required]],
+			imageUrl: '',
+			imageFile: this.formBuilder.control<File | null>(null, [Validators.required]),
 			airedStart: this.formBuilder.control<Date | null>(null),
 			airedEnd: this.formBuilder.control<Date | null>(null),
 			type: this.formBuilder.control<AnimeType | null>(null, [Validators.required]),
@@ -110,16 +115,40 @@ export class AnimeFormComponent {
 		if (this.animeDetailsForm.invalid === true) {
 			return;
 		}
+
+		const file = this.animeDetailsForm.controls.imageFile.getRawValue();
+		if (file !== null) {
+			this.s3directService.getS3DirectParams(file)
+				.pipe(
+					catchError((error: unknown) => {
+						this.animeDetailsForm.controls.imageFile.setErrors({ wrongImage: true });
+						return throwError(() => error);
+					}),
+				)
+				.subscribe(imageUrl => {
+					this.animeDetailsForm.controls.imageUrl.patchValue(imageUrl);
+					this.submitDetails();
+				});
+		}
+	}
+
+	private submitDetails(): void {
 		if (this.isEdit) {
-			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).pipe(first())
-				.subscribe(animDetails => {
+			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).pipe(
+				first(),
+				tap(animDetails => {
 					this.router.navigate([`/anime/details/${animDetails.id}`]);
-				});
+				}),
+			)
+				.subscribe();
 		} else {
-			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).pipe(first())
-				.subscribe(animDetails => {
+			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).pipe(
+				first(),
+				tap(animDetails => {
 					this.router.navigate([`/anime/details/${animDetails.id}`]);
-				});
+				}),
+			)
+				.subscribe();
 		}
 	}
 
