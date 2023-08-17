@@ -93,7 +93,7 @@ export class AnimeFormComponent {
 			titleEng: ['', [Validators.required]],
 			titleJpn: ['', [Validators.required]],
 			imageUrl: '',
-			imageFile: this.formBuilder.control<File | null>(null, [Validators.required]),
+			imageFile: this.formBuilder.control<File | null>(null),
 			airedStart: this.formBuilder.control<Date | null>(null),
 			airedEnd: this.formBuilder.control<Date | null>(null),
 			type: this.formBuilder.control<AnimeType | null>(null, [Validators.required]),
@@ -117,6 +117,7 @@ export class AnimeFormComponent {
 		}
 
 		const file = this.animeDetailsForm.controls.imageFile.getRawValue();
+		const imageUrl = this.animeDetailsForm.controls.imageUrl.getRawValue();
 		if (file !== null) {
 			this.s3directService.getS3DirectParams(file)
 				.pipe(
@@ -124,11 +125,18 @@ export class AnimeFormComponent {
 						this.animeDetailsForm.controls.imageFile.setErrors({ wrongImage: true });
 						return throwError(() => error);
 					}),
+					tap(newUrl => {
+						this.animeDetailsForm.controls.imageUrl.patchValue(newUrl);
+						this.submitDetails();
+					}),
 				)
-				.subscribe(imageUrl => {
-					this.animeDetailsForm.controls.imageUrl.patchValue(imageUrl);
-					this.submitDetails();
-				});
+				.subscribe();
+		} else if (file === null && imageUrl.length > 0) {
+			this.submitDetails();
+		} else {
+			this.animeDetailsForm.controls.imageFile.setErrors({
+				fileRequired: true,
+			});
 		}
 	}
 

@@ -21,7 +21,7 @@
 	<mat-form-field *ngIf="animeDetailsForm.controls.imageFile as imageFile">
 		<mat-label>Image:</mat-label>
 		<camp-image-manager [formControl]="imageFile" [imageUrl]="animeDetailsForm.controls.imageUrl.getRawValue()" />
-		<mat-error *ngIf="imageFile.hasError('required')">Image is required</mat-error>
+		<mat-error *ngIf="imageFile.hasError('fileRequired')">Image is required</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
