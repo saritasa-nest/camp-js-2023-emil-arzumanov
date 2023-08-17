@@ -23,3 +23,21 @@
 .add-anime {
   display: grid;
 }
+
+.row__link {
+  text-decoration: none;
+}
+
+.row__link,
+.row__link:visited,
+.row__link:hover,
+.row__link:active {
+  color: inherit;
+}
+
+.mat-mdc-row:hover {
+  cursor: pointer;
+
+  /* To override library style */
+  background-color: #c8c8c880 !important;
+}
