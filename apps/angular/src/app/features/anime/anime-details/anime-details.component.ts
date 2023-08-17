@@ -1,10 +1,10 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
 import { ConfirmAnimeDelete } from '@js-camp/core/models/anime-delete-confirm';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 
 import { PosterPopupComponent } from '../components/poster-popup/poster-popup.component';
@@ -20,6 +20,8 @@ import { ConfirmDeleteComponent } from '../components/confirm-delete/confirm-del
 export class AnimeDetailsComponent {
 
 	private readonly route = inject(ActivatedRoute);
+
+	private readonly router = inject(Router);
 
 	private readonly animeService = inject(AnimeService);
 
@@ -47,7 +49,14 @@ export class AnimeDetailsComponent {
 	protected openDeleteConfirm(animeId: number): void {
 		this.dialog.open<ConfirmDeleteComponent, ConfirmAnimeDelete>(ConfirmDeleteComponent, {
 			data: { animeId },
-		});
+		}).closed.pipe(
+			tap(isClosed => {
+				if (isClosed) {
+					this.animeService.deleteAnimeById(animeId)
+						.subscribe(() => this.router.navigate(['/anime/table']));
+				}
+			}),
+		).subscribe();
 	}
 
 	/** Track by id. */

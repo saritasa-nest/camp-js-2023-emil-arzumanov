@@ -1,4 +1,4 @@
 <p class="message">Do you really want to delete this anime?</p>
 
-<button type="button" mat-raised-button color="warn" (click)="closeDeleteAndRedirect()">Confirm delete</button>
+<button type="button" mat-raised-button color="warn" (click)="dialogRef.close(true)">Confirm delete</button>
 <button type="button" mat-raised-button color="primary" (click)="dialogRef.close()">Cancel</button>
