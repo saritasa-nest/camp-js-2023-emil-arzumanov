@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { SubmitType } from '@js-camp/core/models/anime-managers';
 import { switchMap } from 'rxjs';
 
 /** Component for anime editing. */
@@ -13,9 +12,6 @@ export class AnimeEditComponent {
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly animeService = inject(AnimeService);
-
-	/** Type of submit. */
-	protected readonly submitType = SubmitType.Edit;
 
 	/** Anime details. */
 	protected readonly animeDetails$ = this.route.params.pipe(

@@ -9,6 +9,8 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { trackById } from '@js-camp/angular/core/utils/track-by.util';
+import { GenresService } from '@js-camp/angular/core/services/genres.service';
+import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 
 import { CustomFormField } from '../custom-form-field/custom-form-field.component';
 
@@ -48,6 +50,10 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 
 	private readonly animeService = inject(AnimeService);
 
+	private readonly genresService = inject(GenresService);
+
+	private readonly studiosService = inject(StudiosService);
+
 	/** Separator keys. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -71,12 +77,12 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 			this.searchControl.valueChanges.pipe(startWith('')),
 		]).pipe(
 			debounceTime(DEBOUNCE_TIME),
-			map(([pagination, searchControl]) => ({ pagination, searchControl })),
+			map(([pagination, search]) => ({ pagination, search })),
 			switchMap(params => {
 				if (this.getItems === null) {
 					return [];
 				}
-				return this.getItems(params.pagination, params.searchControl);
+				return this.getItems(params.pagination, params.search);
 			}),
 			map(itemsPagination => itemsPagination.results),
 		);
@@ -176,11 +182,11 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 	}
 
 	/**
-		* Check if value in array.
-		* @param items Items.
-		* @param id Id.
-		* @param name Name.
-		*/
+	 * Check if value in array.
+	 * @param items Items.
+	 * @param id Id.
+	 * @param name Name.
+	 */
 	protected checkIfInItemsArray(
 		items: readonly TItem[], id: number | null, name: string | null,
 	): boolean {

@@ -15,13 +15,6 @@ import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
-import { Studio } from '@js-camp/core/models/studio';
-import { StudioDto } from '@js-camp/core/dtos/studio.dto';
-import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
-import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { GenreMapper } from '@js-camp/core/mappers/genre.mapper';
-import { Genre } from '@js-camp/core/models/genre';
-import { GenreDto } from '@js-camp/core/dtos/genre.dto';
 import { AnimeDetailsForm } from '@js-camp/core/models/anime-details-form';
 import { AnimeDetailsFormMapper } from '@js-camp/core/mappers/anime-details-form.mapper';
 
@@ -41,12 +34,6 @@ export class AnimeService {
 
 	/** URL to get details of anime. */
 	private readonly animeDetailsUrl = this.appUrlsConfig.toApi('anime', 'anime');
-
-	/** URL to get list of all studios. */
-	private readonly animeStudiosUrl = this.appUrlsConfig.toApi('anime', 'studios');
-
-	/** URL to get list of all genres. */
-	private readonly animeGenresUrl = this.appUrlsConfig.toApi('anime', 'genres');
 
 	/**
 	 * Sends get request on list of all anime to API and maps receives data.
@@ -100,55 +87,5 @@ export class AnimeService {
 	public deleteAnimeById(id: number): Observable<void> {
 		return this.http
 			.delete<undefined>(`${this.animeDetailsUrl}${id}/`);
-	}
-
-	/**
-	 * Get all studios.
-	 * @param pagination Pagination param.
-	 * @param search Search param.
-	 */
-	public getStudiosList(pagination: PaginationParams, search: string | null): Observable<Pagination<Studio>> {
-		return this.http
-			.get<PaginationDto<StudioDto>>(this.animeStudiosUrl, {
-			params: {
-				...PaginationParamsMapper.toDto(pagination),
-				...FilterParamsMapper.toDto({ search, type: null }),
-			},
-		})
-			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, studioDto => StudioMapper.fromDto(studioDto))));
-	}
-
-	/**
-	 * Create studio.
-	 * @param name Name.
-	 */
-	public createStudio(name: string): Observable<Studio> {
-		return this.http.post<StudioDto>(this.animeStudiosUrl, { name })
-			.pipe(map(studioDto => StudioMapper.fromDto(studioDto)));
-	}
-
-	/**
-	 * Get all studios.
-	 * @param pagination Pagination param.
-	 * @param search Search param.
-	 */
-	public getGenresList(pagination: PaginationParams, search: string | null): Observable<Pagination<Genre>> {
-		return this.http
-			.get<PaginationDto<GenreDto>>(this.animeGenresUrl, {
-			params: {
-				...PaginationParamsMapper.toDto(pagination),
-				...FilterParamsMapper.toDto({ search, type: null }),
-			},
-		})
-			.pipe(map(paginationDto => PaginationMapper.fromDto(paginationDto, genreDto => GenreMapper.fromDto(genreDto))));
-	}
-
-	/**
-	 * Create studio.
-	 * @param name Name.
-	 */
-	public createGenre(name: string): Observable<Genre> {
-		return this.http.post<GenreDto>(this.animeGenresUrl, { name })
-			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
 	}
 }

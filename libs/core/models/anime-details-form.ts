@@ -3,7 +3,7 @@ import { AnimeSource, AnimeRating, AnimeSeason } from './anime-details';
 import { Genre } from './genre';
 import { Studio } from './studio';
 
-/** Anime details form.	*/
+/** Anime details form. */
 export class AnimeDetailsForm {
 
 	/** Title on english. */

@@ -2,16 +2,17 @@ import { Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { GenresService } from '@js-camp/angular/core/services/genres.service';
+import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 import { AnimeStatus, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeDetails, AnimeRating, AnimeSeason, AnimeSource } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsForm } from '@js-camp/core/models/anime-details-form';
-import { SubmitType } from '@js-camp/core/models/anime-managers';
 import { Genre } from '@js-camp/core/models/genre';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
 import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
-import { Observable } from 'rxjs';
+import { Observable, first } from 'rxjs';
 
 /** Anime form component for anime editing or creation. */
 @Component({
@@ -23,6 +24,10 @@ export class AnimeFormComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly animeService = inject(AnimeService);
+
+	private readonly genresService = inject(GenresService);
+
+	private readonly studiosService = inject(StudiosService);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
@@ -48,7 +53,7 @@ export class AnimeFormComponent {
 
 	/** Type of submit. */
 	@Input()
-	public submitType: SubmitType | null = null;
+	public isEdit = false;
 
 	/** Title. */
 	@Input()
@@ -105,24 +110,26 @@ export class AnimeFormComponent {
 		if (this.animeDetailsForm.invalid === true) {
 			return;
 		}
-		if (this.submitType === 'editAnime') {
-			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).subscribe(animDetails => {
-				this.router.navigate([`/anime/details/${animDetails.id}`]);
-			});
-		} else if (this.submitType === 'createAnime') {
-			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).subscribe(animDetails => {
-				this.router.navigate([`/anime/details/${animDetails.id}`]);
-			});
+		if (this.isEdit) {
+			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).pipe(first())
+				.subscribe(animDetails => {
+					this.router.navigate([`/anime/details/${animDetails.id}`]);
+				});
+		} else {
+			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).pipe(first())
+				.subscribe(animDetails => {
+					this.router.navigate([`/anime/details/${animDetails.id}`]);
+				});
 		}
 	}
 
 	/**
 	 * Get studios.
 	 * @param pagination Pagination request parameters.
-		* @param searchControl Search request parameters.
+	 * @param search Search request parameters.
 	 */
-	protected getStudios(pagination: PaginationParams, searchControl: string | null): Observable<Pagination<Studio>> {
-		return this.animeService.getStudiosList(pagination, searchControl);
+	protected getStudios(pagination: PaginationParams, search: string | null): Observable<Pagination<Studio>> {
+		return this.studiosService.getStudiosList(pagination, search);
 	}
 
 	/**
@@ -130,16 +137,16 @@ export class AnimeFormComponent {
 	 * @param name Studio name.
 	 */
 	protected createStudio(name: string): Observable<Studio> {
-		return this.animeService.createStudio(name);
+		return this.studiosService.createStudio(name);
 	}
 
 	/**
 	 * Get genres.
 	 * @param pagination Pagination request parameters.
-	 * @param searchControl Search request parameters.
+	 * @param search Search request parameters.
 	 */
-	protected getGenres(pagination: PaginationParams, searchControl: string | null): Observable<Pagination<Genre>> {
-		return this.animeService.getGenresList(pagination, searchControl);
+	protected getGenres(pagination: PaginationParams, search: string | null): Observable<Pagination<Genre>> {
+		return this.genresService.getGenresList(pagination, search);
 	}
 
 	/**
@@ -147,6 +154,6 @@ export class AnimeFormComponent {
 	 * @param name Genre name.
 	 */
 	protected createGenres(name: string): Observable<Genre> {
-		return this.animeService.createGenre(name);
+		return this.genresService.createGenre(name);
 	}
 }
