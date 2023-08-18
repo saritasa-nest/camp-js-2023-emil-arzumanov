@@ -47,7 +47,7 @@ export class GenresService {
 	 * @param name Name.
 	 */
 	public createGenre(name: string): Observable<Genre> {
-		return this.http.post<GenreDto>(this.animeGenresUrl, { name })
+		return this.http.post<GenreDto>(this.animeGenresUrl, { name, type: 'GENRES' })
 			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
 	}
 }
