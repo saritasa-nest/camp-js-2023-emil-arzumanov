@@ -38,6 +38,7 @@
 		<mat-hint>MM/DD/YYYY</mat-hint>
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
+		<mat-error *ngIf="airedEnd.hasError('matching')">And date should be after start date</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.type as type">
