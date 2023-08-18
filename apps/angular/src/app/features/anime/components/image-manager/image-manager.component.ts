@@ -4,6 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 
 import { CustomFormField } from '../custom-form-field/custom-form-field.component';
 
+const POSSIBLE_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
+
 /** Image manager. */
 @Component({
 	selector: 'camp-image-manager',
@@ -44,7 +46,13 @@ export class ImageManagerComponent extends CustomFormField<File> {
 			return;
 		}
 
+		if (!POSSIBLE_IMAGE_TYPE.includes(fileList[0].type)) {
+			this.formControl.setErrors({ acceptType: true });
+			return;
+		}
+
 		this.storedFile = fileList[0];
+
 		this.formControl.patchValue(this.storedFile);
 		this.imageUrl$.next(URL.createObjectURL(this.storedFile));
 	}
