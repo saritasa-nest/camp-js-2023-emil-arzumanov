@@ -5,7 +5,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
 import { catchErrorOnSubmit, getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 import { Login } from '@js-camp/core/models/login';
-import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
+import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-form';
 
 /** Login. */
 @Component({

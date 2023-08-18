@@ -31,8 +31,8 @@ export class RefreshTokenInterceptor<T> implements HttpInterceptor {
 	private handleTokenError(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
 		return this.authService.isLoggedIn$
 			.pipe(
-				switchMap(elem => {
-					if (elem) {
+				switchMap(isLoggedIn => {
+					if (isLoggedIn) {
 						return this.authService.refreshToken().pipe(
 							switchMap(() => next.handle(request)),
 							catchError((error: unknown) => {

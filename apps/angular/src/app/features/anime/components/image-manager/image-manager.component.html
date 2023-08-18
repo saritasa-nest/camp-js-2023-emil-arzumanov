@@ -1,0 +1,12 @@
+<mat-label>Pick image</mat-label>
+<button mat-icon-button matPrefix type="button" (click)="fileInput.click()">
+	<mat-icon>attach_file</mat-icon>
+</button>
+<input *ngIf="storedFile" type="text" readonly matInput [value]="storedFile.name"/>
+<input *ngIf="storedFile === null" type="text" readonly matInput [value]="imageUrl$ | async"/>
+<input type="file" hidden #fileInput accept=".jpg, .png, .webp" (change)="handleFileInputChange(fileInput.files)"/>
+<ng-container *ngIf="imageUrl$ | async as imageUrl">
+	<img class="poster" [src]="imageUrl" alt="image">
+</ng-container>
+<mat-error *ngIf="formControl.hasError('wrongImage')">Image is too small</mat-error>
+<mat-error *ngIf="formControl.hasError('acceptType')">Cannot upload new image, new image type should be jpeg, png or webp</mat-error>

@@ -1,11 +1,14 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
-import { switchMap } from 'rxjs';
+import { ConfirmAnimeDelete } from '@js-camp/core/models/anime-delete-confirm';
+import { filter, switchMap } from 'rxjs';
+import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 
 import { PosterPopupComponent } from '../components/poster-popup/poster-popup.component';
+import { ConfirmDeleteComponent } from '../components/confirm-delete/confirm-delete.component';
 
 /** Details of anime. */
 @Component({
@@ -18,9 +21,11 @@ export class AnimeDetailsComponent {
 
 	private readonly route = inject(ActivatedRoute);
 
+	private readonly router = inject(Router);
+
 	private readonly animeService = inject(AnimeService);
 
-	/** List of anime. */
+	/** Anime details. */
 	protected readonly animeDetails$ = this.route.params.pipe(
 		switchMap(params => this.animeService.getAnimeDetails(params['id'])),
 	);
@@ -38,11 +43,18 @@ export class AnimeDetailsComponent {
 	}
 
 	/**
-	 * Track by item id.
-	 * @param index Index.
-	 * @param item Item.
+	 * Opens anime delete confirm.
+	 * @param animeId Id of anime.
 	 */
-	protected trackById<T extends { id: number; }>(index: number, item: T): number {
-		return item.id;
+	protected openDeleteConfirm(animeId: number): void {
+		this.dialog.open<ConfirmDeleteComponent, ConfirmAnimeDelete>(ConfirmDeleteComponent, {
+			data: { animeId },
+		}).closed.pipe(
+			filter(Boolean),
+			switchMap(() => this.animeService.deleteAnimeById(animeId)),
+		).subscribe(() => this.router.navigate(['/anime/table']));
 	}
+
+	/** Track by id. */
+	protected readonly trackById = trackById;
 }

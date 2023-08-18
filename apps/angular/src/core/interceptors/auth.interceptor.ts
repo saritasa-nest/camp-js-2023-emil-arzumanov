@@ -16,11 +16,12 @@ export class AuthInterceptor<T> implements HttpInterceptor {
 
 	/** @inheritdoc */
 	public intercept(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-		const animeListUrl = this.appUrlsConfig.toApi('anime', 'anime');
+		const animeUrl = this.appUrlsConfig.toApi('anime');
+		const s3DirectUrl = this.appUrlsConfig.toApi('s3direct');
 
 		const accessToken = this.storageService.getValue(environment.accessTokenName);
 
-		if (req.url.includes(animeListUrl) && accessToken) {
+		if ((req.url.includes(animeUrl) || req.url.includes(s3DirectUrl)) && accessToken) {
 			const modifiedReq = req.clone({
 				setHeaders: {
 					Authorization: `Bearer ${accessToken}`,

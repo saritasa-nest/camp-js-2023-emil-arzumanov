@@ -6,9 +6,7 @@
   padding: 16px;
 }
 
-.poster {
+.message {
   max-width: 300px;
   max-height: 300px;
-  border: 1px solid black;
-  border-radius: 10px;
 }

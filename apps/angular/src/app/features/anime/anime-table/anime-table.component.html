@@ -16,17 +16,20 @@
 	<mat-paginator
 		[length]="animeList.count"
 		[pageSizeOptions]="pageSizeOptions"
-	 *ngIf="pagination$ | async as pagination"
+		*ngIf="pagination$ | async as pagination"
 		[pageSize]="pagination.pageSize"
 		[pageIndex]="pagination.pageIndex"
 		aria-label="Select page"
 		(page)="pageChangeHandler($event)"
 	></mat-paginator>
+	<div class="add-anime">
+		<a routerLink="/anime/create" mat-raised-button>Add anime</a>
+	</div>
 	<table
 		mat-table
 		[dataSource]="animeList.results"
 		matSort
-	 *ngIf="sorting$ | async as sorting"
+		*ngIf="sorting$ | async as sorting"
 		[matSortActive]="sorting.field"
 		[matSortDirection]="sorting.direction"
 		(matSortChange)="sortHandler($event)"
