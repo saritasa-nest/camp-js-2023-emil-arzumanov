@@ -13,7 +13,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
 import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-form';
-import { Observable, catchError, first, tap, throwError } from 'rxjs';
+import { Observable, catchError, first, switchMap, tap, throwError } from 'rxjs';
 
 /** Anime form component for anime editing or creation. */
 @Component({
@@ -112,12 +112,18 @@ export class AnimeFormComponent {
 
 	/** On submit. */
 	protected onSubmit(): void {
+		const file = this.animeDetailsForm.controls.imageFile.getRawValue();
+		const imageUrl = this.animeDetailsForm.controls.imageUrl.getRawValue();
+
 		if (this.animeDetailsForm.invalid === true) {
+			if (file === null && imageUrl.length === 0) {
+				this.animeDetailsForm.controls.imageFile.setErrors({
+					fileRequired: true,
+				});
+			}
 			return;
 		}
 
-		const file = this.animeDetailsForm.controls.imageFile.getRawValue();
-		const imageUrl = this.animeDetailsForm.controls.imageUrl.getRawValue();
 		if (file !== null) {
 			this.s3directService.getS3DirectParams(file)
 				.pipe(
@@ -127,12 +133,12 @@ export class AnimeFormComponent {
 					}),
 					tap(newUrl => {
 						this.animeDetailsForm.controls.imageUrl.patchValue(newUrl);
-						this.submitDetails();
 					}),
+					switchMap(() => this.submitDetails()),
 				)
 				.subscribe();
 		} else if (file === null && imageUrl.length > 0) {
-			this.submitDetails();
+			this.submitDetails().subscribe();
 		} else {
 			this.animeDetailsForm.controls.imageFile.setErrors({
 				fileRequired: true,
@@ -140,24 +146,21 @@ export class AnimeFormComponent {
 		}
 	}
 
-	private submitDetails(): void {
+	private submitDetails(): Observable<AnimeDetails> {
 		if (this.isEdit) {
-			this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).pipe(
+			return this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).pipe(
 				first(),
 				tap(animDetails => {
 					this.router.navigate([`/anime/details/${animDetails.id}`]);
 				}),
-			)
-				.subscribe();
-		} else {
-			this.animeService.createAnime(this.animeDetailsForm.getRawValue()).pipe(
-				first(),
-				tap(animDetails => {
-					this.router.navigate([`/anime/details/${animDetails.id}`]);
-				}),
-			)
-				.subscribe();
+			);
 		}
+		return this.animeService.createAnime(this.animeDetailsForm.getRawValue()).pipe(
+			first(),
+			tap(animDetails => {
+				this.router.navigate([`/anime/details/${animDetails.id}`]);
+			}),
+		);
 	}
 
 	/**
