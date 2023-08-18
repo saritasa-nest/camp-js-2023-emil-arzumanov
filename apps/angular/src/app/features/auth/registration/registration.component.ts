@@ -5,7 +5,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { catchErrorOnSubmit, getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 import { matchValidator } from '@js-camp/angular/core/utils/password-validate.util';
 import { Registration } from '@js-camp/core/models/registrtion';
-import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
+import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-form';
 import { first } from 'rxjs';
 
 /** Registration. */

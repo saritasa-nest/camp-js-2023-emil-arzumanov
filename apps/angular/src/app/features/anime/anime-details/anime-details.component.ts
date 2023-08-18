@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimePoster } from '@js-camp/core/models/anime-poster';
 import { ConfirmAnimeDelete } from '@js-camp/core/models/anime-delete-confirm';
-import { switchMap, tap } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
 import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 
 import { PosterPopupComponent } from '../components/poster-popup/poster-popup.component';
@@ -50,13 +50,9 @@ export class AnimeDetailsComponent {
 		this.dialog.open<ConfirmDeleteComponent, ConfirmAnimeDelete>(ConfirmDeleteComponent, {
 			data: { animeId },
 		}).closed.pipe(
-			tap(isClosed => {
-				if (isClosed) {
-					this.animeService.deleteAnimeById(animeId)
-						.subscribe(() => this.router.navigate(['/anime/table']));
-				}
-			}),
-		).subscribe();
+			filter(Boolean),
+			switchMap(() => this.animeService.deleteAnimeById(animeId)),
+		).subscribe(() => this.router.navigate(['/anime/table']));
 	}
 
 	/** Track by id. */

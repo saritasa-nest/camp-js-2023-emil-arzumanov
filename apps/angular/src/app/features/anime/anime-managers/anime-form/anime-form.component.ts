@@ -12,7 +12,7 @@ import { Genre } from '@js-camp/core/models/genre';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
-import { ValidatedFormGroupType } from '@js-camp/core/models/validated-form';
+import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-form';
 import { Observable, catchError, first, tap, throwError } from 'rxjs';
 
 /** Anime form component for anime editing or creation. */
