@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,8 +12,11 @@ const POSSIBLE_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 	templateUrl: './image-manager.component.html',
 	styleUrls: ['./image-manager.component.css'],
 	providers: [{ provide: MatFormFieldControl, useExisting: ImageManagerComponent }],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageManagerComponent extends CustomFormField<File> {
+
+	private readonly changeDetectorReference = inject(ChangeDetectorRef);
 
 	/** @inheritdoc */
 	protected override checkValueIsEmpty(): boolean {
@@ -48,6 +51,7 @@ export class ImageManagerComponent extends CustomFormField<File> {
 
 		if (!POSSIBLE_IMAGE_TYPE.includes(fileList[0].type)) {
 			this.formControl.setErrors({ acceptType: true });
+			this.changeDetectorReference.markForCheck();
 			return;
 		}
 

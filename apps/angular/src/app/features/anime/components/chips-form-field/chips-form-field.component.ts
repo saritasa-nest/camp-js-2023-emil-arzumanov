@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { Component, ElementRef, HostListener, Input, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, ViewChild, inject } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -33,6 +33,7 @@ type GetItemsCount = (name: string) => Observable<number>;
 	templateUrl: './chips-form-field.component.html',
 	styleUrls: ['./chips-form-field.component.css'],
 	providers: [{ provide: MatFormFieldControl, useExisting: ChipsFormFieldComponent }],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> extends CustomFormField<TItem> {
 

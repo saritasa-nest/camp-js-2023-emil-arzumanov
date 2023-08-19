@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 
 /** Header. */
@@ -6,6 +6,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 	selector: 'camp-header',
 	templateUrl: './header.component.html',
 	styleUrls: ['./header.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
 	private readonly authService = inject(AuthService);
