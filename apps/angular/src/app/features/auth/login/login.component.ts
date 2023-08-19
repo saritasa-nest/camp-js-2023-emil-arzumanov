@@ -1,5 +1,5 @@
 import { first } from 'rxjs';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
@@ -24,6 +24,8 @@ export class LoginComponent {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
+	private readonly changeDetectorReference = inject(ChangeDetectorRef);
+
 	/** Form group for login. */
 	protected readonly loginForm: ValidatedFormGroupType<Login> = this.formBuilder.group(
 		{
@@ -45,7 +47,7 @@ export class LoginComponent {
 		this.authService.login(body)
 			.pipe(
 				first(),
-				catchErrorOnSubmit(this.loginForm),
+				catchErrorOnSubmit(this.loginForm, this.changeDetectorReference),
 			)
 			.subscribe(() => {
 				this.router.navigate(['/home/profile']);

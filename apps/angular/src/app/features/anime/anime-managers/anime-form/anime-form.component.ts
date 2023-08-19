@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
@@ -21,6 +21,7 @@ import { datesValidator } from '@js-camp/angular/core/utils/dates-validate.utils
 	selector: 'camp-anime-form',
 	templateUrl: './anime-form.component.html',
 	styleUrls: ['./anime-form.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFormComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -34,6 +35,8 @@ export class AnimeFormComponent {
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly s3directService = inject(S3DirectService);
+
+	private readonly changeDetectorReference = inject(ChangeDetectorRef);
 
 	private readonly router = inject(Router);
 
@@ -130,6 +133,7 @@ export class AnimeFormComponent {
 				.pipe(
 					catchError((error: unknown) => {
 						this.animeDetailsForm.controls.imageFile.setErrors({ wrongImage: true });
+						this.changeDetectorReference.markForCheck();
 						return throwError(() => error);
 					}),
 					tap(newUrl => {
