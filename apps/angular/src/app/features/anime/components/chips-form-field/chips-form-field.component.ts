@@ -12,7 +12,7 @@ import { trackById } from '@js-camp/angular/core/utils/track-by.util';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
 import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 
-import { CustomFormField } from '../custom-form-field/custom-form-field.component';
+import { CustomFormField } from '@js-camp/angular/shared/components/custom-form-field/custom-form-field.component';
 
 const DEBOUNCE_TIME = 300;
 
@@ -35,7 +35,7 @@ type GetItemsCount = (name: string) => Observable<number>;
 	providers: [{ provide: MatFormFieldControl, useExisting: ChipsFormFieldComponent }],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> extends CustomFormField<TItem> {
+export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }> extends CustomFormField<TItem[]> {
 
 	/** Creation method. */
 	@Input()
@@ -128,13 +128,18 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		event.chipInput.clear();
 		this.searchControl.setValue(null);
 
-		if (this.checkIfInItemsArray === null || this.createItem === null || this.checkIfInItemsArray(this.value, null, value)) {
+		if (
+			this.checkIfInItemsArray === null ||
+			this.value === null ||
+			this.createItem === null ||
+			this.checkIfInItemsArray(this.value, null, value)
+		) {
 			return;
 		}
 
 		if (this.checkIfInItemsArray(items, null, value) === false) {
 			this.createItem(value).subscribe(newStudio => {
-				this.value = this.value.concat(newStudio);
+				this.value = this.value === null ? null : this.value.concat(newStudio);
 				this.formControl.patchValue(this.value);
 			});
 			return;
@@ -154,7 +159,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 	 * @param item Item.
 	 */
 	protected removeFromChosenItems(item: TItem): void {
-		if (this.checkIfInItemsArray === null) {
+		if (this.checkIfInItemsArray === null || this.value === null) {
 			return;
 		}
 
@@ -172,7 +177,7 @@ export class ChipsFormFieldComponent<TItem extends { id: number; name: string; }
 		this.searchControl.setValue(null);
 		const itemValue = event.option.value;
 
-		if (this.checkIfInItemsArray === null) {
+		if (this.checkIfInItemsArray === null || this.value === null) {
 			return;
 		}
 

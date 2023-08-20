@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject } from 'rxjs';
 
-import { CustomFormField } from '../custom-form-field/custom-form-field.component';
+import { CustomFormField } from '@js-camp/angular/shared/components/custom-form-field/custom-form-field.component';
 
 const POSSIBLE_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 

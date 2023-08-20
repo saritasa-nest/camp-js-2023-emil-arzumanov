@@ -27,7 +27,16 @@
 		</mat-error>
 	</mat-form-field>
 
-	<camp-password-field [passwordControl]="registrationForm.controls.password"></camp-password-field>
+	<mat-form-field *ngIf="registrationForm.controls.password as password" class="form__field">
+		<mat-label>Password</mat-label>
+		<camp-password-field [formControl]="password"></camp-password-field>
+		<mat-error *ngIf="password.hasError('required')">
+			Password is required
+		</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(password); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
+	</mat-form-field>
 
 	<mat-form-field *ngIf="registrationForm.controls.confirmPassword as confirmPassword">
 		<mat-label>Repeat Password</mat-label>

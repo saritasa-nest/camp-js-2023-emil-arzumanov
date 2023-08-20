@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 /** Base mat form field component. */
 @Directive()
 export abstract class CustomFormField<TValue>
-implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoCheck {
+implements MatFormFieldControl<TValue>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** @inheritdoc */
 	public static nextId = 0;
@@ -26,14 +26,14 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoChe
 	public controlType = 'custom-form-field';
 
 	/** @inheritdoc */
-	public id = `camp-chips-form-field-${CustomFormField.nextId++}`;
+	public id = `${this.controlType}-${CustomFormField.nextId++}`;
 
 	/** @inheritdoc */
 	public get empty(): boolean {
 		return this.checkValueIsEmpty(this.value);
 	}
 
-	protected abstract checkValueIsEmpty(value: TValue[] | null): boolean;
+	protected abstract checkValueIsEmpty(value: TValue | null): boolean;
 
 	/** @inheritdoc */
 	public get shouldLabelFloat(): boolean {
@@ -61,8 +61,8 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoChe
 	@Optional()	private readonly formGroup = inject(FormGroupDirective);
 
 	/** Form control. */
-	public get formControl(): FormControl<TValue[] | TValue | null> {
-		return this.ngControl.control as FormControl<TValue[] | TValue | null>;
+	public get formControl(): FormControl<TValue | null> {
+		return this.ngControl.control as FormControl<TValue | null>;
 	}
 
 	/** @inheritdoc */
@@ -161,30 +161,30 @@ implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoChe
 
 	/** @inheritdoc */
 	// eslint-disable-next-line no-empty-function, @typescript-eslint/no-explicit-any
-	public onChange = (_value: TValue[]): void => {};
+	public onChange = (_value: TValue | null): void => {};
 
 	/** @inheritdoc */
 	// eslint-disable-next-line no-empty-function
 	public onTouched = (): void => {};
 
 	/** @inheritdoc */
-	protected _value: TValue[] = [];
+	protected _value: TValue | null = null;
 
 	/** @inheritdoc */
-	public get value(): TValue[] {
+	public get value(): TValue | null {
 		return this._value;
 	}
 
 	/** @inheritdoc */
 	@Input()
-	public set value(val: TValue[]) {
+	public set value(val: TValue | null) {
 		this._value = val;
 		this.onChange(val);
 		this.stateChanges.next();
 	}
 
 	/** @inheritdoc */
-	public writeValue(value: TValue[]): void {
+	public writeValue(value: TValue): void {
 		this.value = value;
 	}
 
