@@ -14,7 +14,7 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
 import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-form';
 import { Observable, catchError, first, switchMap, tap, throwError } from 'rxjs';
-import { datesValidator } from '@js-camp/angular/core/utils/dates-validate.utils';
+import { datesValidator, maxLengthValidator } from '@js-camp/angular/core/utils/anime-managers-form-validate.utils';
 
 /** Anime form component for anime editing or creation. */
 @Component({
@@ -94,15 +94,15 @@ export class AnimeFormComponent {
 	/** Form group for login. */
 	protected readonly animeDetailsForm: ValidatedFormGroupType<AnimeDetailsForm> = this.formBuilder.group(
 		{
-			titleEng: ['', [Validators.required]],
-			titleJpn: ['', [Validators.required]],
+			titleEng: ['', [Validators.required, maxLengthValidator(225)]],
+			titleJpn: ['', [Validators.required, maxLengthValidator(225)]],
 			imageUrl: '',
 			imageFile: this.formBuilder.control<File | null>(null),
 			airedStart: this.formBuilder.control<Date | null>(null),
 			airedEnd: this.formBuilder.control<Date | null>(null, [datesValidator()]),
 			type: this.formBuilder.control<AnimeType | null>(null, [Validators.required]),
 			status: this.formBuilder.control<AnimeStatus | null>(null, [Validators.required]),
-			trailerYoutubeId: this.formBuilder.control<string | null>(null),
+			trailerYoutubeId: this.formBuilder.control<string | null>(null, [maxLengthValidator(15)]),
 			source: this.formBuilder.control<AnimeSource | null>(null, [Validators.required]),
 			airing: this.formBuilder.control<boolean | null>(null, [Validators.required]),
 			rating: this.formBuilder.control<AnimeRating | null>(null, [Validators.required]),

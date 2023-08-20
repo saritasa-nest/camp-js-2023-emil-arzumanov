@@ -10,20 +10,21 @@
 		<mat-label>English title:</mat-label>
 		<input matInput [formControl]="titleEng"/>
 		<mat-error *ngIf="titleEng.hasError('required')">English title is required</mat-error>
+		<mat-error *ngIf="titleEng.hasError('maxLength')">This field must contain no more than 225 characters</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleJpn as titleJpn">
 		<mat-label>Japanese title:</mat-label>
 		<input matInput [formControl]="titleJpn"/>
 		<mat-error *ngIf="titleJpn.hasError('required')">Japanese title is required</mat-error>
+		<mat-error *ngIf="titleJpn.hasError('maxLength')">This field must contain no more than 225 characters</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.imageFile as imageFile">
 		<mat-label>Image:</mat-label>
 		<camp-image-manager [formControl]="imageFile" [imageUrl]="animeDetailsForm.controls.imageUrl.getRawValue()" />
 		<mat-error *ngIf="imageFile.hasError('fileRequired')">Image is required</mat-error>
-		<mat-error *ngIf="imageFile.hasError('wrongImage')">Image is too small</mat-error>
-		<mat-error *ngIf="imageFile.hasError('acceptType')">Cannot upload new image, new image type should be jpeg, png or webp</mat-error>
+		<mat-error *ngIf="imageFile.hasError('wrongImage')">Something went wrong, try different image</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
@@ -62,6 +63,7 @@
 	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerId">
 		<mat-label>Youtube embed trailer id:</mat-label>
 		<input matInput [formControl]="trailerId"/>
+		<mat-error *ngIf="trailerId.hasError('maxLength')">This field must contain no more than 15 characters</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.source as source">

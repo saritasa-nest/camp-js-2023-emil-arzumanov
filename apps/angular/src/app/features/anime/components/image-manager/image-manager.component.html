@@ -8,3 +8,5 @@
 <ng-container *ngIf="imageUrl$ | async as imageUrl">
 	<img class="poster" [src]="imageUrl" alt="image">
 </ng-container>
+<mat-error *ngIf="formControl.hasError('acceptType')">Cannot upload new image, new image type should be jpeg, png or webp</mat-error>
+<mat-error *ngIf="formControl.hasError('minSize')">Cannot upload new image, new image size should be bigger than 5000 pixels</mat-error>
