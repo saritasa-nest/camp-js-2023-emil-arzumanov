@@ -11,16 +11,7 @@
 		</mat-error>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="loginForm.controls.password as password" class="form__field">
-		<mat-label>Password</mat-label>
-		<camp-password-field [formControl]="password"></camp-password-field>
-		<mat-error *ngIf="password.hasError('required')">
-			Password is required
-		</mat-error>
-		<mat-error *ngFor="let error of getFieldErrors(password); trackBy: trackByErrorType">
-			{{error}}
-		</mat-error>
-	</mat-form-field>
+	<camp-password-field [passwordControl]="loginForm.controls.password"></camp-password-field>
 
 	<button mat-flat-button color="primary" type="submit">Sign in</button>
 </form>

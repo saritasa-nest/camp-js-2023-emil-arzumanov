@@ -1,5 +1,5 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Input, inject, Optional, Self, ElementRef, OnDestroy, Directive, DoCheck } from '@angular/core';
+import { Input, inject, Optional, ElementRef, OnDestroy, Directive, DoCheck } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -205,7 +205,9 @@ implements MatFormFieldControl<TValue>, OnDestroy, ControlValueAccessor, DoCheck
 	}
 
 	/** @inheritdoc */
-	@Optional() @Self() public readonly ngControl = inject(NgControl);
+	public readonly ngControl = inject(NgControl, {
+		self: true,
+	});
 
 	public constructor() {
 		if (this.ngControl != null) {

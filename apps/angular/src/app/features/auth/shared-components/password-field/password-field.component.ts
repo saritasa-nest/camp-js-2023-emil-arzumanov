@@ -1,23 +1,28 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { CustomFormField } from '@js-camp/angular/shared/components/custom-form-field/custom-form-field.component';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 
 /** Password field component. */
 @Component({
 	selector: 'camp-password-field',
 	templateUrl: './password-field.component.html',
 	styleUrls: ['./password-field.component.css'],
-	providers: [{ provide: MatFormFieldControl, useExisting: PasswordFieldComponent }],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	changeDetection: ChangeDetectionStrategy.Default,
 })
-export class PasswordFieldComponent extends CustomFormField<string> {
-	/** @inheritdoc */
-	protected override checkValueIsEmpty(value: string | null): boolean {
-		return value === null || value.length === 0;
-	}
-
+export class PasswordFieldComponent {
 	/** Show password or not. */
 	protected hidePassword = true;
+
+	/** Util returns errors array of form field. */
+	protected getFieldErrors = getFieldErrors;
+
+	/** Password form control. */
+	@Input()
+	public passwordControl: FormControl;
+
+	public constructor() {
+		this.passwordControl = new FormControl();
+	}
 
 	/**
 	 * Track by error type.
