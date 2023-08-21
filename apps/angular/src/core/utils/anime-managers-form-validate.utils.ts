@@ -1,30 +1,25 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
-/** Checks if end date is after start date. */
-export function datesValidator(): ValidatorFn {
-	return (control: AbstractControl): ValidationErrors | null => {
-		if (control.value === null) {
+/**
+ * Checks if end date is after start date.
+ * @param startDateControlName Start date control name.
+ * @param endDateControlName End date control name.
+ */
+export function startEndDatesIntervalValidator(startDateControlName: string, endDateControlName: string): ValidatorFn {
+	return (formGroup: AbstractControl): ValidationErrors | null => {
+		if (formGroup.get(startDateControlName) === null && formGroup.get(endDateControlName) === null) {
 			return null;
 		}
-		if (control.value >= control.parent?.get('airedStart')?.value) {
+
+		const startDate = formGroup.get(startDateControlName)?.value;
+		const endDate = formGroup.get(endDateControlName)?.value;
+
+		if (startDate === null || endDate === null) {
+			return null;
+		}
+		if (startDate <= endDate) {
 			return null;
 		}
 		return { matching: true };
-	};
-}
-
-/**
- * Checks if length of control value exceeds maximum length.
- * @param maxLength Max length.
- */
-export function maxLengthValidator(maxLength: number): ValidatorFn {
-	return (control: AbstractControl): ValidationErrors | null => {
-		if (control.value === null) {
-			return null;
-		}
-		if (control.value.length <= maxLength) {
-			return null;
-		}
-		return { maxLength: true };
 	};
 }

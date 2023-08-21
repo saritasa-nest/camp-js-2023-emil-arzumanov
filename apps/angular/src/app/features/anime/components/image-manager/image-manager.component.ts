@@ -6,6 +6,8 @@ import { CustomFormField } from '@js-camp/angular/shared/components/custom-form-
 
 const POSSIBLE_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 
+const MIN_FILE_SIZE = 5000;
+
 /** Image manager. */
 @Component({
 	selector: 'camp-image-manager',
@@ -52,7 +54,7 @@ export class ImageManagerComponent extends CustomFormField<File> {
 			return;
 		}
 
-		if (fileList[0].size < 5000) {
+		if (fileList[0].size < MIN_FILE_SIZE) {
 			this.formControl.setErrors({ minSize: true });
 			return;
 		}

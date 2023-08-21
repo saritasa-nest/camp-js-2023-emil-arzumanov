@@ -25,7 +25,7 @@ export class RegistrationComponent {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	private readonly changeDetectorReference = inject(ChangeDetectorRef);
+	private readonly cdr = inject(ChangeDetectorRef);
 
 	/** Form group for registration. */
 	protected readonly registrationForm: ValidatedFormGroupType<Registration> = this.formBuilder.group(
@@ -51,7 +51,7 @@ export class RegistrationComponent {
 		this.authService.register(body)
 			.pipe(
 				first(),
-				catchErrorOnSubmit(this.registrationForm, this.changeDetectorReference),
+				catchErrorOnSubmit(this.registrationForm, this.cdr),
 			)
 			.subscribe(() => {
 				this.router.navigate(['/home/profile']);

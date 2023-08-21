@@ -29,19 +29,20 @@
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
 		<mat-label>Aired start:</mat-label>
-		<input [formControl]="airedStart" matInput [matDatepicker]="picker">
+		<input [formControl]="airedStart" [errorStateMatcher]="datesMatcher" matInput [matDatepicker]="picker">
 		<mat-hint>MM/DD/YYYY</mat-hint>
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
+		<mat-error>Start date should be before end date</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedEnd as airedEnd">
 		<mat-label>Aired end:</mat-label>
-		<input [formControl]="airedEnd" matInput [matDatepicker]="picker">
+		<input [formControl]="airedEnd" [errorStateMatcher]="datesMatcher" matInput [matDatepicker]="picker">
 		<mat-hint>MM/DD/YYYY</mat-hint>
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
-		<mat-error *ngIf="airedEnd.hasError('matching')">And date should be after start date</mat-error>
+		<mat-error>End date should be after start date</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.type as type">

@@ -24,7 +24,7 @@ export class LoginComponent {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	private readonly changeDetectorReference = inject(ChangeDetectorRef);
+	private readonly cdr = inject(ChangeDetectorRef);
 
 	/** Form group for login. */
 	protected readonly loginForm: ValidatedFormGroupType<Login> = this.formBuilder.group(
@@ -47,7 +47,7 @@ export class LoginComponent {
 		this.authService.login(body)
 			.pipe(
 				first(),
-				catchErrorOnSubmit(this.loginForm, this.changeDetectorReference),
+				catchErrorOnSubmit(this.loginForm, this.cdr),
 			)
 			.subscribe(() => {
 				this.router.navigate(['/home/profile']);

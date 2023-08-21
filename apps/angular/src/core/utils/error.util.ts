@@ -38,16 +38,16 @@ export function catchErrorOnRequest<T, TAttribute, TMapper extends ErrorMapper<T
 /**
  * Custom catch error for onSubmit.
  * @param formGroup Form group.
- * @param changeDetectorReference Change detector reference.
+ * @param cdr Change detector reference.
  */
 export function catchErrorOnSubmit<T, TAttribute extends string>(
 	formGroup: FormGroup,
-	changeDetectorReference: ChangeDetectorRef,
+	cdr: ChangeDetectorRef,
 ): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof CustomError) {
 			setErrorsToFields<TAttribute>(error.mappedErrorArray, formGroup);
-			changeDetectorReference.markForCheck();
+			cdr.markForCheck();
 		}
 		return throwError(() => error);
 	});
