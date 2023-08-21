@@ -11,7 +11,7 @@ import { ChangeDetectorRef } from '@angular/core';
  * Return errors array of form field.
  * @param formField Form field.
  */
-export function getFieldErrors(formField: FormControl<string | null>): string[] {
+export function getFieldErrors<T>(formField: FormControl<T | null>): string[] {
 	const errorsArray: string[] = [];
 	if (formField.errors) {
 		errorsArray.push(...Object.keys(formField.errors).map(error => formField.getError(error)));

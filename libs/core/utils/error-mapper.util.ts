@@ -6,7 +6,7 @@
  */
 export function transformIfInArray<T>(value: string, attributeArray: string[], exceptionValue: string): T {
 	if (attributeArray.includes(value)) {
-		return snakeToCamel(value) as T;
+		return toCamel(value) as T;
 	}
 	return exceptionValue as T;
 }
@@ -15,9 +15,13 @@ export function transformIfInArray<T>(value: string, attributeArray: string[], e
  * Convert snake case to camel case.
  * @param text Text.
  */
-export function snakeToCamel(text: string): string {
+export function toCamel(text: string): string {
 	return text.toLowerCase().replace(
-		/([-_][a-z])/g,
-		group => group.toUpperCase().replace('_', ''),
+		/([-_.][a-z])/g,
+		group => group
+			.toUpperCase()
+			.replace('_', '')
+			.replace('-', '')
+			.replace('.', ''),
 	);
 }

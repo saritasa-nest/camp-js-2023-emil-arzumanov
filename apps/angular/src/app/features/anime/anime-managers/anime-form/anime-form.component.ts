@@ -16,6 +16,7 @@ import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-f
 import { Observable, catchError, first, switchMap, tap, throwError } from 'rxjs';
 import { startEndDatesIntervalValidator } from '@js-camp/angular/core/utils/anime-managers-form-validate.utils';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { catchErrorOnSubmit, getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 
 /** Error when invalid form group is dirty, touched, or submitted and has 'matching' error. */
 export class DatesCustomErrorStateMatcher implements ErrorStateMatcher {
@@ -110,8 +111,8 @@ export class AnimeFormComponent {
 	/** Form group for login. */
 	protected readonly animeDetailsForm: ValidatedFormGroupType<AnimeDetailsForm> = this.formBuilder.group(
 		{
-			titleEng: ['', [Validators.required, Validators.maxLength(225)]],
-			titleJpn: ['', [Validators.required, Validators.maxLength(225)]],
+			titleEng: '',
+			titleJpn: '',
 			imageUrl: '',
 			imageFile: this.formBuilder.control<File | null>(null),
 			airedStart: this.formBuilder.control<Date | null>(null),
@@ -174,6 +175,7 @@ export class AnimeFormComponent {
 		if (this.isEdit) {
 			return this.animeService.editAnime(this.animeId, this.animeDetailsForm.getRawValue()).pipe(
 				first(),
+				catchErrorOnSubmit(this.animeDetailsForm, this.cdr),
 				tap(animDetails => {
 					this.router.navigate([`/anime/details/${animDetails.id}`]);
 				}),
@@ -181,10 +183,23 @@ export class AnimeFormComponent {
 		}
 		return this.animeService.createAnime(this.animeDetailsForm.getRawValue()).pipe(
 			first(),
+			catchErrorOnSubmit(this.animeDetailsForm, this.cdr),
 			tap(animDetails => {
 				this.router.navigate([`/anime/details/${animDetails.id}`]);
 			}),
 		);
+	}
+
+	/** Util returns errors array of form field. */
+	protected getFieldErrors = getFieldErrors;
+
+	/**
+	 * Track by error type.
+	 * @param index Index.
+	 * @param type Error type.
+	 */
+	protected trackByErrorType(index: number, type: string): string {
+		return type;
 	}
 
 	/**

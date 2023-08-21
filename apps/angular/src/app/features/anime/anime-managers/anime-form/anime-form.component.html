@@ -9,15 +9,19 @@
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleEng as titleEng">
 		<mat-label>English title:</mat-label>
 		<input matInput [formControl]="titleEng"/>
-		<mat-error *ngIf="titleEng.hasError('required')">English title is required</mat-error>
 		<mat-error *ngIf="titleEng.hasError('maxLength')">This field must contain no more than 225 characters</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(titleEng); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleJpn as titleJpn">
 		<mat-label>Japanese title:</mat-label>
 		<input matInput [formControl]="titleJpn"/>
-		<mat-error *ngIf="titleJpn.hasError('required')">Japanese title is required</mat-error>
 		<mat-error *ngIf="titleJpn.hasError('maxLength')">This field must contain no more than 225 characters</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(titleJpn); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.imageFile as imageFile">
@@ -25,6 +29,9 @@
 		<camp-image-manager [formControl]="imageFile" [imageUrl]="animeDetailsForm.controls.imageUrl.getRawValue()" />
 		<mat-error *ngIf="imageFile.hasError('fileRequired')">Image is required</mat-error>
 		<mat-error *ngIf="imageFile.hasError('wrongImage')">Something went wrong, try different image</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(imageFile); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
@@ -34,6 +41,9 @@
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
 		<mat-error>Start date should be before end date</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(airedStart); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedEnd as airedEnd">
@@ -43,6 +53,9 @@
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
 		<mat-error>End date should be after start date</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(airedEnd); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.type as type">
@@ -51,6 +64,9 @@
 			<mat-option *ngFor="let option of typeOptions; ngForTrackBy" [value]="option">{{ option }}</mat-option>
 		</mat-select>
 		<mat-error *ngIf="type.hasError('required')">Type is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(type); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.status as status">
@@ -59,12 +75,18 @@
 			<mat-option *ngFor="let option of statusOptions; ngForTrackBy" [value]="option">{{ option }}</mat-option>
 		</mat-select>
 		<mat-error *ngIf="status.hasError('required')">Status is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(status); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerId">
 		<mat-label>Youtube embed trailer id:</mat-label>
 		<input matInput [formControl]="trailerId"/>
 		<mat-error *ngIf="trailerId.hasError('maxLength')">This field must contain no more than 15 characters</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(trailerId); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.source as source">
@@ -73,11 +95,17 @@
 			<mat-option *ngFor="let option of sourceOptions; ngForTrackBy" [value]="option">{{ option }}</mat-option>
 		</mat-select>
 		<mat-error *ngIf="source.hasError('required')">Source is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(source); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<div *ngIf="animeDetailsForm.controls.airing as airing">
 		<mat-checkbox [formControl]="airing" color="primary">Is airing ?</mat-checkbox>
 		<mat-error *ngIf="airing.hasError('required')">Airing is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(airing); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</div>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.rating as rating">
@@ -86,6 +114,9 @@
 			<mat-option *ngFor="let option of ratingOptions; ngForTrackBy" [value]="option">{{ option }}</mat-option>
 		</mat-select>
 		<mat-error *ngIf="rating.hasError('required')">Rating is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(rating); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.season as season">
@@ -94,12 +125,18 @@
 			<mat-option *ngFor="let option of seasonOptions; ngForTrackBy" [value]="option">{{ option }}</mat-option>
 		</mat-select>
 		<mat-error *ngIf="season.hasError('required')">Season is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(season); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.synopsis as synopsis">
 		<mat-label>Synopsis:</mat-label>
 		<input matInput [formControl]="synopsis"/>
 		<mat-error *ngIf="synopsis.hasError('required')">Synopsis is required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(synopsis); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 
@@ -111,6 +148,9 @@
 			[getItems]="getStudios"
 		></camp-chips-form-field>
 		<mat-error *ngIf="studios.hasError('required')">Studios required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(studios); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 
@@ -122,6 +162,9 @@
 			[getItems]="getGenres"
 		></camp-chips-form-field>
 		<mat-error *ngIf="genres.hasError('required')">Genres required</mat-error>
+		<mat-error *ngFor="let error of getFieldErrors(genres); trackBy: trackByErrorType">
+			{{error}}
+		</mat-error>
 	</mat-form-field>
 
 	<button mat-flat-button color="primary" type="submit">Confirm</button>

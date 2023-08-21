@@ -17,6 +17,9 @@ import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
 import { AnimeDetailsForm } from '@js-camp/core/models/anime-details-form';
 import { AnimeDetailsFormMapper } from '@js-camp/core/mappers/anime-details-form.mapper';
+import { animeManagersFormErrorMapper } from '@js-camp/core/mappers/anime-managers-form-error.mapper';
+
+import { catchErrorOnRequest } from '../utils/error.util';
 
 import { AppUrlsConfig } from './url-config.service';
 
@@ -68,7 +71,10 @@ export class AnimeService {
 	 */
 	public	editAnime(id: number, body: AnimeDetailsForm): Observable<AnimeDetails> {
 		return this.http.put<AnimeDetailsDto>(`${this.animeListUrl}${id}/`, AnimeDetailsFormMapper.toDto(body))
-			.pipe(map(animeDetailsDto => AnimeDetailsMapper.fromDto(animeDetailsDto)));
+			.pipe(
+				catchErrorOnRequest(animeManagersFormErrorMapper),
+				map(animeDetailsDto => AnimeDetailsMapper.fromDto(animeDetailsDto)),
+			);
 	}
 
 	/**
@@ -77,7 +83,10 @@ export class AnimeService {
 	 */
 	public	createAnime(body: AnimeDetailsForm): Observable<AnimeDetails> {
 		return this.http.post<AnimeDetailsDto>(this.animeListUrl, AnimeDetailsFormMapper.toDto(body))
-			.pipe(map(animeDetailsDto => AnimeDetailsMapper.fromDto(animeDetailsDto)));
+			.pipe(
+				catchErrorOnRequest(animeManagersFormErrorMapper),
+				map(animeDetailsDto => AnimeDetailsMapper.fromDto(animeDetailsDto)),
+			);
 	}
 
 	/**
