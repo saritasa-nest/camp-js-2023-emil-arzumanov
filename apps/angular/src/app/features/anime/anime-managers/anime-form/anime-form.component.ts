@@ -54,7 +54,7 @@ export class AnimeFormComponent {
 	private readonly router = inject(Router);
 
 	/** Custom error state matcher. */
-	protected datesMatcher = new DatesCustomErrorStateMatcher();
+	protected readonly datesMatcher = new DatesCustomErrorStateMatcher();
 
 	/** Type filter options for layout.  */
 	protected readonly typeOptions = Object.values(AnimeType);

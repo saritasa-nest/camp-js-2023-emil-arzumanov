@@ -7,8 +7,8 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
  */
 export function startEndDatesIntervalValidator(startDateControlName: string, endDateControlName: string): ValidatorFn {
 	return (formGroup: AbstractControl): ValidationErrors | null => {
-		if (formGroup.get(startDateControlName) === null && formGroup.get(endDateControlName) === null) {
-			return null;
+		if (formGroup.get(startDateControlName) === null || formGroup.get(endDateControlName) === null) {
+			throw new Error('No fields with control names similar to provided were found in form group');
 		}
 
 		const startDate = formGroup.get(startDateControlName)?.value;

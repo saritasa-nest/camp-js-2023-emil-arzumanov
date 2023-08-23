@@ -34,7 +34,7 @@
 
 .trailer-box__trailer {
   width: 1280px;
-  height: calc(1280px * 9 / 16);
+  aspect-ratio: 16 / 9;
   border: none;
 }
 
