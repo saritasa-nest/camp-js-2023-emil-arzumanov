@@ -1,5 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import { FormControl, FormGroupDirective, NgForm, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
@@ -14,13 +14,27 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Studio } from '@js-camp/core/models/studio';
 import { ValidatedFormGroupType } from '@js-camp/angular/core/models/validated-form';
 import { Observable, catchError, first, switchMap, tap, throwError } from 'rxjs';
-import { datesValidator } from '@js-camp/angular/core/utils/dates-validate.utils';
+import { startEndDatesIntervalValidator } from '@js-camp/angular/core/utils/anime-managers-form-validate.utils';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+/** Error when invalid form group is dirty, touched, or submitted and has 'matching' error. */
+export class DatesCustomErrorStateMatcher implements ErrorStateMatcher {
+	/**
+	 * Returns whether form group is dirty, touched, or submitted and has 'matching' error.
+	 * @param control Form control.
+	 * @param form Form group.
+	 */
+	public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+		return !!(form?.invalid && (form.dirty || form.touched || form.submitted) && form.hasError('matching'));
+	}
+}
 
 /** Anime form component for anime editing or creation. */
 @Component({
 	selector: 'camp-anime-form',
 	templateUrl: './anime-form.component.html',
 	styleUrls: ['./anime-form.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFormComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -35,7 +49,12 @@ export class AnimeFormComponent {
 
 	private readonly s3directService = inject(S3DirectService);
 
+	private readonly cdr = inject(ChangeDetectorRef);
+
 	private readonly router = inject(Router);
+
+	/** Custom error state matcher. */
+	protected readonly datesMatcher = new DatesCustomErrorStateMatcher();
 
 	/** Type filter options for layout.  */
 	protected readonly typeOptions = Object.values(AnimeType);
@@ -91,15 +110,15 @@ export class AnimeFormComponent {
 	/** Form group for login. */
 	protected readonly animeDetailsForm: ValidatedFormGroupType<AnimeDetailsForm> = this.formBuilder.group(
 		{
-			titleEng: ['', [Validators.required]],
-			titleJpn: ['', [Validators.required]],
+			titleEng: ['', [Validators.required, Validators.maxLength(225)]],
+			titleJpn: ['', [Validators.required, Validators.maxLength(225)]],
 			imageUrl: '',
 			imageFile: this.formBuilder.control<File | null>(null),
 			airedStart: this.formBuilder.control<Date | null>(null),
-			airedEnd: this.formBuilder.control<Date | null>(null, [datesValidator()]),
+			airedEnd: this.formBuilder.control<Date | null>(null),
 			type: this.formBuilder.control<AnimeType | null>(null, [Validators.required]),
 			status: this.formBuilder.control<AnimeStatus | null>(null, [Validators.required]),
-			trailerYoutubeId: this.formBuilder.control<string | null>(null),
+			trailerYoutubeId: this.formBuilder.control<string | null>(null, [Validators.maxLength(15)]),
 			source: this.formBuilder.control<AnimeSource | null>(null, [Validators.required]),
 			airing: this.formBuilder.control<boolean | null>(null, [Validators.required]),
 			rating: this.formBuilder.control<AnimeRating | null>(null, [Validators.required]),
@@ -108,7 +127,10 @@ export class AnimeFormComponent {
 			studiosData: this.formBuilder.control<readonly Studio[]>([], [Validators.required]),
 			genresData: this.formBuilder.control<readonly Genre[]>([], [Validators.required]),
 		},
-		{ updateOn: 'submit' },
+		{
+			updateOn: 'submit',
+			validators: [startEndDatesIntervalValidator('airedStart', 'airedEnd')],
+		},
 	);
 
 	/** On submit. */
@@ -130,6 +152,7 @@ export class AnimeFormComponent {
 				.pipe(
 					catchError((error: unknown) => {
 						this.animeDetailsForm.controls.imageFile.setErrors({ wrongImage: true });
+						this.cdr.markForCheck();
 						return throwError(() => error);
 					}),
 					tap(newUrl => {

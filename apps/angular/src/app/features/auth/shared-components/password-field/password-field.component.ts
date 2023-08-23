@@ -7,7 +7,7 @@ import { getFieldErrors } from '@js-camp/angular/core/utils/error.util';
 	selector: 'camp-password-field',
 	templateUrl: './password-field.component.html',
 	styleUrls: ['./password-field.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	changeDetection: ChangeDetectionStrategy.Default,
 })
 export class PasswordFieldComponent {
 	/** Show password or not. */

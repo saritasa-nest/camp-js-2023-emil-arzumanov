@@ -10,35 +10,39 @@
 		<mat-label>English title:</mat-label>
 		<input matInput [formControl]="titleEng"/>
 		<mat-error *ngIf="titleEng.hasError('required')">English title is required</mat-error>
+		<mat-error *ngIf="titleEng.hasError('maxLength')">This field must contain no more than 225 characters</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.titleJpn as titleJpn">
 		<mat-label>Japanese title:</mat-label>
 		<input matInput [formControl]="titleJpn"/>
 		<mat-error *ngIf="titleJpn.hasError('required')">Japanese title is required</mat-error>
+		<mat-error *ngIf="titleJpn.hasError('maxLength')">This field must contain no more than 225 characters</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.imageFile as imageFile">
 		<mat-label>Image:</mat-label>
 		<camp-image-manager [formControl]="imageFile" [imageUrl]="animeDetailsForm.controls.imageUrl.getRawValue()" />
 		<mat-error *ngIf="imageFile.hasError('fileRequired')">Image is required</mat-error>
+		<mat-error *ngIf="imageFile.hasError('wrongImage')">Something went wrong, try different image</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedStart as airedStart">
 		<mat-label>Aired start:</mat-label>
-		<input [formControl]="airedStart" matInput [matDatepicker]="picker">
+		<input [formControl]="airedStart" [errorStateMatcher]="datesMatcher" matInput [matDatepicker]="picker">
 		<mat-hint>MM/DD/YYYY</mat-hint>
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
+		<mat-error>Start date should be before end date</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.airedEnd as airedEnd">
 		<mat-label>Aired end:</mat-label>
-		<input [formControl]="airedEnd" matInput [matDatepicker]="picker">
+		<input [formControl]="airedEnd" [errorStateMatcher]="datesMatcher" matInput [matDatepicker]="picker">
 		<mat-hint>MM/DD/YYYY</mat-hint>
 		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 		<mat-datepicker #picker></mat-datepicker>
-		<mat-error *ngIf="airedEnd.hasError('matching')">And date should be after start date</mat-error>
+		<mat-error>End date should be after start date</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.type as type">
@@ -60,6 +64,7 @@
 	<mat-form-field *ngIf="animeDetailsForm.controls.trailerYoutubeId as trailerId">
 		<mat-label>Youtube embed trailer id:</mat-label>
 		<input matInput [formControl]="trailerId"/>
+		<mat-error *ngIf="trailerId.hasError('maxLength')">This field must contain no more than 15 characters</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="animeDetailsForm.controls.source as source">

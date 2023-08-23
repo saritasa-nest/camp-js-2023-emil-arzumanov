@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { switchMap } from 'rxjs';
@@ -7,6 +7,7 @@ import { switchMap } from 'rxjs';
 @Component({
 	selector: 'camp-anime-edit',
 	templateUrl: './anime-edit.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeEditComponent {
 	private readonly route = inject(ActivatedRoute);

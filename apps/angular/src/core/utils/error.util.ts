@@ -5,6 +5,7 @@ import { CustomError } from '@js-camp/core/models/custom-error';
 import { OperatorFunction, catchError, throwError } from 'rxjs';
 import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
 import { ErrorType } from '@js-camp/core/models/error';
+import { ChangeDetectorRef } from '@angular/core';
 
 /**
  * Return errors array of form field.
@@ -37,11 +38,16 @@ export function catchErrorOnRequest<T, TAttribute, TMapper extends ErrorMapper<T
 /**
  * Custom catch error for onSubmit.
  * @param formGroup Form group.
+ * @param cdr Change detector reference.
  */
-export function catchErrorOnSubmit<T, TAttribute extends string>(formGroup: FormGroup): OperatorFunction<T, T> {
+export function catchErrorOnSubmit<T, TAttribute extends string>(
+	formGroup: FormGroup,
+	cdr: ChangeDetectorRef,
+): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof CustomError) {
 			setErrorsToFields<TAttribute>(error.mappedErrorArray, formGroup);
+			cdr.markForCheck();
 		}
 		return throwError(() => error);
 	});
